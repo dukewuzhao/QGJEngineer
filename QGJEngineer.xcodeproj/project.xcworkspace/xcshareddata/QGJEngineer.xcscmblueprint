@@ -1,0 +1,25 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "66d65a06-fd9e-f241-8387-4de2c7d33bb6",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+    "66d65a06-fd9e-f241-8387-4de2c7d33bb6" : {
+
+    }
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "66d65a06-fd9e-f241-8387-4de2c7d33bb6" : 9223372036854775807
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "783A48D0-69BC-4FBD-BFBC-8C86670CA2C2",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "66d65a06-fd9e-f241-8387-4de2c7d33bb6" : "ios_factory_tool\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "QGJEngineer",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "QGJEngineer\/QGJEngineer.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/192.168.31.27\/repos\/ios_factory_tool",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Subversion",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "66d65a06-fd9e-f241-8387-4de2c7d33bb6"
+    }
+  ]
+}
