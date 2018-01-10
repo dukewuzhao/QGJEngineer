@@ -50,7 +50,7 @@
     [super viewWillAppear:YES];
     
     // [self.navigationController.navigationBar setHidden:YES];
-    self.tabBar.hidden = YES;
+    //self.tabBar.hidden = YES;
 }
 
 - (void)viewDidLoad {

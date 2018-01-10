@@ -245,11 +245,11 @@ extern "C"
     BOOL hasOADFunction;
     BOOL hasKeyFunction;
     
-     int                                               nBlocks;
-     int                                               nBytes;
-     int                                               iBlocks;
-     int                                               iBytes;
-     NSData                         *imageFile;
+     int nBlocks;
+     int nBytes;
+     int iBlocks;
+     int iBytes;
+     NSData *imageFile;
 
     NSMutableArray *instructionsArray;
     

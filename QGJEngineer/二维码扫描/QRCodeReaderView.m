@@ -161,7 +161,7 @@
     labIntroudction.frame=CGRectMake(0, 64+(heih-64-50*widthRate)/2, DeviceMaxWidth, 50*widthRate);
     labIntroudction.textAlignment = NSTextAlignmentCenter;
     labIntroudction.textColor=[UIColor whiteColor];
-    labIntroudction.text=@"请扫描二维码";
+    labIntroudction.text=@"请扫描条形码或二维码";
     [upView addSubview:labIntroudction];
     
     //左侧的view

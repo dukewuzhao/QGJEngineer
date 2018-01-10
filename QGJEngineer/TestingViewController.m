@@ -76,10 +76,10 @@
         [weakself backButtonEvent];
     }];
     
-    [self configureRightBarButtonWithTitle:@"相册" action:^{
-        
-        [weakself alumbBtnEvent];
-    }];
+//    [self configureRightBarButtonWithTitle:@"相册" action:^{
+//        
+//        [weakself alumbBtnEvent];
+//    }];
     isFirst = YES;
     isPush = NO;
     [self InitScan];
@@ -234,79 +234,26 @@
     NSString *URLString = [NSString stringWithFormat:@"%@%@",QGJURL,@"factory/check"];
     NSDictionary *parameters = @{@"token": token, @"sn":codeNum};
     
-    AFHTTPSessionManager *manager = [QFTools sharedManager];
-    manager.requestSerializer=[AFJSONRequestSerializer serializer];
-    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"application/x-gzip"];
-    [manager POST:URLString parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable dict) {
+    [[HttpRequest sharedInstance] postWithURLString2:URLString parameters:parameters success:^(id _Nullable dict) {
         
         if ([dict[@"status"] intValue] == 0) {
             
             codeNum = nil;
             [SVProgressHUD showSimpleText:dict[@"status_info"]];
             
-        }else if ([dict[@"status"] intValue] == 1009){
-            [self factorylogin];
+        }else{
+            
+            [SVProgressHUD showSimpleText:dict[@"status_info"]];
         }
         
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        NSLog(@"error :%@",error);
         
-        [SVProgressHUD showSimpleText:TIP_OF_NO_NETWORK];
+    }failure:^(NSError *error) {
+        
+        NSLog(@"error :%@",error);
     }];
     
 }
 
--(void)factorylogin{
-    
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSDictionary *userDic = [defaults objectForKey:FactoryUserDic];
-    NSString *password= userDic[@"password"];
-    NSString *phonenum= userDic[@"phone_num"];
-    
-    NSString *pwd = [NSString stringWithFormat:@"%@%@%@",@"QGJ",password,@"FACTORY"];
-    NSString * md5=[QFTools md5:pwd];
-    
-    NSString *URLString = [NSString stringWithFormat:@"%@%@",QGJURL,@"factory/login"];
-    NSDictionary *parameters = @{@"account": phonenum, @"passwd": md5};
-    
-    AFHTTPSessionManager *manager = [QFTools sharedManager];
-    manager.requestSerializer=[AFJSONRequestSerializer serializer];
-    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"application/x-gzip"];
-    
-    [manager POST:URLString parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
-        
-        
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable dict) {
-        
-        if ([dict[@"status"] intValue] == 0) {
-            
-            [LVFmdbTool deleteAllBrandData:nil];
-            NSDictionary *data = dict[@"data"];
-            NSString * token=[data objectForKey:@"token"];
-            NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-            NSDictionary *userDic = [NSDictionary dictionaryWithObjectsAndKeys:token,@"token",phonenum,@"phone_num",password,@"password",nil];
-            [userDefaults setObject:userDic forKey:FactoryUserDic];
-            [userDefaults synchronize];
-            
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1.0 * NSEC_PER_SEC),dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
-                [[AppDelegate currentAppDelegate].device3 readDiviceInformation];
-            });
-            
-            
-        }
-        else if([dict[@"status"] intValue] == 1001){
-            [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-        }else{
-            [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-        }
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-        NSLog(@"error :%@",error);
-    }];
-    
-}
 
 - (void)reStartScan
 {

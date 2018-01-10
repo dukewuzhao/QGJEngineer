@@ -7,8 +7,8 @@
 //
 
 #import "TwoDimensionalCodeScanViewController.h"
-#import "DeviceModel.h"
-
+//#import "DeviceModel.h"
+#import "SearchBleModel.h"
 #import "QRCodeReaderView.h"
 
 #import <AVFoundation/AVFoundation.h>
@@ -90,10 +90,6 @@
         [weakself backButtonEvent];
     }];
     
-    [self configureRightBarButtonWithTitle:@"相册" action:^{
-        
-        [weakself alumbBtnEvent];
-    }];
     isFirst = YES;
     isPush = NO;
     [self InitScan];
@@ -106,6 +102,7 @@
     [NSNOTIC_CENTER addObserver:self selector:@selector(updateDeviceStatusAction:) name:KNotification_UpdateDeviceStatus object:nil];
     [NSNOTIC_CENTER addObserver:self selector:@selector(DeviceMac:) name:KNotification_Mac object:nil];
     [NSNOTIC_CENTER addObserver:self selector:@selector(DeviceEdition:) name:KNotification_Edition object:nil];
+    [NSNOTIC_CENTER addObserver:self selector:@selector(reloadTableViewData:) name:KNotification_reloadTableViewData object:nil];
     
     UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, screenHeight - 64)];
     [self.view addSubview:backView];
@@ -118,6 +115,20 @@
     [backView addSubview:deviceTable];
     
     backView.hidden = YES;
+}
+
+-(void)reloadTableViewData:(NSNotification*)notification{
+    
+    SearchBleModel *bleModel = notification.userInfo[@"searchmodel"];
+    
+    if ([rssiList containsObject: bleModel]) {
+        
+        [rssiList removeObject:bleModel];
+    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        [self.deviceTable reloadData];
+    });
 }
 
 -(void)DeviceMac:(NSNotification*)notification{
@@ -142,12 +153,8 @@
     NSString *URLString = [NSString stringWithFormat:@"%@%@",QGJURL,@"factory/regdevice"];
     NSDictionary *parameters = @{@"token": token, @"device_info":DeviceInfo};
     
-    AFHTTPSessionManager *manager = [QFTools sharedManager];
-    manager.requestSerializer=[AFJSONRequestSerializer serializer];
-    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"application/x-gzip"];
-    [manager POST:URLString parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable dict) {
-        NSLog(@"%@",dict);
+    [[HttpRequest sharedInstance] postWithURLString2:URLString parameters:parameters success:^(id _Nullable dict) {
+        
         if ([dict[@"status"] intValue] == 0) {
             [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
             [[AppDelegate currentAppDelegate].device3 remove];
@@ -158,69 +165,20 @@
             EditionString = nil;
             [SVProgressHUD showSimpleText:dict[@"status_info"]];
             
-        }else if ([dict[@"status"] intValue] == 1009){
-            [self factorylogin];
         }else{
             
             [SVProgressHUD showSimpleText:dict[@"status_info"]];
             [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
         }
         
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+    }failure:^(NSError *error) {
+        
         NSLog(@"error :%@",error);
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
         [SVProgressHUD showSimpleText:TIP_OF_NO_NETWORK];
+        
     }];
-    
-    
-}
-
--(void)factorylogin{
-    
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSDictionary *userDic = [defaults objectForKey:FactoryUserDic];
-    NSString *password= userDic[@"password"];
-    NSString *phonenum= userDic[@"phone_num"];
-    
-    NSString *pwd = [NSString stringWithFormat:@"%@%@%@",@"QGJ",password,@"FACTORY"];
-    NSString * md5=[QFTools md5:pwd];
-    
-    NSString *URLString = [NSString stringWithFormat:@"%@%@",QGJURL,@"factory/login"];
-    NSDictionary *parameters = @{@"account": phonenum, @"passwd": md5};
-    
-    AFHTTPSessionManager *manager = [QFTools sharedManager];
-    manager.requestSerializer=[AFJSONRequestSerializer serializer];
-    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"application/x-gzip"];
-    
-    [manager POST:URLString parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
-        
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable dict) {
-        
-        if ([dict[@"status"] intValue] == 0) {
-            
-            [LVFmdbTool deleteAllBrandData:nil];
-            NSDictionary *data = dict[@"data"];
-            NSString * token=[data objectForKey:@"token"];
-            NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-            NSDictionary *userDic = [NSDictionary dictionaryWithObjectsAndKeys:token,@"token",phonenum,@"phone_num",password,@"password",nil];
-            [userDefaults setObject:userDic forKey:FactoryUserDic];
-            [userDefaults synchronize];
-            
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1.0 * NSEC_PER_SEC),dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
-                [[AppDelegate currentAppDelegate].device3 readDiviceInformation];
-            });
-        }
-        else if([dict[@"status"] intValue] == 1001){
-            [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-        }else{
-            [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-        }
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-        NSLog(@"error :%@",error);
-    }];
-    
 }
 
 -(void)updateDeviceStatusAction:(NSNotification*)notification{
@@ -291,10 +249,10 @@
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
     
-    ascendArray = [rssiList sortedArrayUsingComparator:^NSComparisonResult(DeviceModel* obj1, DeviceModel* obj2)
+    ascendArray = [rssiList sortedArrayUsingComparator:^NSComparisonResult(SearchBleModel* obj1, SearchBleModel* obj2)
                    {
-                       float f1 = fabsf([obj1.rssivalue floatValue]);
-                       float f2 = fabsf([obj2.rssivalue floatValue]);
+                       float f1 = fabsf([obj1.rssiValue floatValue]);
+                       float f2 = fabsf([obj2.rssiValue floatValue]);
                        if (f1 > f2)
                        {
                            return (NSComparisonResult)NSOrderedDescending;
@@ -305,14 +263,18 @@
                        }
                        return (NSComparisonResult)NSOrderedSame;
                    }];
-    cell.textLabel.text = [NSString stringWithFormat:@"智能蓝牙钥匙%d",indexPath.row];
+    cell.textLabel.text = [NSString stringWithFormat:@"%@   智能蓝牙钥匙%d",[ascendArray[indexPath.row] rssiValue] ,indexPath.row];
     //cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    
+    //[rssiList[indexPath.row] rssi]
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    for (int i=0; i<ascendArray.count; i++) {
+        [[ascendArray objectAtIndex:indexPath.section] stopSearchBle];
+    }
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.labelText = @"绑定中...";
     [[AppDelegate currentAppDelegate].device3 stopScan];
@@ -339,10 +301,11 @@
         if(![uuidarray objectForKey:peripheral.identifier.UUIDString]){
             
             if (RSSI.intValue > rssi.intValue  && RSSI.intValue < 0) {
-                DeviceModel *model=[[DeviceModel alloc]init];
+                SearchBleModel *model=[[SearchBleModel alloc]init];
                 model.peripher=peripheral;
-                model.rssivalue = RSSI;
+                model.rssiValue = RSSI;
                 model.titlename = peripheral.name;
+                model.searchCount = 1;
                 [rssiList addObject:model];
                 [uuidarray setObject:model forKey:peripheral.identifier.UUIDString];
                 dispatch_async(dispatch_get_main_queue(), ^{
@@ -351,16 +314,18 @@
             }
         }else{
             
-            DeviceModel *model = [uuidarray objectForKey:peripheral.identifier.UUIDString];
+            SearchBleModel *model = [uuidarray objectForKey:peripheral.identifier.UUIDString];
             if (RSSI.intValue >0 ) {
-                model.rssivalue = [NSNumber numberWithInt:-64];;
+                model.rssiValue = [NSNumber numberWithInt:-64];;
             }else{
-                model.rssivalue = RSSI;
+                model.rssiValue = RSSI;
             }
             
             if (RSSI.intValue < rssi.intValue && RSSI.intValue < 0) {
                 [rssiList removeObject:model];
                 [uuidarray removeObjectForKey:peripheral.identifier.UUIDString];
+            }else{
+                model.searchCount = 1;
             }
             
             // [self performSelectorOnMainThread:@selector(rssefresh) withObject:nil waitUntilDone:NO];

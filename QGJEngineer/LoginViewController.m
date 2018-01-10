@@ -201,9 +201,6 @@
     NSDictionary *parameters = @{@"account": self.usernameField.text, @"passwd": md5};
     
     AFHTTPSessionManager *manager = [QFTools sharedManager];
-    manager.requestSerializer=[AFJSONRequestSerializer serializer];
-    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"application/x-gzip"];
-    
     [manager POST:URLString parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
         
         
@@ -264,18 +261,15 @@
 
 -(void)omelogin{
 
-    NSString *pwd = [NSString stringWithFormat:@"%@%@%@",@"QGJ",@"123456",@"OEM"];
+    NSString *pwd = [NSString stringWithFormat:@"%@%@%@",@"QGJ",self.passwordField.text,@"OEM"];
     NSString * md5=[QFTools md5:pwd];
     
     NSString *URLString = [NSString stringWithFormat:@"%@%@",QGJURL,@"oem/login"];
-    NSDictionary *parameters = @{@"account": @"xdz", @"passwd": md5};
+    NSDictionary *parameters = @{@"account": self.usernameField.text, @"passwd": md5};
     
     AFHTTPSessionManager *manager = [QFTools sharedManager];
-    manager.requestSerializer=[AFJSONRequestSerializer serializer];
-    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"application/x-gzip"];
     
     [manager POST:URLString parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
-        
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable dict) {
        
@@ -304,9 +298,11 @@
             [[NSNotificationCenter defaultCenter] postNotificationName:KNOTIFICATION_LOGINCHANGE object:@YES];
         }
         else if([dict[@"status"] intValue] == 1001){
-            
+            [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+            [SVProgressHUD showSimpleText:dict[@"status_info"]];
         }else{
-            
+            [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+            [SVProgressHUD showSimpleText:dict[@"status_info"]];
         }
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {

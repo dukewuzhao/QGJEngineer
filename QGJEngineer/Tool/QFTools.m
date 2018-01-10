@@ -33,7 +33,7 @@ static AFHTTPSessionManager *manager;
         
         manager.responseSerializer = [AFJSONResponseSerializer serializer];
         // 支持内容格式
-        manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/plain", @"text/JavaScript", @"text/json", @"text/html", nil];
+        manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/plain", @"text/JavaScript", @"text/json", @"text/html",@"application/x-gzip", nil];
     });
     return manager;
     
@@ -555,7 +555,7 @@ static AFHTTPSessionManager *manager;
 +(NSString *)getuserInfo:(NSString *)string
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSDictionary *userDic = [defaults objectForKey:userInfoDic];
+    NSDictionary *userDic = [defaults objectForKey:FactoryUserDic];
     NSString *result= userDic[string];
     
     return result;

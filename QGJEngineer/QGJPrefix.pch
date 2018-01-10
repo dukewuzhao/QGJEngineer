@@ -21,7 +21,7 @@
 #define FactoryUserDic      @"FactoryUserDic"     // 登录用户中心
 #define RSSIVALUE      @"rssivalue"
 #define passwordDIC      @"passwordDIC"     // 密码所有
-#define userInfoDic      @"userInfoDic"     // 用户信息
+
 #define versionDic      @"versionDic"     // 硬件版本号
 #define QGJURL @"http://139.196.233.61:8888/" //远程访问ip
 
@@ -46,6 +46,7 @@
 #define KNotification_Edition @"KNotification_Edition"
 #define KNotification_Version @"KNotification_Version"
 #define KNotification_BurglarMac @"KNotification_BurglarMac"
+#define KNotification_reloadTableViewData @"KNotification_reloadTableViewData"//页面刷新
 
 #import "ProfileModel.h"
 #import "SVProgressHUD.h"
@@ -54,9 +55,11 @@
 #import "BaseViewController.h"
 #import "AppDelegate.h"
 #import "QFTools.h"
+#import "MSWeakTimer.h"
 #import "ConverUtil.h"
 #import "AFNetworking.h"
 #import "AppDelegate.h"
+#import "HttpRequest.h"
 #import "LVFmdbTool.h"
 #import "InductionKeyModel.h"
 #import "FirmVersionModel.h"

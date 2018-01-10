@@ -91,10 +91,10 @@
         [weakself backButtonEvent];
     }];
     
-    [self configureRightBarButtonWithTitle:@"相册" action:^{
-        
-        [weakself alumbBtnEvent];
-    }];
+//    [self configureRightBarButtonWithTitle:@"相册" action:^{
+//        
+//        [weakself alumbBtnEvent];
+//    }];
     isFirst = YES;
     isPush = NO;
     [self InitScan];
@@ -210,12 +210,8 @@
     NSString *URLString = [NSString stringWithFormat:@"%@%@",QGJURL,@"factory/check"];
     NSDictionary *parameters = @{@"token": token, @"sn":codeNum };
     
-    AFHTTPSessionManager *manager = [QFTools sharedManager];
-    manager.requestSerializer=[AFJSONRequestSerializer serializer];
-    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"application/x-gzip"];
-    [manager POST:URLString parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable dict) {
-
+    [[HttpRequest sharedInstance] postWithURLString2:URLString parameters:parameters success:^(id _Nullable dict) {
+        
         if ([dict[@"status"] intValue] == 0) {
             
             deviceDic = dict[@"data"];
@@ -223,13 +219,15 @@
             NSLog(@"%@",keyMac);
             [[AppDelegate currentAppDelegate].device4 sendAccelerationValue];
             
+        }else{
+            
+            [SVProgressHUD showSimpleText:dict[@"status_info"]];
         }
         
         
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        NSLog(@"error :%@",error);
+    }failure:^(NSError *error) {
         
-        [SVProgressHUD showSimpleText:TIP_OF_NO_NETWORK];
+        NSLog(@"error :%@",error);
     }];
     
 }
@@ -243,11 +241,7 @@
     NSString *URLString = [NSString stringWithFormat:@"%@%@",QGJURL,@"factory/bind"];
     NSDictionary *parameters = @{@"token": token, @"sn":codeNum,@"mac":macString,@"firm_version":editionString,@"type":type,@"device_info":deviceDic};
     
-    AFHTTPSessionManager *manager = [QFTools sharedManager];
-    manager.requestSerializer=[AFJSONRequestSerializer serializer];
-    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"application/x-gzip"];
-    [manager POST:URLString parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable dict) {
+    [[HttpRequest sharedInstance] postWithURLString2:URLString parameters:parameters success:^(id _Nullable dict) {
         
         if ([dict[@"status"] intValue] == 0) {
             [[AppDelegate currentAppDelegate].device4 remove];
@@ -255,17 +249,16 @@
             codeNum = nil;
             editionString = nil;
             macString = nil;
-        
+            
         }else{
-        
-        
+            
+            [SVProgressHUD showSimpleText:dict[@"status_info"]];
         }
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        NSLog(@"error :%@",error);
         
-        [SVProgressHUD showSimpleText:TIP_OF_NO_NETWORK];
+    }failure:^(NSError *error) {
+        
+        NSLog(@"error :%@",error);
     }];
-    
 }
 
 -(void)dealloc{

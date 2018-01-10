@@ -40,8 +40,6 @@
     NSInteger lineNumber;
     NSInteger linetype;
     
-    //NSInteger testNumber;
-    
     NSInteger bindingtime;
 
     NSString *keytitle1;
@@ -131,17 +129,13 @@
     ProfileModel *pmodel = modals.firstObject;
     [self matchkeytype2];
     
-    
     NSArray *attributeArr = [QFTools  getClassAttribute:pmodel];
-    
     for (int tt = 0; tt < attributeArr.count; tt ++){
         //  打印值 使用 valueForKey:
         [stepArray addObject:[NSString stringWithFormat:@"%@",[pmodel valueForKey:attributeArr[tt]]]];
     }
     [self beiyong];
-    
 }
-
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -180,15 +174,15 @@
     lineNumber = 0;
     linetype = 0;
     
-    [NSNOTIC_CENTER addObserver:self selector:@selector(updateDeviceStatusAction:) name:KNotification_UpdateDeviceStatus object:nil];
+    [NSNOTIC_CENTER addObserver:self selector:@selector(updateDeviceStatusAction:) name:KNotification_UpdateDeviceStatus object:nil];//连接状态的
     
-    [NSNOTIC_CENTER addObserver:self selector:@selector(querySuccess:) name:KNotification_QueryData object:nil];
+    [NSNOTIC_CENTER addObserver:self selector:@selector(querySuccess:) name:KNotification_QueryData object:nil];//发送的命令回复
     
     [NSNOTIC_CENTER addObserver:self selector:@selector(DeviceMac:) name:KNotification_Mac object:nil];//钥匙Mac地址的监听
     
     [NSNOTIC_CENTER addObserver:self selector:@selector(DeviceVersion:) name:KNotification_Version object:nil];//报警器硬件版本号的监听
     
-    [NSNOTIC_CENTER addObserver:self selector:@selector(DeviceEdition:) name:KNotification_Edition object:nil];
+    [NSNOTIC_CENTER addObserver:self selector:@selector(DeviceEdition:) name:KNotification_Edition object:nil];//固件版本号
     
     NSString *fuzzyinduSql = [NSString stringWithFormat:@"SELECT * FROM p_profiles WHERE id LIKE '%zd'", 1];
     NSMutableArray *modals = [LVFmdbTool queryPData:fuzzyinduSql];
@@ -255,7 +249,6 @@
 -(void)refreshHead{
 
     
-
 }
 
 -(void)refreshMainView{
@@ -448,35 +441,28 @@
     NSString *token= userDic[@"token"];
     NSString *URLString = [NSString stringWithFormat:@"%@%@",QGJURL,@"oem/bind"];
     NSDictionary *parameters = @{@"token": token, @"mac": self.smartBikeMac,@"brand_id": brandid, @"model_id": modelid};
-    AFHTTPSessionManager *manager = [QFTools sharedManager];
-    manager.requestSerializer=[AFJSONRequestSerializer serializer];
-    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"application/x-gzip"];
-    
-    [manager POST:URLString parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
+    [[HttpRequest sharedInstance] postWithURLString:URLString parameters:parameters success:^(id _Nullable dict) {
         
-        
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable dict) {
-        [[self class] cancelPreviousPerformRequestsWithTarget:self selector:@selector(bindingfail) object:nil];
-        if ([dict[@"status"] intValue] == 0) {
+            [[self class] cancelPreviousPerformRequestsWithTarget:self selector:@selector(bindingfail) object:nil];
+            if ([dict[@"status"] intValue] == 0) {
+                
+                [SVProgressHUD showSimpleText:@"上传品牌成功"];
+                [self performSelector:@selector(Verification) withObject:nil afterDelay:2.0];
+                [self startEngineering];//进入工程模式
+        }else {
             
-            [SVProgressHUD showSimpleText:@"上传品牌成功"];
-            [self performSelector:@selector(Verification) withObject:nil afterDelay:2.0];
-            [self startEngineering];//进入工程模式
-            
-        }else if([dict[@"status"] intValue] == 1009){
-            
-            [self omelogin];
-            
-        }else{
-            
+            [SVProgressHUD showSimpleText:dict[@"status_info"]];
         }
         
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+    }failure:^(NSError *error) {
+        
         NSLog(@"error :%@",error);
-        [BurglarViewController cancelPreviousPerformRequestsWithTarget:self selector:@selector(bindingfail) object:nil];
+        NSLog(@"error :%@",error);
+        [[self class] cancelPreviousPerformRequestsWithTarget:self selector:@selector(bindingfail) object:nil];
         self.prompttitle.text = @"网络上传失败";
         [self  failer];
     }];
+    
 }
 
 -(void)bindingfail{
@@ -485,68 +471,6 @@
     [self  failer];
 }
 
--(void)omelogin{
-    
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSDictionary *userDic = [defaults objectForKey:logInUSERDIC];
-    NSString *password= userDic[@"password"];
-    NSString *phonenum= userDic[@"phone_num"];
-    
-    NSString *pwd = [NSString stringWithFormat:@"%@%@%@",@"QGJ",password,@"OEM"];
-    NSString * md5=[QFTools md5:pwd];
-    
-    NSString *URLString = [NSString stringWithFormat:@"%@%@",QGJURL,@"oem/login"];
-    NSDictionary *parameters = @{@"account": phonenum, @"passwd": md5};
-    
-    AFHTTPSessionManager *manager = [QFTools sharedManager];
-    manager.requestSerializer=[AFJSONRequestSerializer serializer];
-    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"application/x-gzip"];
-    
-    [manager POST:URLString parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
-        
-        
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable dict) {
-        
-        if ([dict[@"status"] intValue] == 0) {
-            
-            [LVFmdbTool deleteAllBrandData:nil];
-            NSDictionary *data = dict[@"data"];
-            NSString * token=[data objectForKey:@"token"];
-            NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-            NSDictionary *userDic = [NSDictionary dictionaryWithObjectsAndKeys:token,@"token",phonenum,@"phone_num",password,@"password",nil];
-            [userDefaults setObject:userDic forKey:logInUSERDIC];
-            [userDefaults synchronize];
-            NSMutableArray *brands = data[@"brands"];
-            [LVFmdbTool insertAllBrandModel:[AllBrandNameModel AllBrandModalWith:0 brandname:@"骑管家" logo:@"logo"]];
-            for (NSDictionary *brandInfo in brands) {
-                
-                NSNumber *brand_id = brandInfo[@"brand_id"];
-                NSString *brand_name = brandInfo[@"brand_name"];
-                NSString *logo = brandInfo[@"logo"];
-                AllBrandNameModel *pmodel = [AllBrandNameModel AllBrandModalWith:brand_id.intValue brandname:brand_name logo:logo];
-                [LVFmdbTool insertAllBrandModel:pmodel];
-            }
-            double delayInSeconds = 1.0;
-            dispatch_time_t delayInNanoSeconds =dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
-            dispatch_queue_t concurrentQueue =dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-            dispatch_after(delayInNanoSeconds, concurrentQueue, ^(void){
-                [self omebind];//重新获取token在绑定
-            });
-            
-        }
-        else if([dict[@"status"] intValue] == 1001){
-            
-        }else{
-            
-        }
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        NSLog(@"error :%@",error);
-        self.prompttitle.text = @"网络上传失败";
-        [self  failer];
-    }];
-    
-}
 
 -(void)delayfunction{
 
@@ -3422,7 +3346,7 @@
     }
     
     BoxConnectViewController *boxVc = [BoxConnectViewController new];
-    //boxVc.hidesBottomBarWhenPushed = YES;
+    boxVc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:boxVc animated:YES];
 }
 
@@ -3436,7 +3360,7 @@
     }
     
     SetingViewController *setVc = [SetingViewController new];
-    //setVc.hidesBottomBarWhenPushed = YES;
+    setVc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:setVc animated:YES];
 
 }
@@ -3651,34 +3575,24 @@
                 [rssiList addObject:model];
                 
                 [self performSelector:@selector(connectDfuModel) withObject:nil afterDelay:2];
-                
             }
-            
         }
-        
     }else{
         
         NSString *rssi = stepArray[0];
-        
-        
         if (peripheral.name.length < 13) {
             
             return;
-            
         }
         
         if([[peripheral.name substringWithRange:NSMakeRange(0, 13)]isEqualToString: @"Qgj-SmartBike"]){
-            
             const char *valueString = [[[advertisementData objectForKey:@"kCBAdvDataManufacturerData"] description] cStringUsingEncoding: NSUTF8StringEncoding];
-            
             if (valueString == NULL) {
                 return;
             }
             
             NSString *title = [[NSString alloc] initWithUTF8String:valueString];
-            
             NSString *macName = [[title substringWithRange:NSMakeRange(5, 4)] stringByAppendingString:[title substringWithRange:NSMakeRange(10, 8)]].uppercaseString;
-            
             if(![uuidarray objectForKey:peripheral.identifier.UUIDString]){
                 
                 if (RSSI.intValue > rssi.intValue && RSSI.intValue < 0) {

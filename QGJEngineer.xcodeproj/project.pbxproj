@@ -156,6 +156,9 @@
 		18E963EB1E497B35006AF30B /* cat.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 18E963E71E497B35006AF30B /* cat.mp3 */; };
 		18E963EC1E497B35006AF30B /* didi.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 18E963E81E497B35006AF30B /* didi.mp3 */; };
 		18E963ED1E497B35006AF30B /* dog.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 18E963E91E497B35006AF30B /* dog.mp3 */; };
+		18FCD0CF20048FEB00717386 /* HttpRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FCD0CE20048FEB00717386 /* HttpRequest.m */; };
+		18FCD0D32004AFAC00717386 /* MSWeakTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FCD0D22004AFAC00717386 /* MSWeakTimer.m */; };
+		18FCD0D62004AFF100717386 /* SearchBleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FCD0D52004AFF000717386 /* SearchBleModel.m */; };
 		18FD124F1F25875700DD7144 /* DfuDownloadFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FD124E1F25875700DD7144 /* DfuDownloadFile.m */; };
 /* End PBXBuildFile section */
 
@@ -425,6 +428,12 @@
 		18E963E71E497B35006AF30B /* cat.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = cat.mp3; sourceTree = "<group>"; };
 		18E963E81E497B35006AF30B /* didi.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = didi.mp3; sourceTree = "<group>"; };
 		18E963E91E497B35006AF30B /* dog.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = dog.mp3; sourceTree = "<group>"; };
+		18FCD0CD20048FEB00717386 /* HttpRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HttpRequest.h; sourceTree = "<group>"; };
+		18FCD0CE20048FEB00717386 /* HttpRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HttpRequest.m; sourceTree = "<group>"; };
+		18FCD0D12004AFAC00717386 /* MSWeakTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSWeakTimer.h; sourceTree = "<group>"; };
+		18FCD0D22004AFAC00717386 /* MSWeakTimer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSWeakTimer.m; sourceTree = "<group>"; };
+		18FCD0D42004AFF000717386 /* SearchBleModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchBleModel.h; sourceTree = "<group>"; };
+		18FCD0D52004AFF000717386 /* SearchBleModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchBleModel.m; sourceTree = "<group>"; };
 		18FD124D1F25875700DD7144 /* DfuDownloadFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DfuDownloadFile.h; sourceTree = "<group>"; };
 		18FD124E1F25875700DD7144 /* DfuDownloadFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DfuDownloadFile.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -683,6 +692,8 @@
 		18BB8F921D9A5AF200718CA7 = {
 			isa = PBXGroup;
 			children = (
+				18FCD0D02004AFAC00717386 /* 不会引起循环引用的nstimer */,
+				18FCD0CC20048FEB00717386 /* afn请求封装 */,
 				187E2EFA1F7A0E8100E76A2D /* 二维码扫描 */,
 				18C25B091F721246007B14A4 /* 数组越界的category */,
 				18018A731EB0B522005378A9 /* DFU */,
@@ -707,6 +718,8 @@
 		18BB8F9D1D9A5AF200718CA7 /* QGJEngineer */ = {
 			isa = PBXGroup;
 			children = (
+				18FCD0D42004AFF000717386 /* SearchBleModel.h */,
+				18FCD0D52004AFF000717386 /* SearchBleModel.m */,
 				18E963D81E497403006AF30B /* LrdOutputView */,
 				1830CBEC1DAB434B005B708A /* LVData */,
 				18BB90361D9B69CD00718CA7 /* WYDevice.h */,
@@ -1017,6 +1030,26 @@
 			path = QGJEngineer/music;
 			sourceTree = "<group>";
 		};
+		18FCD0CC20048FEB00717386 /* afn请求封装 */ = {
+			isa = PBXGroup;
+			children = (
+				18FCD0CD20048FEB00717386 /* HttpRequest.h */,
+				18FCD0CE20048FEB00717386 /* HttpRequest.m */,
+			);
+			name = "afn请求封装";
+			path = "QGJEngineer/afn请求封装";
+			sourceTree = "<group>";
+		};
+		18FCD0D02004AFAC00717386 /* 不会引起循环引用的nstimer */ = {
+			isa = PBXGroup;
+			children = (
+				18FCD0D12004AFAC00717386 /* MSWeakTimer.h */,
+				18FCD0D22004AFAC00717386 /* MSWeakTimer.m */,
+			);
+			name = "不会引起循环引用的nstimer";
+			path = "QGJEngineer/不会引起循环引用的nstimer";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1135,6 +1168,7 @@
 				18BB8FD91D9A607700718CA7 /* NSDate+HC.m in Sources */,
 				18C2AE7F1DD5B5620045772B /* MJRefreshNormalHeader.m in Sources */,
 				1830CC041DAB434B005B708A /* LVFmdbTool.m in Sources */,
+				18FCD0D62004AFF100717386 /* SearchBleModel.m in Sources */,
 				18018ABE1EB0B523005378A9 /* IntelHex2BinConverter.m in Sources */,
 				188210871DABB4EE00D19B1D /* SetRssiViewController.m in Sources */,
 				18C2AE731DD5B5620045772B /* MJRefreshAutoFooter.m in Sources */,
@@ -1181,6 +1215,7 @@
 				18BB8FA31D9A5AF200718CA7 /* AppDelegate.m in Sources */,
 				18D009251EB1B55300826912 /* FirmVersionModel.m in Sources */,
 				18C2AE7D1DD5B5620045772B /* MJRefreshBackStateFooter.m in Sources */,
+				18FCD0D32004AFAC00717386 /* MSWeakTimer.m in Sources */,
 				18018AAB1EB0B522005378A9 /* DFUOperationsDetails.m in Sources */,
 				18C2AE831DD5B5620045772B /* NSBundle+MJRefresh.m in Sources */,
 				18BB8FD61D9A607700718CA7 /* CFSaveTool.m in Sources */,
@@ -1193,6 +1228,7 @@
 				18BB90291D9A619400718CA7 /* MBProgressHUD.m in Sources */,
 				18018A6F1EB0B511005378A9 /* mztools.c in Sources */,
 				18D0092F1EB1FB8600826912 /* CustomProgress.m in Sources */,
+				18FCD0CF20048FEB00717386 /* HttpRequest.m in Sources */,
 				18018AB41EB0B523005378A9 /* UserFilesViewController.m in Sources */,
 				18018A5E1EB0B500005378A9 /* AppUtilities.m in Sources */,
 				18018AAA1EB0B522005378A9 /* DFUOperations.m in Sources */,

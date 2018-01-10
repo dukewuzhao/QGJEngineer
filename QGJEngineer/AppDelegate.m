@@ -63,6 +63,7 @@
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     if (![defaults boolForKey:@"version1.3"]) {
+        
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"version1.3"];
         [LVFmdbTool deleteData:nil];
         ProfileModel *pmodel = [ProfileModel modalWith:-65 keytest:1 keyconfigure:1 inductionkey:0 keynumber:2 function1:@"1号按键" function2:@"2号按键" function3:@"3号按键" function4:@"4号按键" routinetest:0 line:@"单线测试" onekeytest:0 seat:0 lock:0 calibration:0 shake:0 buzzer:0 inducrssi:-65 OneclickControl:0 OnelineSpeech:0 firmware:0 firmversion:@"X100.V1.1.0" brand:@"无"];
@@ -76,10 +77,6 @@
         NSDictionary *verDic = [NSDictionary dictionaryWithObjectsAndKeys:@"000000",@"version", @"设防",@"key1",@"撤防",@"key2",@"寻车",@"key3",@"一键启动",@"key4",@"X100.V1.1.0",@"firmversion",nil];
         [userDefaults setObject:verDic forKey:versionDic];
         [userDefaults synchronize];
-        
-    }else{
-        
-        
     }
     
     [self loginStateChange:nil];
@@ -94,47 +91,20 @@
 - (void)setupBugly {
     // Get the default config
     BuglyConfig * config = [[BuglyConfig alloc] init];
-    
-    // Open the debug mode to print the sdk log message.
-    // Default value is NO, please DISABLE it in your RELEASE version.
-    //#if DEBUG
     config.debugMode = YES;
-    //#endif
-    
-    // Open the customized log record and report, BuglyLogLevelWarn will report Warn, Error log message.
-    // Default value is BuglyLogLevelSilent that means DISABLE it.
-    // You could change the value according to you need.
-    //    config.reportLogLevel = BuglyLogLevelWarn;
-    
-    // Open the STUCK scene data in MAIN thread record and report.
-    // Default value is NO
     config.blockMonitorEnable = YES;
-    
-    // Set the STUCK THRESHOLD time, when STUCK time > THRESHOLD it will record an event and report data when the app launched next time.
-    // Default value is 3.5 second.
     config.blockMonitorTimeout = 1.5;
-    
-    // Set the app channel to deployment
     config.channel = @"Bugly";
-    
     config.delegate = self;
-    
     config.consolelogEnable = NO;
     config.viewControllerTrackingEnable = NO;
-    
-    // NOTE:Required
-    // Start the Bugly sdk with APP_ID and your config
     [Bugly startWithAppId:BUGLY_APP_ID
 #if DEBUG
         developmentDevice:YES
 #endif
                    config:config];
     
-    // Set the customizd tag thats config in your APP registerd on the  bugly.qq.com
-    // [Bugly setTag:1799];
-    
     [Bugly setUserIdentifier:[NSString stringWithFormat:@"User: %@", [UIDevice currentDevice].name]];
-    
     [Bugly setUserValue:[NSProcessInfo processInfo].processName forKey:@"Process"];
     
 }
@@ -162,9 +132,6 @@
     NSDictionary *parameters = @{@"account": phonenum, @"passwd": md5};
     
     AFHTTPSessionManager *manager = [QFTools sharedManager];
-    manager.requestSerializer=[AFJSONRequestSerializer serializer];
-    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"application/x-gzip"];
-    
     [manager POST:URLString parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable dict) {
@@ -218,37 +185,24 @@
     BOOL loginSuccess = [notification.object boolValue];
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSDictionary *userDic = [defaults objectForKey:logInUSERDIC];
-    //  [QFTools isBlankString:userDic[@"Name"]]
-    //加载申请通知的数据
     if (![QFTools isBlankString:userDic[@"phone_num"]] || loginSuccess) {//登陆成功加载主窗口控制器
         
         if (_mainController == nil) {
+            
             _mainController = [[MainViewController alloc] init];
-            
             nav = _mainController;
-            
-            
         }else{
+            
             nav  = _mainController;
         }
     }else{//登陆失败加载登陆页面控制器
+        
         _mainController = nil;
         LoginViewController *loginController = [[LoginViewController alloc] init];
         nav = [[UINavigationController alloc] initWithRootViewController:loginController];
-        
     }
     
-    //设置7.0以下的导航栏
-//    if ([UIDevice currentDevice].systemVersion.floatValue < 7.0){
-//        nav.navigationBar.barStyle = UIBarStyleDefault;
-//        [nav.navigationBar setBackgroundImage:[UIImage imageNamed:@"titleBar"]
-//                                forBarMetrics:UIBarMetricsDefault];
-//
-//        [nav.navigationBar.layer setMasksToBounds:YES];
-//    }
-    
     self.window.rootViewController = nav;
-    
 }
 
 #pragma mark - 蓝牙连接回调
@@ -274,15 +228,11 @@
     
 #pragma mark---同步数据 ---发送命令
     
-    //[NSNOTIC_CENTER postNotification:[NSNotification notificationWithName:KNotification_ConnectStatus object:[NSNumber numberWithInteger:tag]]];
-        
     NSLog(@"蓝牙连接上了报警器了");
-    
 }
 
 -(void)didDisconnect:(NSInteger)tag :(CBPeripheral *)peripheral
 {
-    
     if (tag == 1) {
         
         _device.deviceStatus=0;
@@ -300,7 +250,6 @@
     }
     
     [NSNOTIC_CENTER postNotification:[NSNotification notificationWithName:KNotification_UpdateDeviceStatus object:[NSNumber numberWithInteger:tag]]];
-    
 }
 
 
@@ -309,9 +258,7 @@
 {
     
     NSString *result = [ConverUtil data2HexString:data];
-    
     NSDictionary *dict =[[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInteger:tag],@"deviceTg",result,@"data", nil];
-    
     [NSNOTIC_CENTER postNotification:[NSNotification notificationWithName:KNotification_QueryData object:nil userInfo:dict]];
 }
 
@@ -319,7 +266,6 @@
 
     NSString *result = [ConverUtil data2HexString:data];
     NSDictionary *dict =[[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInteger:tag],@"deviceTg",result,@"data", nil];
-
     [NSNOTIC_CENTER postNotification:[NSNotification notificationWithName:KNotification_Mac object:nil userInfo:dict]];
 }
 
@@ -328,9 +274,7 @@
 
     NSString *result = [[NSString alloc] initWithData:data  encoding:NSUTF8StringEncoding];
     NSDictionary *dict =[[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInteger:tag],@"deviceTg",result,@"data", nil];
-    
     [NSNOTIC_CENTER postNotification:[NSNotification notificationWithName:KNotification_Edition object:nil userInfo:dict]];
-
 }
 
 //硬件版本号回调
@@ -338,9 +282,7 @@
     
     NSString *version = [[NSString alloc] initWithData:data  encoding:NSUTF8StringEncoding];
     NSDictionary *dict =[[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInteger:tag],@"deviceTg",version,@"version", nil];
-    
     [NSNOTIC_CENTER postNotification:[NSNotification notificationWithName:KNotification_Version object:nil userInfo:dict]];
-    
 }
 
 -(void)didGetMacStringCharData:(NSInteger)tag :(NSData *)data :(CBPeripheral *)peripheral{
@@ -348,17 +290,12 @@
     
     NSString *result = [ConverUtil data2HexString:data];
     NSDictionary *dict =[[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInteger:tag],@"deviceTg",result,@"data", nil];
-    
     [NSNOTIC_CENTER postNotification:[NSNotification notificationWithName:KNotification_BurglarMac object:nil userInfo:dict]];
-
 }
 
 - (NSUInteger) application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window {
     
-    // NSString *className1 = [self.window.subviews.lastObject class].description;
     return UIInterfaceOrientationMaskPortrait;
-    
-    
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
@@ -378,12 +315,6 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSDictionary *userDic = [defaults objectForKey:logInUSERDIC];
-    
-    if (![QFTools isBlankString:userDic[@"phone_num"]]) {
-        [self logindata];
-    }
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
