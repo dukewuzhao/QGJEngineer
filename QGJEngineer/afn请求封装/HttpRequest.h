@@ -53,6 +53,16 @@ typedef NS_ENUM(NSUInteger,HttpRequestType) {
                parameters:(id)parameters
                   success:(void (^)(id responseObject))success
                   failure:(void (^)(NSError *error))failure;
+//台铃外设上传
+- (void)postWithTLURLString:(NSString *)URLString
+                parameters:(id)parameters
+                   success:(void (^)(id responseObject))success
+                   failure:(void (^)(NSError *error))failure;
+//绿源外设上传
+- (void)postWithLYURLString:(NSString *)URLString
+                 parameters:(id)parameters
+                    success:(void (^)(id responseObject))success
+                    failure:(void (^)(NSError *error))failure;
 
 /**
  *  发送网络请求

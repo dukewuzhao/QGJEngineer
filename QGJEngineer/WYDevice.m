@@ -777,20 +777,15 @@ extern "C"
             {
                 if ([BChar.UUID isEqual:[CBUUID UUIDWithString:@"2A27"]]){
                     
-                    [peripheral setNotifyValue:YES forCharacteristic:BChar];
                     versionChar = BChar;
                     
                 }else if ([BChar.UUID isEqual:[CBUUID UUIDWithString:@"2A26"]]){
-                    [peripheral setNotifyValue:YES forCharacteristic:BChar];
                     editionChar = BChar;
                     
                 }else if ([BChar.UUID isEqual:[CBUUID UUIDWithString:@"FF03"]]){
                 
-                    [peripheral setNotifyValue:YES forCharacteristic:BChar];
                     macChar = BChar;
-                    
                 }
-                
             }
         }
         
@@ -804,7 +799,6 @@ extern "C"
                 
                 if ([aChar.UUID isEqual:[CBUUID UUIDWithString:@"FEE2"]]){
                     
-                    [peripheral setNotifyValue:YES forCharacteristic:aChar];
                     keyAChar = aChar;
                     hasKeyFunction = YES;
                     
@@ -814,7 +808,6 @@ extern "C"
                     hasKeyFunction = YES;
                     
                 }else if ([aChar.UUID isEqual:[CBUUID UUIDWithString:@"FEE4"]]){
-                    [peripheral setNotifyValue:YES forCharacteristic:aChar];
                     AccelerationChar = aChar;
                     hasKeyFunction = YES;
                     
@@ -849,7 +842,6 @@ extern "C"
                 {
                     
                     [deviceDelegate didGetEditionCharData:_tag :characteristic.value :_peripheral];
-                    
                 }
                 
             }
@@ -858,7 +850,6 @@ extern "C"
                 {
                     
                     [deviceDelegate didGetVersionCharData:_tag :characteristic.value :_peripheral];
-                    
                 }
                 
             }
@@ -868,7 +859,6 @@ extern "C"
                 {
                     
                     [deviceDelegate didGetSensorData:_tag :characteristic.value :_peripheral];
-                    
                 }
             }else if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:@"FEE4"]]){//盒子的Mac地址
                 
@@ -884,12 +874,8 @@ extern "C"
                 {
                     
                     [deviceDelegate didGetBurglarCharData:_tag :characteristic.value :_peripheral];
-                    
                 }
             }
-        
-        
-        
     }
     else{
         NSLog(@"设备收到数据：error");

@@ -26,7 +26,7 @@ static FMDatabase *_fmdb;
  //#warning 必须先打开数据库才能创建表。。。否则提示数据库没有打开
     
     
-    [_fmdb executeUpdate:@"CREATE TABLE IF NOT EXISTS p_profiles(id INTEGER PRIMARY KEY, rssi INTEGER NOT NULL,keytest INTEGER,keyconfigure INTEGER,inductionkey INTEGER,keynumber INTEGER,function1 TEXT,function2 TEXT,function3 TEXT ,function4 TEXT, routinetest INTEGER, line TEXT, onekeytest INTEGER, seat INTEGER, lock INTEGER ,calibration INTEGER, shake INTEGER, buzzer INTEGER, inducrssi INTEGER,OneclickControl INTEGER,OnelineSpeech INTEGER,  firmware INTEGER, firmversion TEXT,brand TEXT);"];
+    [_fmdb executeUpdate:@"CREATE TABLE IF NOT EXISTS p_profiles(id INTEGER PRIMARY KEY, rssi INTEGER NOT NULL,keytest INTEGER,keyconfigure INTEGER,inductionkey INTEGER,keynumber INTEGER,function1 TEXT,function2 TEXT,function3 TEXT ,function4 TEXT, routinetest INTEGER, line TEXT, onekeytest INTEGER, seat INTEGER, lock INTEGER ,calibration INTEGER, shake INTEGER, buzzer INTEGER, inducrssi INTEGER,OneclickControl INTEGER,OnelineSpeech INTEGER, fingerPrint INTEGER, firmware INTEGER, firmversion TEXT,brand TEXT);"];
 
     [_fmdb executeUpdate:@"CREATE TABLE IF NOT EXISTS firm_models(id INTEGER PRIMARY KEY, latest_version TEXT ,download TEXT);"];
     
@@ -52,10 +52,16 @@ static FMDatabase *_fmdb;
         NSString *alertStr = [NSString stringWithFormat:@"ALTER TABLE %@ ADD %@ TEXT",@"p_profiles",@"brand"];
         [_fmdb executeUpdate:alertStr];
     }
+    
+    if (![_fmdb columnExists:@"fingerPrint" inTableWithName:@"p_profiles"]){
+        
+        NSString *alertStr = [NSString stringWithFormat:@"ALTER TABLE %@ ADD %@ TEXT",@"p_profiles",@"fingerPrint"];
+        [_fmdb executeUpdate:alertStr];
+    }
 }
 
 + (BOOL)insertPModel:(ProfileModel *)model1 {
-    NSString *insertSql = [NSString stringWithFormat:@"INSERT INTO p_profiles(rssi , keytest, keyconfigure,inductionkey, keynumber, function1, function2, function3, function4, routinetest, line, onekeytest, seat, lock, calibration, shake, buzzer,inducrssi,OneclickControl,OnelineSpeech, firmware,firmversion,brand) VALUES ('%zd','%zd', '%zd', '%zd','%zd', '%@','%@', '%@', '%@' ,'%zd','%@', '%zd', '%zd', '%zd', '%zd', '%zd', '%zd','%zd','%zd','%zd', '%zd','%@','%@');", model1.rssi,model1.keytest, model1.keyconfigure,model1.inductionkey, model1.keynumber, model1.function1, model1.function2, model1.function3, model1.function4, model1.routinetest, model1.line, model1.onekeytest, model1.seat, model1.lock, model1.calibration, model1.shake, model1.buzzer, model1.inducrssi,model1.OneclickControl,model1.OnelineSpeech, model1.firmware, model1.firmversion,model1.brand];
+    NSString *insertSql = [NSString stringWithFormat:@"INSERT INTO p_profiles(rssi , keytest, keyconfigure,inductionkey, keynumber, function1, function2, function3, function4, routinetest, line, onekeytest, seat, lock, calibration, shake, buzzer,inducrssi,OneclickControl,OnelineSpeech,fingerPrint, firmware,firmversion,brand) VALUES ('%zd','%zd', '%zd', '%zd','%zd', '%@','%@', '%@', '%@' ,'%zd','%@', '%zd', '%zd', '%zd', '%zd', '%zd', '%zd','%zd','%zd','%zd','%zd', '%zd','%@','%@');", model1.rssi,model1.keytest, model1.keyconfigure,model1.inductionkey, model1.keynumber, model1.function1, model1.function2, model1.function3, model1.function4, model1.routinetest, model1.line, model1.onekeytest, model1.seat, model1.lock, model1.calibration, model1.shake, model1.buzzer, model1.inducrssi,model1.OneclickControl,model1.OnelineSpeech,model1.fingerPrint,model1.firmware, model1.firmversion,model1.brand];
     
     return [_fmdb executeUpdate:insertSql];
 }
@@ -113,11 +119,12 @@ static FMDatabase *_fmdb;
         NSString *inducrssi = [set stringForColumn:@"inducrssi"];
         NSString *OneclickControl = [set stringForColumn:@"OneclickControl"];
         NSString *OnelineSpeech = [set stringForColumn:@"OnelineSpeech"];
+        NSString *fingerPrint = [set stringForColumn:@"fingerPrint"];
         NSString *firmware = [set stringForColumn:@"firmware"];
         NSString *firmversion = [set stringForColumn:@"firmversion"];
         NSString *brand = [set stringForColumn:@"brand"];
         
-        ProfileModel *modal = [ProfileModel modalWith:rssi.intValue keytest:keytest.intValue keyconfigure:keyconfigure.intValue inductionkey:inductionkey.intValue keynumber:keynumber.intValue function1:function1 function2:function2 function3:function3 function4:function4 routinetest:routinetest.intValue line:line onekeytest:onekeytest.intValue seat:seat.intValue lock:lock.intValue calibration:calibration.intValue shake:shake.intValue buzzer:buzzer.intValue inducrssi:inducrssi.intValue OneclickControl:OneclickControl.intValue OnelineSpeech:OnelineSpeech.intValue firmware:firmware.intValue firmversion:firmversion brand:brand];
+        ProfileModel *modal = [ProfileModel modalWith:rssi.intValue keytest:keytest.intValue keyconfigure:keyconfigure.intValue inductionkey:inductionkey.intValue keynumber:keynumber.intValue function1:function1 function2:function2 function3:function3 function4:function4 routinetest:routinetest.intValue line:line onekeytest:onekeytest.intValue seat:seat.intValue lock:lock.intValue calibration:calibration.intValue shake:shake.intValue buzzer:buzzer.intValue inducrssi:inducrssi.intValue OneclickControl:OneclickControl.intValue OnelineSpeech:OnelineSpeech.intValue fingerPrint:fingerPrint.intValue firmware:firmware.intValue firmversion:firmversion brand:brand];
         [arrM addObject:modal];
 
     }

@@ -119,10 +119,10 @@
     
     
     
-    UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, 64, screenWidth, screenHeight - 64)];
+    UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, 64, ScreenWidth, ScreenHeight - 64)];
     [self.view addSubview:backView];
     self.backView = backView;
-    UITableView *deviceTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, backView.height)];
+    UITableView *deviceTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, backView.height)];
     deviceTable.delegate = self;
     deviceTable.dataSource = self;
     [deviceTable setTableFooterView:[[UIView alloc] initWithFrame:CGRectZero]];

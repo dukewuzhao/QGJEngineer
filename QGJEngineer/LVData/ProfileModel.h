@@ -30,10 +30,11 @@
 @property (nonatomic, assign) NSInteger inducrssi;//感应钥匙rssi
 @property (nonatomic, assign) NSInteger OneclickControl;//一键通控制
 @property (nonatomic, assign) NSInteger OnelineSpeech;//一线通语音
-@property (nonatomic, assign) NSInteger firmware;//固件升级
-@property (nonatomic, copy) NSString *firmversion;
+@property (nonatomic, assign) NSInteger fingerPrint;//指纹测试
+@property (nonatomic, assign) NSInteger firmware;//固件是否升级
+@property (nonatomic, copy) NSString *firmversion;//固件版本
 @property (nonatomic, copy) NSString *brand;
 
-+ (instancetype)modalWith:(NSInteger)rssi keytest:(NSInteger)keytest keyconfigure:(NSInteger )keyconfigure inductionkey:(NSInteger )inductionkey keynumber:(NSInteger)keynumber function1:(NSString *)function1 function2:(NSString *)function2 function3:(NSString *)function3 function4:(NSString *)function4 routinetest:(NSInteger)routinetest line:(NSString *)line onekeytest:(NSInteger)onekeytest seat:(NSInteger)seat lock:(NSInteger)lock calibration:(NSInteger)calibration shake:(NSInteger)shake buzzer:(NSInteger)buzzer inducrssi:(NSInteger)inducrssi OneclickControl:(NSInteger)OneclickControl OnelineSpeech:(NSInteger)OnelineSpeech firmware:(NSInteger)firmware firmversion:(NSString *)firmversion brand:(NSString *)brand;
++ (instancetype)modalWith:(NSInteger)rssi keytest:(NSInteger)keytest keyconfigure:(NSInteger )keyconfigure inductionkey:(NSInteger )inductionkey keynumber:(NSInteger)keynumber function1:(NSString *)function1 function2:(NSString *)function2 function3:(NSString *)function3 function4:(NSString *)function4 routinetest:(NSInteger)routinetest line:(NSString *)line onekeytest:(NSInteger)onekeytest seat:(NSInteger)seat lock:(NSInteger)lock calibration:(NSInteger)calibration shake:(NSInteger)shake buzzer:(NSInteger)buzzer inducrssi:(NSInteger)inducrssi OneclickControl:(NSInteger)OneclickControl OnelineSpeech:(NSInteger)OnelineSpeech fingerPrint:(NSInteger)fingerPrint firmware:(NSInteger)firmware firmversion:(NSString *)firmversion brand:(NSString *)brand;
 
 @end

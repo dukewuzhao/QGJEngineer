@@ -256,11 +256,78 @@
 
 -(void)DownloadOver{
     
-    [self omelogin];
+    [self LYFactorylogin];
 }
 
--(void)omelogin{
+-(void)DownloadBreak{
+    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+    [SVProgressHUD showSimpleText:@"下载中断"];
+}
 
+
+//1
+-(void)LYFactorylogin{
+    
+    NSString *pwd = [NSString stringWithFormat:@"%@%@%@",@"QGJ",@"123456",@"FACTORY"];
+    NSString * md5=[QFTools md5:pwd];
+    NSString *URLString = [NSString stringWithFormat:@"%@%@",LYURL,@"factory/login"];
+    NSDictionary *parameters = @{@"account": @"lvyuan", @"passwd": md5};
+    AFHTTPSessionManager *manager = [QFTools sharedManager];
+    [manager POST:URLString parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable dict) {
+        
+        if ([dict[@"status"] intValue] == 0) {
+            
+            NSDictionary *data = dict[@"data"];
+            NSString * token=[data objectForKey:@"token"];
+            [USER_DEFAULTS setValue:token forKey:LYFactoryToken];
+            [self TLFactorylogin];
+        }
+        else if([dict[@"status"] intValue] == 1001){
+            [SVProgressHUD showSimpleText:dict[@"status_info"]];
+        }else{
+            [SVProgressHUD showSimpleText:dict[@"status_info"]];
+        }
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"error :%@",error);
+        
+    }];
+    
+}
+//2
+-(void)TLFactorylogin{
+    
+    NSString *pwd = [NSString stringWithFormat:@"%@%@%@",@"QGJ",@"123456",@"FACTORY"];
+    NSString * md5=[QFTools md5:pwd];
+    NSString *URLString = [NSString stringWithFormat:@"%@%@",TLURL,@"factory/login"];
+    NSDictionary *parameters = @{@"account": @"tl", @"passwd": md5};
+    AFHTTPSessionManager *manager = [QFTools sharedManager];
+    [manager POST:URLString parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable dict) {
+        
+        if ([dict[@"status"] intValue] == 0) {
+            
+            NSDictionary *data = dict[@"data"];
+            NSString * token=[data objectForKey:@"token"];
+            [USER_DEFAULTS setValue:token forKey:TLFactoryToken];
+            [self omelogin];//骑管家后台 品牌上传token
+        }
+        else if([dict[@"status"] intValue] == 1001){
+            [SVProgressHUD showSimpleText:dict[@"status_info"]];
+        }else{
+            [SVProgressHUD showSimpleText:dict[@"status_info"]];
+        }
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"error :%@",error);
+    }];
+}
+//3
+-(void)omelogin{
+    
     NSString *pwd = [NSString stringWithFormat:@"%@%@%@",@"QGJ",self.passwordField.text,@"OEM"];
     NSString * md5=[QFTools md5:pwd];
     
@@ -272,7 +339,7 @@
     [manager POST:URLString parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable dict) {
-       
+        
         if ([dict[@"status"] intValue] == 0) {
             [LVFmdbTool deleteAllBrandData:nil];
             [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
@@ -309,13 +376,10 @@
         NSLog(@"error :%@",error);
         
     }];
-
+    
 }
 
--(void)DownloadBreak{
-    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-    [SVProgressHUD showSimpleText:@"下载中断"];
-}
+
 
 -(void)updateversionDic:(NSString *)NewVersion{
 

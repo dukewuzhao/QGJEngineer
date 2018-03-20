@@ -104,10 +104,10 @@
     [NSNOTIC_CENTER addObserver:self selector:@selector(DeviceEdition:) name:KNotification_Edition object:nil];
     [NSNOTIC_CENTER addObserver:self selector:@selector(reloadTableViewData:) name:KNotification_reloadTableViewData object:nil];
     
-    UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, screenHeight - 64)];
+    UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 64)];
     [self.view addSubview:backView];
     self.backView = backView;
-    UITableView *deviceTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, backView.height)];
+    UITableView *deviceTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, backView.height)];
     deviceTable.delegate = self;
     deviceTable.dataSource = self;
     [deviceTable setTableFooterView:[[UIView alloc] initWithFrame:CGRectZero]];
@@ -132,18 +132,34 @@
 }
 
 -(void)DeviceMac:(NSNotification*)notification{
+    
+    if (![AppDelegate currentAppDelegate].IsCodeScan) {
+        return;
+    }
+    
     NSString *date = notification.userInfo[@"data"];
+    
+    for (int i = 0; i< 3; i++) {
+        
+        NSString *first = [date substringWithRange:NSMakeRange(i*2, 2)];
+        NSString *second = [date substringWithRange:NSMakeRange((5-i)*2, 2)];
+        date = [date stringByReplacingCharactersInRange:NSMakeRange(i*2, 2) withString:second];
+        date = [date stringByReplacingCharactersInRange:NSMakeRange((5-i)*2, 2) withString:first];
+    }
     
     MacString = date.uppercaseString;
     [[AppDelegate currentAppDelegate].device3 readDiviceInformation];
 }
 
 -(void)DeviceEdition:(NSNotification*)notification{
+    
+    if (![AppDelegate currentAppDelegate].IsCodeScan) {
+        return;
+    }
+    
     NSString *date = notification.userInfo[@"data"];
-    
     EditionString = date.uppercaseString;
-    NSNumber *type= [NSNumber numberWithInt:5];
-    
+    NSNumber *type= [NSNumber numberWithInt:2];
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSDictionary *userDic = [defaults objectForKey:FactoryUserDic];
     NSString *token= userDic[@"token"];
@@ -154,23 +170,75 @@
     NSDictionary *parameters = @{@"token": token, @"device_info":DeviceInfo};
     
     [[HttpRequest sharedInstance] postWithURLString2:URLString parameters:parameters success:^(id _Nullable dict) {
-        
+        [[self class] cancelPreviousPerformRequestsWithTarget:self selector:@selector(overtime) object:nil];
         if ([dict[@"status"] intValue] == 0) {
-            [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-            [[AppDelegate currentAppDelegate].device3 remove];
-            self.backView.hidden = YES;
-            
-            codeNum = nil;
-            MacString = nil;
-            EditionString = nil;
-            [SVProgressHUD showSimpleText:dict[@"status_info"]];
-            
+            NSLog(@"骑管家上传成功");
+            [self uploadLYDevice];
+
         }else{
-            
-            [SVProgressHUD showSimpleText:dict[@"status_info"]];
+            [SVProgressHUD showSimpleText:@"骑管家外设上传失败"];
             [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
         }
         
+    }failure:^(NSError *error) {
+        
+        NSLog(@"error :%@",error);
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        [SVProgressHUD showSimpleText:TIP_OF_NO_NETWORK];
+    }];
+}
+//绿源外设上传
+-(void)uploadLYDevice{
+    
+    NSString *token= [USER_DEFAULTS valueForKey:LYFactoryToken];
+    NSNumber *device_id = [NSNumber numberWithInt:0];
+    NSNumber *type= [NSNumber numberWithInt:2];
+    NSDictionary *DeviceInfo = [NSDictionary dictionaryWithObjectsAndKeys:device_id,@"device_id",type,@"type",MacString,@"mac",codeNum,@"sn",EditionString,@"firm_version",nil];
+    
+    NSString *URLString = [NSString stringWithFormat:@"%@%@",LYURL,@"factory/regdevice"];
+    NSDictionary *parameters = @{@"token": token, @"device_info":DeviceInfo};
+    
+    [[HttpRequest sharedInstance] postWithLYURLString:URLString parameters:parameters success:^(id _Nullable dict) {
+        if ([dict[@"status"] intValue] == 0) {
+            NSLog(@"绿源上传成功");
+            [self uploadTLDevice];
+        }else{
+            [SVProgressHUD showSimpleText:@"绿源外设上传失败"];
+            [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        }
+        
+    }failure:^(NSError *error) {
+        
+        NSLog(@"error :%@",error);
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        [SVProgressHUD showSimpleText:TIP_OF_NO_NETWORK];
+        
+    }];
+}
+//台铃外设上传
+-(void)uploadTLDevice{
+    NSString *token= [USER_DEFAULTS valueForKey:TLFactoryToken];
+    NSNumber *device_id = [NSNumber numberWithInt:0];
+    NSNumber *type= [NSNumber numberWithInt:2];
+    NSDictionary *DeviceInfo = [NSDictionary dictionaryWithObjectsAndKeys:device_id,@"device_id",type,@"type",MacString,@"mac",codeNum,@"sn",EditionString,@"firm_version",nil];
+    
+    NSString *URLString = [NSString stringWithFormat:@"%@%@",TLURL,@"factory/regdevice"];
+    NSDictionary *parameters = @{@"token": token, @"device_info":DeviceInfo};
+    
+    [[HttpRequest sharedInstance] postWithTLURLString:URLString parameters:parameters success:^(id _Nullable dict) {
+        if ([dict[@"status"] intValue] == 0) {
+            NSLog(@"台铃上传成功");
+            [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+            [SVProgressHUD showSimpleText:@"外设上传成功"];
+            [[AppDelegate currentAppDelegate].device3 remove];
+            self.backView.hidden = YES;
+            codeNum = nil;
+            MacString = nil;
+            EditionString = nil;
+        }else{
+            [SVProgressHUD showSimpleText:@"台铃外设上传失败"];
+            [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        }
         
     }failure:^(NSError *error) {
         
@@ -181,7 +249,13 @@
     }];
 }
 
+
 -(void)updateDeviceStatusAction:(NSNotification*)notification{
+    
+    if (![AppDelegate currentAppDelegate].IsCodeScan) {
+        return;
+    }
+    
     int deviceTag=[notification.object intValue];
     if (deviceTag == 3) {
         
@@ -279,10 +353,25 @@
     hud.labelText = @"绑定中...";
     [[AppDelegate currentAppDelegate].device3 stopScan];
     
+    [self performSelector:@selector(overtime) withObject:nil afterDelay:10];
+    
     [AppDelegate currentAppDelegate]. device3.peripheral=[[ascendArray objectAtIndex:indexPath.row] peripher];
     NSLog(@"连接上的设备%@",[AppDelegate currentAppDelegate].device3.peripheral.identifier.UUIDString);
     [[AppDelegate currentAppDelegate].device3 connect];
     
+}
+
+-(void)overtime{
+    
+    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+    [[AppDelegate currentAppDelegate].device3 remove];
+    self.backView.hidden = YES;
+    AFHTTPSessionManager *manager = [QFTools sharedManager];
+    [manager.operationQueue cancelAllOperations];
+    codeNum = nil;
+    MacString = nil;
+    EditionString = nil;
+    [SVProgressHUD showSimpleText:@"绑定失败"];
 }
 
 #pragma mark---扫描的回调

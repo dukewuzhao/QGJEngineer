@@ -22,5 +22,5 @@
 @property(nonatomic,assign)  BOOL oneClick;
 @property(nonatomic,assign)  BOOL oneLine;
 @property(nonatomic,assign)  BOOL bool10;
-
+@property(nonatomic,assign)  BOOL fingerTest;
 @end

@@ -415,7 +415,7 @@
         EditionString = date.uppercaseString;
         self.firstview.hidden = YES;
         self.state = YES;
-        NSString *brandName = stepArray[22];
+        NSString *brandName = stepArray[23];
         if ([brandName isEqualToString:@"无"]) {
             [self performSelector:@selector(Verification) withObject:nil afterDelay:2.0];
             [self startEngineering];//进入工程模式
@@ -430,7 +430,7 @@
 
 -(void)omebind{
     [self performSelector:@selector(bindingfail) withObject:nil afterDelay:10];
-    NSString *brandName = stepArray[22];
+    NSString *brandName = stepArray[23];
     NSString *brandSql = [NSString stringWithFormat:@"SELECT * FROM allbrandmodels WHERE brand_name LIKE '%@'", brandName];
     NSMutableArray *brandAry = [LVFmdbTool queryAllBrandData:brandSql];
     AllBrandNameModel *allBrandModel = brandAry.firstObject;
@@ -553,7 +553,7 @@
         if (self.state) {
         
         [[AppDelegate currentAppDelegate].device stopScan];
-        [BurglarViewController cancelPreviousPerformRequestsWithTarget:self selector:@selector(Verification) object:nil];
+        [[self class] cancelPreviousPerformRequestsWithTarget:self selector:@selector(Verification) object:nil];
         self.engineering = YES;
         
         if ([stepArray[1] isEqualToString:@"1"]) {
@@ -641,14 +641,22 @@
                                                     }else{
                                                     
                                                         if ([stepArray[20] isEqualToString:@"1"]) {
-                                                            
-                                                            [self firmwareUpdate];
+                                                            self.prompttitle.text = @"指纹测试";
+                                                            [self fingerPrintTest];
                                                             
                                                         }else{
                                                             
-                                                            [SVProgressHUD showSimpleText:@"请先设置测试选项"];
-                                                            [self testend];
+                                                            if ([stepArray[21] isEqualToString:@"1"]) {
+                                                                
+                                                                [self firmwareUpdate];
+                                                                
+                                                            }else{
+                                                                
+                                                                [SVProgressHUD showSimpleText:@"请先设置测试选项"];
+                                                                [self testend];
+                                                            }
                                                         }
+                                                        
                                                     }
                                                 }
                                             }
@@ -1094,13 +1102,20 @@
                                                                 }else{
                                                                     
                                                                     if ([stepArray[20] isEqualToString:@"1"]) {
-                                                                        
-                                                                        
-                                                                        [self firmwareUpdate];
+                                                                        self.prompttitle.text = @"指纹测试";
+                                                                        [self fingerPrintTest];
                                                                         
                                                                     }else{
                                                                         
-                                                                        [self testend];
+                                                                        if ([stepArray[21] isEqualToString:@"1"]) {
+                                                                            
+                                                                            [self firmwareUpdate];
+                                                                            
+                                                                        }else{
+                                                                            
+                                                                            [SVProgressHUD showSimpleText:@"请先设置测试选项"];
+                                                                            [self testend];
+                                                                        }
                                                                     }
                                                                 }
                                                             }
@@ -1229,13 +1244,20 @@
                                                             }else{
                                                                 
                                                                 if ([stepArray[20] isEqualToString:@"1"]) {
-                                                                    
-                                                                    
-                                                                    [self firmwareUpdate];
+                                                                    self.prompttitle.text = @"指纹测试";
+                                                                    [self fingerPrintTest];
                                                                     
                                                                 }else{
                                                                     
-                                                                    [self testend];
+                                                                    if ([stepArray[21] isEqualToString:@"1"]) {
+                                                                        
+                                                                        [self firmwareUpdate];
+                                                                        
+                                                                    }else{
+                                                                        
+                                                                        [SVProgressHUD showSimpleText:@"请先设置测试选项"];
+                                                                        [self testend];
+                                                                    }
                                                                 }
                                                             }
                                                         }
@@ -1781,12 +1803,20 @@
                                                 }else{
                                                     
                                                     if ([stepArray[20] isEqualToString:@"1"]) {
-                                                        
-                                                        [self firmwareUpdate];
+                                                        self.prompttitle.text = @"指纹测试";
+                                                        [self fingerPrintTest];
                                                         
                                                     }else{
                                                         
-                                                        [self testend];
+                                                        if ([stepArray[21] isEqualToString:@"1"]) {
+                                                            
+                                                            [self firmwareUpdate];
+                                                            
+                                                        }else{
+                                                            
+                                                            [SVProgressHUD showSimpleText:@"请先设置测试选项"];
+                                                            [self testend];
+                                                        }
                                                     }
                                                 }
                                             }
@@ -1929,12 +1959,20 @@
                                                 }else{
                                                     
                                                     if ([stepArray[20] isEqualToString:@"1"]) {
-                                                        
-                                                        [self firmwareUpdate];
+                                                        self.prompttitle.text = @"指纹测试";
+                                                        [self fingerPrintTest];
                                                         
                                                     }else{
                                                         
-                                                        [self testend];
+                                                        if ([stepArray[21] isEqualToString:@"1"]) {
+                                                            
+                                                            [self firmwareUpdate];
+                                                            
+                                                        }else{
+                                                            
+                                                            [SVProgressHUD showSimpleText:@"请先设置测试选项"];
+                                                            [self testend];
+                                                        }
                                                     }
                                                 }
                                             }
@@ -2014,19 +2052,23 @@
                     }else{
                         
                         if ([stepArray[20] isEqualToString:@"1"]) {
-                            
-                            [self firmwareUpdate];
+                            self.prompttitle.text = @"指纹测试";
+                            [self fingerPrintTest];
                             
                         }else{
                             
-                            [self testend];
+                            if ([stepArray[21] isEqualToString:@"1"]) {
+                                
+                                [self firmwareUpdate];
+                                
+                            }else{
+                                
+                                [SVProgressHUD showSimpleText:@"请先设置测试选项"];
+                                [self testend];
+                            }
                         }
                     }
-                
-                
             }
-            
-            
         }
         
     }else if ([[date substringWithRange:NSMakeRange(8, 4)] isEqualToString:@"4009"]) {
@@ -2085,12 +2127,20 @@
                         }else{
                             
                             if ([stepArray[20] isEqualToString:@"1"]) {
-                                
-                                [self firmwareUpdate];
+                                self.prompttitle.text = @"指纹测试";
+                                [self fingerPrintTest];
                                 
                             }else{
                                 
-                                [self testend];
+                                if ([stepArray[21] isEqualToString:@"1"]) {
+                                    
+                                    [self firmwareUpdate];
+                                    
+                                }else{
+                                    
+                                    [SVProgressHUD showSimpleText:@"请先设置测试选项"];
+                                    [self testend];
+                                }
                             }
                         }
                     }
@@ -2133,12 +2183,20 @@
                  }else{
                      
                      if ([stepArray[20] isEqualToString:@"1"]) {
-                         
-                         [self firmwareUpdate];
+                         self.prompttitle.text = @"指纹测试";
+                         [self fingerPrintTest];
                          
                      }else{
                          
-                         [self testend];
+                         if ([stepArray[21] isEqualToString:@"1"]) {
+                             
+                             [self firmwareUpdate];
+                             
+                         }else{
+                             
+                             [SVProgressHUD showSimpleText:@"请先设置测试选项"];
+                             [self testend];
+                         }
                      }
                  }
              }
@@ -2221,12 +2279,20 @@
                                 }else{
                                     
                                     if ([stepArray[20] isEqualToString:@"1"]) {
-                                        
-                                        [self firmwareUpdate];
+                                        self.prompttitle.text = @"指纹测试";
+                                        [self fingerPrintTest];
                                         
                                     }else{
                                         
-                                        [self testend];
+                                        if ([stepArray[21] isEqualToString:@"1"]) {
+                                            
+                                            [self firmwareUpdate];
+                                            
+                                        }else{
+                                            
+                                            [SVProgressHUD showSimpleText:@"请先设置测试选项"];
+                                            [self testend];
+                                        }
                                     }
                                 }
                             }
@@ -2339,12 +2405,20 @@
                                                     }else{
                                                         
                                                         if ([stepArray[20] isEqualToString:@"1"]) {
-                                                            
-                                                            [self firmwareUpdate];
+                                                            self.prompttitle.text = @"指纹测试";
+                                                            [self fingerPrintTest];
                                                             
                                                         }else{
                                                             
-                                                            [self testend];
+                                                            if ([stepArray[21] isEqualToString:@"1"]) {
+                                                                
+                                                                [self firmwareUpdate];
+                                                                
+                                                            }else{
+                                                                
+                                                                [SVProgressHUD showSimpleText:@"请先设置测试选项"];
+                                                                [self testend];
+                                                            }
                                                         }
                                                     }
                                                 }
@@ -2390,26 +2464,41 @@
             [self keypair];
         }
         
-    
     }else if ([[date substringWithRange:NSMakeRange(8, 4)] isEqualToString:@"1004"]) {
         
         if ([[date substringWithRange:NSMakeRange(12, 2)] isEqualToString:@"00"]) {
             
             [SVProgressHUD showSimpleText:@"进入固件升级失败"];
-            
             [self testend];
         }else if([[date substringWithRange:NSMakeRange(12, 2)] isEqualToString:@"01"]){
             
             [[AppDelegate currentAppDelegate].device remove];
             self.backWindow.hidden = NO;
             [self performSelector:@selector(breakconnect) withObject:nil afterDelay:2];
+        }
+    }else if ([[date substringWithRange:NSMakeRange(8, 4)] isEqualToString:@"3005"]) {
+        
+        if ([[date substringWithRange:NSMakeRange(12, 2)] isEqualToString:@"00"]) {
             
+            NSString *title = [NSString stringWithFormat:@"指纹测试失败"];
+            [self.promteArray addObject:title];
+            //主线程uitableview刷新
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                [self.resulttable reloadData];
+            });
+            timeNumber = 1;
+            
+        }else if([[date substringWithRange:NSMakeRange(12, 2)] isEqualToString:@"01"]){
+            
+            //[countTimer invalidate];
+            //countTimer = nil;
+            timeNumber = 10;
+            self.backView.hidden = NO;
             
         }
-        
     }
 
-        
     }else if (tag.intValue == 2){/////////////////////////////////设备盒子
     
         if ([[date substringWithRange:NSMakeRange(8, 4)] isEqualToString:@"1001"]) {
@@ -2652,12 +2741,20 @@
                                                 }else{
                                                     
                                                     if ([stepArray[20] isEqualToString:@"1"]) {
-                                                        
-                                                        [self firmwareUpdate];
+                                                        self.prompttitle.text = @"指纹测试";
+                                                        [self fingerPrintTest];
                                                         
                                                     }else{
                                                         
-                                                        [self testend];
+                                                        if ([stepArray[21] isEqualToString:@"1"]) {
+                                                            
+                                                            [self firmwareUpdate];
+                                                            
+                                                        }else{
+                                                            
+                                                            [SVProgressHUD showSimpleText:@"请先设置测试选项"];
+                                                            [self testend];
+                                                        }
                                                     }
                                                 }
                                             }
@@ -2712,12 +2809,12 @@
  */
 - (void)setupAlertView{
     
-    UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, screenHeight)];
+    UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
     backView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.4];
     [self.view addSubview:backView];
     self.backView = backView;
     
-    UIView *alertView = [[UIView alloc] initWithFrame:CGRectMake(20, screenHeight/2 - 70, screenWidth - 40, 140)];
+    UIView *alertView = [[UIView alloc] initWithFrame:CGRectMake(20, ScreenHeight/2 - 70, ScreenWidth - 40, 140)];
     alertView.backgroundColor =  [UIColor whiteColor];
     [backView addSubview:alertView];
     
@@ -2798,12 +2895,20 @@
                     }else{
                         
                         if ([stepArray[20] isEqualToString:@"1"]) {
-                            
-                            [self firmwareUpdate];
+                            self.prompttitle.text = @"指纹测试";
+                            [self fingerPrintTest];
                             
                         }else{
                             
-                            [self testend];
+                            if ([stepArray[21] isEqualToString:@"1"]) {
+                                
+                                [self firmwareUpdate];
+                                
+                            }else{
+                                
+                                [SVProgressHUD showSimpleText:@"请先设置测试选项"];
+                                [self testend];
+                            }
                         }
                     }
                 }
@@ -2848,12 +2953,20 @@
                 }else{
                     
                     if ([stepArray[20] isEqualToString:@"1"]) {
-                        
-                        [self firmwareUpdate];
+                        self.prompttitle.text = @"指纹测试";
+                        [self fingerPrintTest];
                         
                     }else{
                         
-                        [self testend];
+                        if ([stepArray[21] isEqualToString:@"1"]) {
+                            
+                            [self firmwareUpdate];
+                            
+                        }else{
+                            
+                            [SVProgressHUD showSimpleText:@"请先设置测试选项"];
+                            [self testend];
+                        }
                     }
                 }
             }
@@ -2916,9 +3029,20 @@
                                 [self oneLineSpeechOpen];
                             }else{
                                 if ([stepArray[20] isEqualToString:@"1"]) {
-                                    [self firmwareUpdate];
+                                    self.prompttitle.text = @"指纹测试";
+                                    [self fingerPrintTest];
+                                    
                                 }else{
-                                    [self testend];
+                                    
+                                    if ([stepArray[21] isEqualToString:@"1"]) {
+                                        
+                                        [self firmwareUpdate];
+                                        
+                                    }else{
+                                        
+                                        [SVProgressHUD showSimpleText:@"请先设置测试选项"];
+                                        [self testend];
+                                    }
                                 }
                             }
                         }
@@ -2943,16 +3067,43 @@
         });
         
         if ([stepArray[20] isEqualToString:@"1"]) {
+            self.prompttitle.text = @"指纹测试";
+            [self fingerPrintTest];
+            
+        }else{
+            
+            if ([stepArray[21] isEqualToString:@"1"]) {
+                
+                [self firmwareUpdate];
+                
+            }else{
+                
+                [SVProgressHUD showSimpleText:@"请先设置测试选项"];
+                [self testend];
+            }
+        }
+        
+    }else if ([self.prompttitle.text isEqualToString:@"指纹测试"]){
+        [countTimer invalidate];
+        countTimer = nil;
+        
+        self.backView.hidden = YES;
+        NSString *title = [NSString stringWithFormat:@"指纹测试成功"];
+        [self.promteArray addObject:title];
+        //主线程uitableview刷新
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            [self.resulttable reloadData];
+        });
+        
+        if ([stepArray[21] isEqualToString:@"1"]) {
             
             [self firmwareUpdate];
             
         }else{
-            
             [self testend];
         }
-        
     }
-    
 }
 
 
@@ -3011,10 +3162,8 @@
     timeNumber--;
     self.countdown.text = [NSString stringWithFormat:@"%d",(int)timeNumber];
     
-    if([self.prompttitle.text isEqualToString:@"坐桶测试"] || [self.prompttitle.text isEqualToString:@"蜂鸣器测试"] || [self.prompttitle.text isEqualToString:@"龙头锁测试"]|| [self.prompttitle.text isEqualToString:@"一线通语音"]){
-        
+    if([self.prompttitle.text isEqualToString:@"坐桶测试"] || [self.prompttitle.text isEqualToString:@"蜂鸣器测试"] || [self.prompttitle.text isEqualToString:@"龙头锁测试"]|| [self.prompttitle.text isEqualToString:@"一线通语音"]|| [self.prompttitle.text isEqualToString:@"指纹测试"]){
         self.messageLabel.text = [NSString stringWithFormat:@"确认点击(%ds)",(int)timeNumber];
-        
     }
     
     if (timeNumber == 0) {
@@ -3091,6 +3240,9 @@
             self.backView.hidden = YES;
             self.prompttitle.text = @"一线通语音测试失败";
             
+        }else if ([self.prompttitle.text isEqualToString:@"指纹测试"]){
+            
+            self.prompttitle.text = @"指纹测试失败";
         }
 
         [self  failer];
@@ -3190,9 +3342,12 @@
                 self.prompttitle.text = @"网络上传";
                 [self omebind];
                 
+            }else if ([self.prompttitle.text isEqualToString:@"指纹测试失败"]){
+                
+                self.prompttitle.text = @"指纹测试";
+                [self fingerPrintTest];
+                
             }
-            
-            
         }else{
         
             [self testend];
@@ -3928,7 +4083,7 @@
  */
 
 - (void)oneClickControlHigh{
-    
+    timeNumber = 11;
     [self coutdowntime];
     self.countdown.hidden = NO;
     lineNumber = 12;
@@ -3980,30 +4135,41 @@
     self.prompttitle2.text = @"";
     NSString *passwordHEX = @"A5000007400F00";//一键通低低平输出
     [[AppDelegate currentAppDelegate].device sendKeyValue:[ConverUtil parseHexStringToByteArray:passwordHEX]];
+}
+
+/**
+ *  指纹测试
+ */
+- (void)fingerPrintTest{
+    timeNumber = 11;
+    [self coutdowntime];
+    self.countdown.hidden = YES;
+    self.prompttitle2.text = @"请按指纹确认";
+    self.prompttitle2.text = @"";
+    NSString *passwordHEX = @"A5000007300500";
+    [[AppDelegate currentAppDelegate].device sendKeyValue:[ConverUtil parseHexStringToByteArray:passwordHEX]];
     
 }
+
 
 /**
  *  固件升级
  */
 -(void)firmwareUpdate{
     
-    NSString *localFirmwar = stepArray[21];
+    NSString *localFirmwar = stepArray[22];
     if ([[EditionString substringWithRange:NSMakeRange(0, EditionString.length - 6)] isEqualToString:[localFirmwar substringWithRange:NSMakeRange(0, localFirmwar.length - 6)]]) {
         
         if ([EditionString isEqualToString:localFirmwar]){
             [SVProgressHUD showSimpleText:@"已是最新版本无需更新"];
             [self testend];
-            
             return;
-            
         }
         
     }else{
         [SVProgressHUD showSimpleText:@"版本不适配,不能更新"];
         [self testend];
         return;
-        
     }
     
     NSString *NetworktVersion = [localFirmwar substringFromIndex:localFirmwar.length- 5];
@@ -4135,13 +4301,20 @@
                                                         
                                                         if ([stepArray[20] isEqualToString:@"1"]) {
                                                             
-                                                            self.prompttitle.text = @"固件升级";
+                                                            self.prompttitle.text = @"指纹测试";
                                                             self.prompttitle2.text = @"";
                                                             
+                                                        }else{
                                                             
+                                                            if ([stepArray[21] isEqualToString:@"1"]) {
+                                                                
+                                                                self.prompttitle.text = @"固件升级";
+                                                                self.prompttitle2.text = @"";
+                                                                
                                                             }else{
-                                                            
-                                                            self.prompttitle.text = @"请先设置测试选项";
+                                                                
+                                                                self.prompttitle.text = @"请先设置测试选项";
+                                                            }
                                                         }
                                                     }
                                                 }
@@ -4218,7 +4391,6 @@
                                 
                                 if ([stepArray[18] isEqualToString:@"1"]) {
                                     
-                                    
                                     self.prompttitle.text = @"一键通线路控制";
                                     [self oneClickControlHigh];
                                     
@@ -4226,19 +4398,25 @@
                                     
                                     if ([stepArray[19] isEqualToString:@"1"]) {
                                         
-                                        
                                         self.prompttitle.text = @"一线通语音";
                                         [self oneLineSpeechOpen];
                                         
                                     }else{
                                         
                                         if ([stepArray[20] isEqualToString:@"1"]) {
-                                            
-                                            [self firmwareUpdate];
+                                            self.prompttitle.text = @"指纹测试";
+                                            [self fingerPrintTest];
                                             
                                         }else{
                                             
-                                            [self testend];
+                                            if ([stepArray[21] isEqualToString:@"1"]) {
+                                                
+                                                [self firmwareUpdate];
+                                                
+                                            }else{
+                                                
+                                                [self testend];
+                                            }
                                         }
                                     }
                                 }

@@ -83,7 +83,7 @@
     isFirst = YES;
     isPush = NO;
     [self InitScan];
-    UILabel *serialLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, screenHeight - 94, ScreenWidth, 30)];
+    UILabel *serialLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, ScreenHeight - 94, ScreenWidth, 30)];
     serialLabel.textColor = [UIColor whiteColor];
     serialLabel.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:serialLabel];

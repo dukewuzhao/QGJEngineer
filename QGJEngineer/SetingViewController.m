@@ -174,10 +174,10 @@
             [self.setingTable reloadData];
         });
     
-    }else if (self.sectionNum == 20){
+    }else if (self.sectionNum == 21){
         _Lrdmodel = self.keyArr5[indexPath.row];
         
-        if ([_Lrdmodel.title isEqualToString:_sectionArray[20]]) {
+        if ([_Lrdmodel.title isEqualToString:_sectionArray[21]]) {
             return;
         }
         
@@ -273,7 +273,7 @@
     [self.view addSubview:setingTable];
     self.setingTable = setingTable;
     
-    UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, 45)];
+    UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 45)];
     headView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:headView];
     setingTable.tableHeaderView = headView;
@@ -292,11 +292,11 @@
     hardwareversionField.text = verDic[@"version"];
     
     
-    UIView *footVie = [[UIView alloc] initWithFrame:CGRectMake(0, 10, screenWidth, 100)];
+    UIView *footVie = [[UIView alloc] initWithFrame:CGRectMake(0, 10, ScreenWidth, 100)];
     
     UIButton *footerButton = [UIButton buttonWithType:UIButtonTypeCustom];
     // 为button设置frame
-    footerButton.frame = CGRectMake(0, 10, screenWidth, 40);
+    footerButton.frame = CGRectMake(0, 10, ScreenWidth, 40);
     footerButton.layer.cornerRadius = 5;
     [footerButton setTitle:@"退出登录" forState:UIControlStateNormal];
     [footerButton setBackgroundColor:[UIColor brownColor]];
@@ -306,7 +306,7 @@
     
     UIButton *scanButton = [UIButton buttonWithType:UIButtonTypeCustom];
     // 为button设置frame
-    scanButton.frame = CGRectMake(0, CGRectGetMaxY(footerButton.frame)+10, screenWidth, 40);
+    scanButton.frame = CGRectMake(0, CGRectGetMaxY(footerButton.frame)+10, ScreenWidth, 40);
     scanButton.layer.cornerRadius = 5;
     [scanButton setTitle:@"APP扫描更新" forState:UIControlStateNormal];
     [scanButton setBackgroundColor:[UIColor brownColor]];
@@ -319,8 +319,7 @@
     
     InducRssiArray = [NSMutableArray arrayWithObjects:@"-50",@"-51",@"-52",@"-53",@"-54",@"-55",@"-56",@"-57",@"-58",@"-59",@"-60",@"-61",@"-62",@"-63",@"-64",@"-65",@"-66",@"-67",@"-68",@"-69",@"-70", nil];
     
-    _sectionArray = [NSMutableArray arrayWithObjects:@"报警器RSSI",@"钥匙配置",@"钥匙测试",@"感应钥匙",@"感应钥匙RSSI",@"数量",verDic[@"key1"],verDic[@"key2"],verDic[@"key3"],verDic[@"key4"],@"常规测试",@"通讯线路测试",@"震动察觉测试",@"蜂鸣器测试",@"一键启动测试",@"坐桶测试",@"龙头锁&中撑锁测试",@"参数校准",@"一键通线路控制",@"语音测试",verDic[@"firmversion"],@"品牌选择", nil];
-    
+    _sectionArray = [NSMutableArray arrayWithObjects:@"报警器RSSI",@"钥匙配置",@"钥匙测试",@"感应钥匙",@"感应钥匙RSSI",@"数量",verDic[@"key1"],verDic[@"key2"],verDic[@"key3"],verDic[@"key4"],@"常规测试",@"通讯线路测试",@"震动察觉测试",@"蜂鸣器测试",@"一键启动测试",@"坐桶测试",@"龙头锁&中撑锁测试",@"参数校准",@"一键通线路控制",@"语音测试",@"指纹测试",verDic[@"firmversion"],@"品牌选择", nil];
     
     lineArray = [NSMutableArray arrayWithObjects:@"无",@"单线测试",@"双线测试", nil];
     
@@ -335,9 +334,7 @@
     for (AllBrandNameModel *brandmodel in allbrands) {
         
         [self.brands addObject:brandmodel.brand_name];
-        
     }
-    
     
     NSString *fuzzyinduSql = [NSString stringWithFormat:@"SELECT * FROM p_profiles WHERE id LIKE '%zd'", 1];
     NSMutableArray *modals = [LVFmdbTool queryPData:fuzzyinduSql];
@@ -441,13 +438,20 @@
         setmodel.oneLine = YES;
     }
     
+    if (pmodel.fingerPrint == 0) {
+        
+        setmodel.fingerTest = NO;
+    }else if (pmodel.fingerPrint == 1){
+        
+        setmodel.fingerTest = YES;
+    }
+    
     NSArray *pmodelArr = [QFTools  getClassAttribute:pmodel];
     
     for (int tt = 0; tt < pmodelArr.count; tt ++)
     {
         [setArray addObject:[NSString stringWithFormat:@"%@",[pmodel valueForKey:pmodelArr[tt]]]];
     }
-    
 }
 
 -(void)saveBtn{
@@ -508,11 +512,12 @@
     NSString *inducrssi = setArray[17];
     NSString *OneclickControl = setArray[18];
     NSString *OnelineSpeech = setArray[19];
-    NSString *firmware = setArray[20];
-    NSString *firmversion = setArray[21];
-    NSString *brand = setArray[22];
+    NSString *fingerPrint = setArray[20];
+    NSString *firmware = setArray[21];
+    NSString *firmversion = setArray[22];
+    NSString *brand = setArray[23];
     
-    ProfileModel *pmodel = [ProfileModel modalWith:rssi.intValue keytest:keytest.intValue keyconfigure:keyconfigure.intValue inductionkey:inductionkey.intValue keynumber:keynumber.intValue function1:function1 function2:function2 function3:function3 function4:function4 routinetest:routinetest.intValue line:line onekeytest:onekeytest.intValue seat:seat.intValue lock:lock.intValue calibration:calibration.intValue shake:shake.intValue buzzer:buzzer.intValue inducrssi:inducrssi.intValue OneclickControl:OneclickControl.intValue OnelineSpeech:OnelineSpeech.intValue firmware:firmware.intValue firmversion:firmversion brand:brand];
+    ProfileModel *pmodel = [ProfileModel modalWith:rssi.intValue keytest:keytest.intValue keyconfigure:keyconfigure.intValue inductionkey:inductionkey.intValue keynumber:keynumber.intValue function1:function1 function2:function2 function3:function3 function4:function4 routinetest:routinetest.intValue line:line onekeytest:onekeytest.intValue seat:seat.intValue lock:lock.intValue calibration:calibration.intValue shake:shake.intValue buzzer:buzzer.intValue inducrssi:inducrssi.intValue OneclickControl:OneclickControl.intValue OnelineSpeech:OnelineSpeech.intValue fingerPrint:fingerPrint.intValue firmware:firmware.intValue firmversion:firmversion brand:brand];
     BOOL isInsertp = [LVFmdbTool insertPModel:pmodel];
     
     if (isInsertp) {
@@ -526,7 +531,7 @@
     }
     
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSDictionary *verDic = [NSDictionary dictionaryWithObjectsAndKeys:self.hardwareversionField.text,@"version",_sectionArray[6],@"key1", _sectionArray[7],@"key2",_sectionArray[8],@"key3",_sectionArray[9],@"key4",_sectionArray[20],@"firmversion",nil];
+    NSDictionary *verDic = [NSDictionary dictionaryWithObjectsAndKeys:self.hardwareversionField.text,@"version",_sectionArray[6],@"key1", _sectionArray[7],@"key2",_sectionArray[8],@"key3",_sectionArray[9],@"key4",_sectionArray[21],@"firmversion",nil];
     [userDefaults setObject:verDic forKey:versionDic];
     [userDefaults synchronize];
 }
@@ -552,24 +557,20 @@
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    
-    
     if (alertView.tag == 4000) {
         if (buttonIndex != [alertView cancelButtonIndex]) {
             MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
             hud.labelText = @"退出账号中...";
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                
+                [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
                 NSUserDefaults *userDefatluts = [NSUserDefaults standardUserDefaults];
                 [userDefatluts removeObjectForKey:logInUSERDIC];
                 [LVFmdbTool deleteFirmData:nil];
-                [userDefatluts synchronize];
-                [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
                 [SVProgressHUD showSimpleText:@"退出成功"];
                 [AppDelegate currentAppDelegate].device.scanDelete = nil;
                 [[NSNotificationCenter defaultCenter] postNotificationName:KNOTIFICATION_LOGINCHANGE object:@NO];
-                
             });
-            
         }
     }
     
@@ -612,7 +613,7 @@
     }else if(section == 11){
     
         return 3;
-    }else if(section == 21){
+    }else if(section == 22){
     
         return self.brands.count;
     }else{
@@ -794,7 +795,7 @@
             {
                 cell.accessoryType = UITableViewCellAccessoryNone;
             }
-        }else if (indexPath.section == 21){
+        }else if (indexPath.section == 22){
             
             UILabel *myLabel = [[UILabel alloc]initWithFrame:CGRectMake(ScreenWidth - 180, 12, 120, 20)];
             myLabel.text =  [NSString stringWithFormat:@"%@",self.brands[indexPath.row]];
@@ -872,7 +873,7 @@
     
     // 单击的 Recognizer ,收缩分组cell
     header.tag = section;
-    if (section == 0 || section == 3 ||section == 4 || section == 5 || section == 6 || section == 7 || section == 8 ||section == 9||section == 11||section == 21) {
+    if (section == 0 || section == 3 ||section == 4 || section == 5 || section == 6 || section == 7 || section == 8 ||section == 9||section == 11||section == 22) {
         
         UIImageView *image = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth - 40, 18, 14, 9)];
         image.image = [UIImage imageNamed:@"icon_down"];
@@ -896,7 +897,7 @@
     [singleRecognizer setNumberOfTouchesRequired:1];//1个手指操作
     [header addGestureRecognizer:singleRecognizer];//添加一个手势监测；
     
-    }else if (section == 20){
+    }else if (section == 21){
     
         UIButton *share = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 120, 45)];
         share.titleLabel.font = [UIFont systemFontOfSize:13];
@@ -993,6 +994,13 @@
             }
         }else if (section == 19) {
             if (setmodel.oneLine) {
+                [selectBtn setImage:[UIImage imageNamed:@"iconchecked"] forState:UIControlStateNormal];
+            }else{
+                
+                [selectBtn setImage:[UIImage imageNamed:@"iconcheck"] forState:UIControlStateNormal];
+            }
+        }else if (section == 20) {
+            if (setmodel.fingerTest) {
                 [selectBtn setImage:[UIImage imageNamed:@"iconchecked"] forState:UIControlStateNormal];
             }else{
                 
@@ -1103,11 +1111,11 @@
         value.textAlignment = NSTextAlignmentRight;
         [header addSubview:value];
         
-    }else if (section == 21){
+    }else if (section == 22){
         
         UILabel *value = [[UILabel alloc]initWithFrame:CGRectMake(ScreenWidth - 160, 12, 100, 20)];
         value.tag = 28;
-        value.text = setArray[22];
+        value.text = setArray[23];
         value.textColor = [UIColor blackColor];
         value.textAlignment = NSTextAlignmentRight;
         [header addSubview:value];
@@ -1141,7 +1149,7 @@
     }else if (btn.tag == 9){
         
         _outputView = [[LrdOutputView alloc] initWithDataArray:self.keyArr4 origin:CGPointMake(x, y) width:125 height:44 direction:kLrdOutputViewDirectionRight];
-    }else if (btn.tag == 20){
+    }else if (btn.tag == 21){
         
         _outputView = [[LrdOutputView alloc] initWithDataArray:[self.keyArr5 copy] origin:CGPointMake(x + 40, y2) width:160 height:44 direction:kLrdOutputViewDirectionRight];
     }
@@ -1354,6 +1362,17 @@
             [btn setImage:[UIImage imageNamed:@"iconcheck"] forState:UIControlStateNormal];
             [setArray replaceObjectAtIndex:20 withObject:@"0"];
         }
+    }else if (btn.tag == 21){
+        
+        setmodel.fingerTest = !setmodel.fingerTest;
+        if (setmodel.fingerTest) {
+            [btn setImage:[UIImage imageNamed:@"iconchecked"] forState:UIControlStateNormal];
+            [setArray replaceObjectAtIndex:21 withObject:@"1"];
+        }else{
+            
+            [btn setImage:[UIImage imageNamed:@"iconcheck"] forState:UIControlStateNormal];
+            [setArray replaceObjectAtIndex:21 withObject:@"0"];
+        }
     }
     
 
@@ -1455,11 +1474,11 @@
         [setArray replaceObjectAtIndex:10 withObject:lineArray[indexPath.row]];
         [self.setingTable reloadData];
         
-    }else if (indexPath.section == 21){
+    }else if (indexPath.section == 22){
         
         [[NSUserDefaults standardUserDefaults]setValue:[self.brands objectAtIndex:indexPath.row] forKey:SETBRAND];
         lab8.text = self.brands[indexPath.row];
-        [setArray replaceObjectAtIndex:22 withObject:self.brands[indexPath.row]];
+        [setArray replaceObjectAtIndex:23 withObject:self.brands[indexPath.row]];
         [self.setingTable reloadData];
         
     }
@@ -1468,8 +1487,8 @@
 
 -(void)DownloadOver{
     [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-    [_sectionArray replaceObjectAtIndex:20 withObject:_Lrdmodel.title];
-    [setArray replaceObjectAtIndex:21 withObject:_Lrdmodel.title];
+    [_sectionArray replaceObjectAtIndex:21 withObject:_Lrdmodel.title];
+    [setArray replaceObjectAtIndex:22 withObject:_Lrdmodel.title];
     //主线程uitableview刷新
     dispatch_async(dispatch_get_main_queue(), ^{
         

@@ -46,10 +46,6 @@
     _device4.deviceDelegate=self;
     _device4.tag = 4;
     
-    if([USER_DEFAULTS objectForKey:DevicUUID_0]){
-        _device.deviceStatus=5;
-    }
-    
     //[NSTimer scheduledTimerWithTimeInterval:2.0 target:self selector:@selector(timerConnect:) userInfo:nil repeats:NO];
     
     // [self changeToHomeViewController];
@@ -66,7 +62,7 @@
         
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"version1.3"];
         [LVFmdbTool deleteData:nil];
-        ProfileModel *pmodel = [ProfileModel modalWith:-65 keytest:1 keyconfigure:1 inductionkey:0 keynumber:2 function1:@"1号按键" function2:@"2号按键" function3:@"3号按键" function4:@"4号按键" routinetest:0 line:@"单线测试" onekeytest:0 seat:0 lock:0 calibration:0 shake:0 buzzer:0 inducrssi:-65 OneclickControl:0 OnelineSpeech:0 firmware:0 firmversion:@"X100.V1.1.0" brand:@"无"];
+        ProfileModel *pmodel = [ProfileModel modalWith:-65 keytest:1 keyconfigure:1 inductionkey:0 keynumber:2 function1:@"1号按键" function2:@"2号按键" function3:@"3号按键" function4:@"4号按键" routinetest:0 line:@"单线测试" onekeytest:0 seat:0 lock:0 calibration:0 shake:0 buzzer:0 inducrssi:-65 OneclickControl:0 OnelineSpeech:0 fingerPrint:0 firmware:0 firmversion:@"X100.V1.1.0" brand:@"无"];
         [LVFmdbTool insertPModel:pmodel];
         
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
@@ -264,10 +260,12 @@
 
 -(void)didGetBurglarCharData:(NSInteger)tag :(NSData *)data :(CBPeripheral *)peripheral{
 
+    //HTONS(data);
     NSString *result = [ConverUtil data2HexString:data];
     NSDictionary *dict =[[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInteger:tag],@"deviceTg",result,@"data", nil];
     [NSNOTIC_CENTER postNotification:[NSNotification notificationWithName:KNotification_Mac object:nil userInfo:dict]];
 }
+
 
 //固件版本号
 -(void)didGetEditionCharData:(NSInteger)tag :(NSData *)data :(CBPeripheral *)peripheral{

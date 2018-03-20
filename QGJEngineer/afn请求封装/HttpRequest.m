@@ -157,17 +157,128 @@ static id _instance = nil;
                     
                     if ([responseObject[@"status"] intValue] == 0) {
                             
-                        [LVFmdbTool deleteAllBrandData:nil];
+                       
                         NSDictionary *data = responseObject[@"data"];
                         NSString * token=[data objectForKey:@"token"];
                         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
                         NSDictionary *userDic = [NSDictionary dictionaryWithObjectsAndKeys:token,@"token",phonenum,@"phone_num",password,@"password",nil];
-                        [userDefaults setObject:userDic forKey:FactoryUserDic];
+                        [userDefaults setObject:userDic forKey:logInUSERDIC];
                         [userDefaults synchronize];
-                            
+                        
                         NSMutableDictionary *dict002 = [NSMutableDictionary dictionaryWithDictionary:(NSDictionary *)parameters];
                         [dict002 setValue:token forKey:@"token"];
                         [[HttpRequest sharedInstance] postWithURLString2:URLString parameters:dict002 success:success failure:failure];
+                    }
+                    
+                } failure:^(NSError *error) {
+                    [SVProgressHUD showSimpleText:TIP_OF_NO_NETWORK];
+                    NSLog(@"error :%@",error);
+                }];
+                
+            }else{
+                success(responseObject);
+            }
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        if (failure) {
+            failure(error);
+        }
+        [SVProgressHUD showSimpleText:TIP_OF_NO_NETWORK];
+    }];
+}
+
+#pragma mark -- 台铃POST请求 --
+- (void)postWithTLURLString:(NSString *)URLString
+                parameters:(id)parameters
+                   success:(void (^)(id))success
+                   failure:(void (^)(NSError *))failure {
+    
+    AFHTTPSessionManager *manager = [QFTools sharedManager];
+    [manager POST:URLString parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if (success) {
+            
+            if ([responseObject[@"status"] intValue] == 0){
+                NSLog(@"台铃token没有失效  ------");
+                success(responseObject);
+            }else if ([responseObject[@"status"] intValue] == 1009){
+                NSLog(@"台铃token失效了  ------");
+                NSString *phonenum= @"tl";
+                NSString *password= @"123456";
+                
+                NSString *pwd = [NSString stringWithFormat:@"%@%@%@",@"QGJ",password,@"FACTORY"];
+                NSString * md5=[QFTools md5:pwd];
+                
+                NSString *loginURL = [NSString stringWithFormat:@"%@%@",TLURL,@"factory/login"];
+                NSDictionary *loginParameters = @{@"account": phonenum, @"passwd": md5};
+                
+                [self postWithTLURLString:loginURL parameters:loginParameters success:^(id responseObject) {
+                    
+                    if ([responseObject[@"status"] intValue] == 0) {
+                        
+                        NSDictionary *data = responseObject[@"data"];
+                        NSString * token=[data objectForKey:@"token"];
+                        [USER_DEFAULTS setValue:token forKey:TLFactoryToken];
+                        
+                        NSMutableDictionary *dict002 = [NSMutableDictionary dictionaryWithDictionary:(NSDictionary *)parameters];
+                        [dict002 setValue:token forKey:@"token"];
+                        [[HttpRequest sharedInstance] postWithTLURLString:URLString parameters:dict002 success:success failure:failure];
+                    }else{
+                        success(responseObject);
+                    }
+                    
+                } failure:^(NSError *error) {
+                    [SVProgressHUD showSimpleText:TIP_OF_NO_NETWORK];
+                    NSLog(@"error :%@",error);
+                }];
+                
+            }else{
+                success(responseObject);
+            }
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        if (failure) {
+            failure(error);
+        }
+        [SVProgressHUD showSimpleText:TIP_OF_NO_NETWORK];
+    }];
+}
+
+#pragma mark -- 绿源POST请求 --
+- (void)postWithLYURLString:(NSString *)URLString
+                 parameters:(id)parameters
+                    success:(void (^)(id))success
+                    failure:(void (^)(NSError *))failure {
+    
+    AFHTTPSessionManager *manager = [QFTools sharedManager];
+    [manager POST:URLString parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if (success) {
+            
+            if ([responseObject[@"status"] intValue] == 0){
+                NSLog(@"绿源token没有失效  ------");
+                success(responseObject);
+            }else if ([responseObject[@"status"] intValue] == 1009){
+                NSLog(@"绿源token失效了  ------");
+                NSString *phonenum= @"lvyuan";
+                NSString *password= @"123456";
+                NSString *pwd = [NSString stringWithFormat:@"%@%@%@",@"QGJ",password,@"FACTORY"];
+                NSString * md5=[QFTools md5:pwd];
+                
+                NSString *loginURL = [NSString stringWithFormat:@"%@%@",LYURL,@"factory/login"];
+                NSDictionary *loginParameters = @{@"account": phonenum, @"passwd": md5};
+                
+                [self postWithLYURLString:loginURL parameters:loginParameters success:^(id responseObject) {
+                    
+                    if ([responseObject[@"status"] intValue] == 0) {
+                        
+                        NSDictionary *data = responseObject[@"data"];
+                        NSString * token=[data objectForKey:@"token"];
+                        [USER_DEFAULTS setValue:token forKey:LYFactoryToken];
+                        
+                        NSMutableDictionary *dict002 = [NSMutableDictionary dictionaryWithDictionary:(NSDictionary *)parameters];
+                        [dict002 setValue:token forKey:@"token"];
+                        [[HttpRequest sharedInstance] postWithLYURLString:URLString parameters:dict002 success:success failure:failure];
+                    }else{
+                        success(responseObject);
                     }
                     
                 } failure:^(NSError *error) {
