@@ -53,7 +53,6 @@
 		1830CC031DAB434B005B708A /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 1830CBF81DAB434B005B708A /* FMResultSet.m */; };
 		1830CC041DAB434B005B708A /* LVFmdbTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 1830CBFA1DAB434B005B708A /* LVFmdbTool.m */; };
 		1830CC061DAB434B005B708A /* ProfileModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1830CBFE1DAB434B005B708A /* ProfileModel.m */; };
-		1830CC081DAB438A005B708A /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 1830CC071DAB438A005B708A /* libsqlite3.0.tbd */; };
 		187E2F031F7A0E8100E76A2D /* lightNormal.png in Resources */ = {isa = PBXBuildFile; fileRef = 187E2EFB1F7A0E8100E76A2D /* lightNormal.png */; };
 		187E2F041F7A0E8100E76A2D /* lightSelect.png in Resources */ = {isa = PBXBuildFile; fileRef = 187E2EFC1F7A0E8100E76A2D /* lightSelect.png */; };
 		187E2F051F7A0E8100E76A2D /* noticeMusic.wav in Resources */ = {isa = PBXBuildFile; fileRef = 187E2EFD1F7A0E8100E76A2D /* noticeMusic.wav */; };
@@ -156,6 +155,7 @@
 		18E963EB1E497B35006AF30B /* cat.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 18E963E71E497B35006AF30B /* cat.mp3 */; };
 		18E963EC1E497B35006AF30B /* didi.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 18E963E81E497B35006AF30B /* didi.mp3 */; };
 		18E963ED1E497B35006AF30B /* dog.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 18E963E91E497B35006AF30B /* dog.mp3 */; };
+		18F06CE32064E61B001BB84A /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 1830CC071DAB438A005B708A /* libsqlite3.0.tbd */; };
 		18FCD0CF20048FEB00717386 /* HttpRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FCD0CE20048FEB00717386 /* HttpRequest.m */; };
 		18FCD0D32004AFAC00717386 /* MSWeakTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FCD0D22004AFAC00717386 /* MSWeakTimer.m */; };
 		18FCD0D62004AFF100717386 /* SearchBleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FCD0D52004AFF000717386 /* SearchBleModel.m */; };
@@ -443,6 +443,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				18F06CE32064E61B001BB84A /* libsqlite3.0.tbd in Frameworks */,
 				18DFE4FB1EE78D7D00D5A059 /* Security.framework in Frameworks */,
 				18DFE4F91EE78D6B00D5A059 /* SystemConfiguration.framework in Frameworks */,
 				18DFE4F71EE78D6300D5A059 /* CFNetwork.framework in Frameworks */,
@@ -452,7 +453,6 @@
 				18018AC31EB0B78B005378A9 /* libz.tbd in Frameworks */,
 				18018A531EB0A0A4005378A9 /* UIKit.framework in Frameworks */,
 				18018A511EB0A098005378A9 /* Foundation.framework in Frameworks */,
-				1830CC081DAB438A005B708A /* libsqlite3.0.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -486,8 +486,7 @@
 				18018A5C1EB0B500005378A9 /* NSDataAsHex.h */,
 				18018A5D1EB0B500005378A9 /* NSDataAsHex.m */,
 			);
-			name = Utilities;
-			path = QGJEngineer/Utilities;
+			path = Utilities;
 			sourceTree = "<group>";
 		};
 		18018A611EB0B511005378A9 /* SSZipArchive */ = {
@@ -497,8 +496,7 @@
 				18018A6C1EB0B511005378A9 /* SSZipArchive.h */,
 				18018A6D1EB0B511005378A9 /* SSZipArchive.m */,
 			);
-			name = SSZipArchive;
-			path = QGJEngineer/dependencies/SSZipArchive;
+			path = SSZipArchive;
 			sourceTree = "<group>";
 		};
 		18018A621EB0B511005378A9 /* minizip */ = {
@@ -529,8 +527,7 @@
 				18018AA01EB0B522005378A9 /* JSONParser */,
 				18018AA51EB0B522005378A9 /* Unzip */,
 			);
-			name = DFU;
-			path = QGJEngineer/DFU;
+			path = DFU;
 			sourceTree = "<group>";
 		};
 		18018A741EB0B522005378A9 /* Constants */ = {
@@ -633,7 +630,7 @@
 			path = Unzip;
 			sourceTree = "<group>";
 		};
-		1830CBEC1DAB434B005B708A /* LVData */ = {
+		1830CBEC1DAB434B005B708A /* 数据库表model */ = {
 			isa = PBXGroup;
 			children = (
 				1830CBED1DAB434B005B708A /* fmdb */,
@@ -650,7 +647,7 @@
 				18DE9C621DB1028F00304E43 /* Ringmanager.h */,
 				18DE9C641DB102B300304E43 /* Ringmanager.m */,
 			);
-			path = LVData;
+			path = "数据库表model";
 			sourceTree = "<group>";
 		};
 		1830CBED1DAB434B005B708A /* fmdb */ = {
@@ -696,9 +693,6 @@
 				18FCD0CC20048FEB00717386 /* afn请求封装 */,
 				187E2EFA1F7A0E8100E76A2D /* 二维码扫描 */,
 				18C25B091F721246007B14A4 /* 数组越界的category */,
-				18018A731EB0B522005378A9 /* DFU */,
-				18018A611EB0B511005378A9 /* SSZipArchive */,
-				18018A561EB0B500005378A9 /* Utilities */,
 				18E963E51E497B35006AF30B /* music */,
 				1830CC071DAB438A005B708A /* libsqlite3.0.tbd */,
 				18BB8F9D1D9A5AF200718CA7 /* QGJEngineer */,
@@ -718,47 +712,15 @@
 		18BB8F9D1D9A5AF200718CA7 /* QGJEngineer */ = {
 			isa = PBXGroup;
 			children = (
-				18FCD0D42004AFF000717386 /* SearchBleModel.h */,
-				18FCD0D52004AFF000717386 /* SearchBleModel.m */,
-				18E963D81E497403006AF30B /* LrdOutputView */,
-				1830CBEC1DAB434B005B708A /* LVData */,
-				18BB90361D9B69CD00718CA7 /* WYDevice.h */,
-				18BB90371D9B69CD00718CA7 /* WYDevice.m */,
-				18BB90381D9B69CD00718CA7 /* DeviceModel.h */,
-				18BB90391D9B69CD00718CA7 /* DeviceModel.m */,
-				18BB8FA11D9A5AF200718CA7 /* AppDelegate.h */,
-				18BB8FA21D9A5AF200718CA7 /* AppDelegate.m */,
-				18BB90301D9A8FBC00718CA7 /* BottomBtn.h */,
-				18BB90311D9A8FBC00718CA7 /* BottomBtn.m */,
-				18BB8FA41D9A5AF200718CA7 /* ViewController.h */,
-				18BB8FA51D9A5AF200718CA7 /* ViewController.m */,
-				18BB8FDF1D9A60F700718CA7 /* LoginViewController.h */,
-				18BB8FE01D9A60F700718CA7 /* LoginViewController.m */,
-				18BB8FBC1D9A5D4800718CA7 /* BaseViewController.h */,
-				18BB8FBD1D9A5D4800718CA7 /* BaseViewController.m */,
-				18BB8FB51D9A5BB300718CA7 /* MainViewController.h */,
-				18BB8FB61D9A5BB300718CA7 /* MainViewController.m */,
-				18BB8FB91D9A5CE200718CA7 /* BurglarViewController.h */,
-				18BB8FBA1D9A5CE200718CA7 /* BurglarViewController.m */,
-				18BB903C1D9BA3BD00718CA7 /* TwoDimensionalCodeScanViewController.h */,
-				18BB903D1D9BA3BD00718CA7 /* TwoDimensionalCodeScanViewController.m */,
-				18BB90411D9BA87000718CA7 /* TestingViewController.h */,
-				18BB90421D9BA87000718CA7 /* TestingViewController.m */,
-				18BB90441D9BA93F00718CA7 /* LockViewController.h */,
-				18BB90451D9BA93F00718CA7 /* LockViewController.m */,
-				18BB8FBF1D9A5D6A00718CA7 /* PeripheralViewController.h */,
-				18BB8FC01D9A5D6A00718CA7 /* PeripheralViewController.m */,
-				18BB90331D9B674A00718CA7 /* BoxConnectViewController.h */,
-				18BB90341D9B674A00718CA7 /* BoxConnectViewController.m */,
-				18FD124D1F25875700DD7144 /* DfuDownloadFile.h */,
-				18FD124E1F25875700DD7144 /* DfuDownloadFile.m */,
-				18BB90491D9CCB8A00718CA7 /* SetingViewController.h */,
-				18BB904A1D9CCB8A00718CA7 /* SetingViewController.m */,
-				188210851DABB4EE00D19B1D /* SetRssiViewController.h */,
-				188210861DABB4EE00D19B1D /* SetRssiViewController.m */,
-				1830CBE91DAA54FF005B708A /* SettingModel.h */,
-				1830CBEA1DAA54FF005B708A /* SettingModel.m */,
-				18D009261EB1FB6300826912 /* 固件升级动画 */,
+				18F06CD82064E304001BB84A /* 测试盒子连接界面 */,
+				18F06CD62064E2B9001BB84A /* 报警器配置设置界面 */,
+				18F06CD52064E29D001BB84A /* 启动口 */,
+				18F06CD42064E27F001BB84A /* baseviewcontroller */,
+				18F06CD32064E271001BB84A /* 登录界面 */,
+				18F06CCF2064E214001BB84A /* 蓝牙操作文件 */,
+				18F06CCE2064E1D5001BB84A /* 外设配置选择界面 */,
+				18F06CCD2064E1B6001BB84A /* 报警器配置界面 */,
+				1830CBEC1DAB434B005B708A /* 数据库表model */,
 				18C2AE441DD5B5620045772B /* MJRefresh */,
 				18BB90191D9A619400718CA7 /* MBProgressHUD_my */,
 				18BB901F1D9A619400718CA7 /* SVProgressHUD */,
@@ -997,18 +959,6 @@
 			path = Header;
 			sourceTree = "<group>";
 		};
-		18D009261EB1FB6300826912 /* 固件升级动画 */ = {
-			isa = PBXGroup;
-			children = (
-				18D009271EB1FB8600826912 /* leftimg.png */,
-				18D009281EB1FB8600826912 /* bike.png */,
-				18D009291EB1FB8600826912 /* bgimg.png */,
-				18D0092A1EB1FB8600826912 /* CustomProgress.h */,
-				18D0092B1EB1FB8600826912 /* CustomProgress.m */,
-			);
-			name = "固件升级动画";
-			sourceTree = "<group>";
-		};
 		18E963D81E497403006AF30B /* LrdOutputView */ = {
 			isa = PBXGroup;
 			children = (
@@ -1028,6 +978,189 @@
 			);
 			name = music;
 			path = QGJEngineer/music;
+			sourceTree = "<group>";
+		};
+		18F06CCD2064E1B6001BB84A /* 报警器配置界面 */ = {
+			isa = PBXGroup;
+			children = (
+				18F06CE02064E4F9001BB84A /* 固件升级第三方 */,
+				18F06CDD2064E3DD001BB84A /* 固件包下载文件 */,
+				18F06CD22064E25C001BB84A /* 自定义按钮 */,
+				18F06CDF2064E458001BB84A /* 固件升级动画 */,
+				18BB8FB91D9A5CE200718CA7 /* BurglarViewController.h */,
+				18BB8FBA1D9A5CE200718CA7 /* BurglarViewController.m */,
+			);
+			path = "报警器配置界面";
+			sourceTree = "<group>";
+		};
+		18F06CCE2064E1D5001BB84A /* 外设配置选择界面 */ = {
+			isa = PBXGroup;
+			children = (
+				18F06CDE2064E40C001BB84A /* 感应扫描设置界面 */,
+				18F06CDB2064E38E001BB84A /* 扫码直接绑定报警 */,
+				18F06CDA2064E383001BB84A /* 扫码测试 */,
+				18F06CD92064E372001BB84A /* 扫码上传 */,
+				18BB8FBF1D9A5D6A00718CA7 /* PeripheralViewController.h */,
+				18BB8FC01D9A5D6A00718CA7 /* PeripheralViewController.m */,
+			);
+			path = "外设配置选择界面";
+			sourceTree = "<group>";
+		};
+		18F06CCF2064E214001BB84A /* 蓝牙操作文件 */ = {
+			isa = PBXGroup;
+			children = (
+				18F06CD12064E23F001BB84A /* 蓝牙搜索model */,
+				18BB90361D9B69CD00718CA7 /* WYDevice.h */,
+				18BB90371D9B69CD00718CA7 /* WYDevice.m */,
+			);
+			path = "蓝牙操作文件";
+			sourceTree = "<group>";
+		};
+		18F06CD12064E23F001BB84A /* 蓝牙搜索model */ = {
+			isa = PBXGroup;
+			children = (
+				18FCD0D42004AFF000717386 /* SearchBleModel.h */,
+				18FCD0D52004AFF000717386 /* SearchBleModel.m */,
+				18BB90381D9B69CD00718CA7 /* DeviceModel.h */,
+				18BB90391D9B69CD00718CA7 /* DeviceModel.m */,
+			);
+			path = "蓝牙搜索model";
+			sourceTree = "<group>";
+		};
+		18F06CD22064E25C001BB84A /* 自定义按钮 */ = {
+			isa = PBXGroup;
+			children = (
+				18BB90301D9A8FBC00718CA7 /* BottomBtn.h */,
+				18BB90311D9A8FBC00718CA7 /* BottomBtn.m */,
+			);
+			path = "自定义按钮";
+			sourceTree = "<group>";
+		};
+		18F06CD32064E271001BB84A /* 登录界面 */ = {
+			isa = PBXGroup;
+			children = (
+				18BB8FDF1D9A60F700718CA7 /* LoginViewController.h */,
+				18BB8FE01D9A60F700718CA7 /* LoginViewController.m */,
+			);
+			path = "登录界面";
+			sourceTree = "<group>";
+		};
+		18F06CD42064E27F001BB84A /* baseviewcontroller */ = {
+			isa = PBXGroup;
+			children = (
+				18BB8FBC1D9A5D4800718CA7 /* BaseViewController.h */,
+				18BB8FBD1D9A5D4800718CA7 /* BaseViewController.m */,
+			);
+			path = baseviewcontroller;
+			sourceTree = "<group>";
+		};
+		18F06CD52064E29D001BB84A /* 启动口 */ = {
+			isa = PBXGroup;
+			children = (
+				18BB8FA11D9A5AF200718CA7 /* AppDelegate.h */,
+				18BB8FA21D9A5AF200718CA7 /* AppDelegate.m */,
+				18BB8FA41D9A5AF200718CA7 /* ViewController.h */,
+				18BB8FA51D9A5AF200718CA7 /* ViewController.m */,
+				18BB8FB51D9A5BB300718CA7 /* MainViewController.h */,
+				18BB8FB61D9A5BB300718CA7 /* MainViewController.m */,
+			);
+			path = "启动口";
+			sourceTree = "<group>";
+		};
+		18F06CD62064E2B9001BB84A /* 报警器配置设置界面 */ = {
+			isa = PBXGroup;
+			children = (
+				18E963D81E497403006AF30B /* LrdOutputView */,
+				18F06CD72064E2E5001BB84A /* settingModel */,
+				18BB90491D9CCB8A00718CA7 /* SetingViewController.h */,
+				18BB904A1D9CCB8A00718CA7 /* SetingViewController.m */,
+			);
+			path = "报警器配置设置界面";
+			sourceTree = "<group>";
+		};
+		18F06CD72064E2E5001BB84A /* settingModel */ = {
+			isa = PBXGroup;
+			children = (
+				1830CBE91DAA54FF005B708A /* SettingModel.h */,
+				1830CBEA1DAA54FF005B708A /* SettingModel.m */,
+			);
+			path = settingModel;
+			sourceTree = "<group>";
+		};
+		18F06CD82064E304001BB84A /* 测试盒子连接界面 */ = {
+			isa = PBXGroup;
+			children = (
+				18BB90331D9B674A00718CA7 /* BoxConnectViewController.h */,
+				18BB90341D9B674A00718CA7 /* BoxConnectViewController.m */,
+			);
+			path = "测试盒子连接界面";
+			sourceTree = "<group>";
+		};
+		18F06CD92064E372001BB84A /* 扫码上传 */ = {
+			isa = PBXGroup;
+			children = (
+				18BB903C1D9BA3BD00718CA7 /* TwoDimensionalCodeScanViewController.h */,
+				18BB903D1D9BA3BD00718CA7 /* TwoDimensionalCodeScanViewController.m */,
+			);
+			path = "扫码上传";
+			sourceTree = "<group>";
+		};
+		18F06CDA2064E383001BB84A /* 扫码测试 */ = {
+			isa = PBXGroup;
+			children = (
+				18BB90411D9BA87000718CA7 /* TestingViewController.h */,
+				18BB90421D9BA87000718CA7 /* TestingViewController.m */,
+			);
+			path = "扫码测试";
+			sourceTree = "<group>";
+		};
+		18F06CDB2064E38E001BB84A /* 扫码直接绑定报警 */ = {
+			isa = PBXGroup;
+			children = (
+				18BB90441D9BA93F00718CA7 /* LockViewController.h */,
+				18BB90451D9BA93F00718CA7 /* LockViewController.m */,
+			);
+			path = "扫码直接绑定报警";
+			sourceTree = "<group>";
+		};
+		18F06CDD2064E3DD001BB84A /* 固件包下载文件 */ = {
+			isa = PBXGroup;
+			children = (
+				18FD124D1F25875700DD7144 /* DfuDownloadFile.h */,
+				18FD124E1F25875700DD7144 /* DfuDownloadFile.m */,
+			);
+			path = "固件包下载文件";
+			sourceTree = "<group>";
+		};
+		18F06CDE2064E40C001BB84A /* 感应扫描设置界面 */ = {
+			isa = PBXGroup;
+			children = (
+				188210851DABB4EE00D19B1D /* SetRssiViewController.h */,
+				188210861DABB4EE00D19B1D /* SetRssiViewController.m */,
+			);
+			path = "感应扫描设置界面";
+			sourceTree = "<group>";
+		};
+		18F06CDF2064E458001BB84A /* 固件升级动画 */ = {
+			isa = PBXGroup;
+			children = (
+				18D009271EB1FB8600826912 /* leftimg.png */,
+				18D009281EB1FB8600826912 /* bike.png */,
+				18D009291EB1FB8600826912 /* bgimg.png */,
+				18D0092A1EB1FB8600826912 /* CustomProgress.h */,
+				18D0092B1EB1FB8600826912 /* CustomProgress.m */,
+			);
+			path = "固件升级动画";
+			sourceTree = "<group>";
+		};
+		18F06CE02064E4F9001BB84A /* 固件升级第三方 */ = {
+			isa = PBXGroup;
+			children = (
+				18018A731EB0B522005378A9 /* DFU */,
+				18018A611EB0B511005378A9 /* SSZipArchive */,
+				18018A561EB0B500005378A9 /* Utilities */,
+			);
+			path = "固件升级第三方";
 			sourceTree = "<group>";
 		};
 		18FCD0CC20048FEB00717386 /* afn请求封装 */ = {
@@ -1391,6 +1524,10 @@
 				INFOPLIST_FILE = QGJEngineer/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.kuyi.factory;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "aec45d8f-50b9-45dc-8be6-d37f18cb10cc";
@@ -1419,6 +1556,10 @@
 				INFOPLIST_FILE = QGJEngineer/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.kuyi.factory;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "aec45d8f-50b9-45dc-8be6-d37f18cb10cc";
