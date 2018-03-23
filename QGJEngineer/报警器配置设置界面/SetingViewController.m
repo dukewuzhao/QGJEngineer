@@ -273,23 +273,23 @@
     [self.view addSubview:setingTable];
     self.setingTable = setingTable;
     
-    UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 45)];
-    headView.backgroundColor = [UIColor whiteColor];
-    [self.view addSubview:headView];
-    setingTable.tableHeaderView = headView;
-    
-    UILabel *name = [[UILabel alloc] initWithFrame:CGRectMake(20, 10, 100, 20)];
-    name.text = @"硬件版本";
-    name.textColor = [UIColor blackColor];
-    name.textAlignment = NSTextAlignmentLeft;
-    [headView addSubview:name];
-    
-    UITextField *hardwareversionField = [self addOneTextFieldWithTitle:nil imageName:@"" imageNameWidth:10 Frame:CGRectMake(CGRectGetMaxX(name.frame), 5, ScreenWidth - 140, 35)];
-    [headView addSubview:hardwareversionField];
-    self.hardwareversionField = hardwareversionField;
+//    UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 45)];
+//    headView.backgroundColor = [UIColor whiteColor];
+//    [self.view addSubview:headView];
+//    setingTable.tableHeaderView = headView;
+//
+//    UILabel *name = [[UILabel alloc] initWithFrame:CGRectMake(20, 10, 100, 20)];
+//    name.text = @"硬件版本";
+//    name.textColor = [UIColor blackColor];
+//    name.textAlignment = NSTextAlignmentLeft;
+//    [headView addSubview:name];
+//
+//    UITextField *hardwareversionField = [self addOneTextFieldWithTitle:nil imageName:@"" imageNameWidth:10 Frame:CGRectMake(CGRectGetMaxX(name.frame), 5, ScreenWidth - 140, 35)];
+//    [headView addSubview:hardwareversionField];
+//    self.hardwareversionField = hardwareversionField;
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSDictionary *verDic = [defaults objectForKey:versionDic];
-    hardwareversionField.text = verDic[@"version"];
+//    hardwareversionField.text = verDic[@"version"];
     
     
     UIView *footVie = [[UIView alloc] initWithFrame:CGRectMake(0, 10, ScreenWidth, 100)];
@@ -531,7 +531,7 @@
     }
     
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSDictionary *verDic = [NSDictionary dictionaryWithObjectsAndKeys:self.hardwareversionField.text,@"version",_sectionArray[6],@"key1", _sectionArray[7],@"key2",_sectionArray[8],@"key3",_sectionArray[9],@"key4",_sectionArray[21],@"firmversion",nil];
+    NSDictionary *verDic = [NSDictionary dictionaryWithObjectsAndKeys:_sectionArray[6],@"key1", _sectionArray[7],@"key2",_sectionArray[8],@"key3",_sectionArray[9],@"key4",_sectionArray[21],@"firmversion",nil];
     [userDefaults setObject:verDic forKey:versionDic];
     [userDefaults synchronize];
 }
@@ -1496,7 +1496,7 @@
     });
     
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSDictionary *verDic = [NSDictionary dictionaryWithObjectsAndKeys:self.hardwareversionField.text,@"version",_sectionArray[6],@"key1", _sectionArray[7],@"key2",_sectionArray[8],@"key3",_sectionArray[9],@"key4",_sectionArray[20],@"firmversion",nil];
+    NSDictionary *verDic = [NSDictionary dictionaryWithObjectsAndKeys:_sectionArray[6],@"key1", _sectionArray[7],@"key2",_sectionArray[8],@"key3",_sectionArray[9],@"key4",_sectionArray[20],@"firmversion",nil];
     [userDefaults setObject:verDic forKey:versionDic];
     [userDefaults synchronize];
     

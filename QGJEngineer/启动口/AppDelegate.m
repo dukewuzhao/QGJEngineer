@@ -70,7 +70,7 @@
         [userDefaults setObject:userDic forKey:RSSIVALUE];
         [userDefaults synchronize];
         
-        NSDictionary *verDic = [NSDictionary dictionaryWithObjectsAndKeys:@"000000",@"version", @"设防",@"key1",@"撤防",@"key2",@"寻车",@"key3",@"一键启动",@"key4",@"X100.V1.1.0",@"firmversion",nil];
+        NSDictionary *verDic = [NSDictionary dictionaryWithObjectsAndKeys:@"设防",@"key1",@"撤防",@"key2",@"寻车",@"key3",@"一键启动",@"key4",@"X100.V1.1.0",@"firmversion",nil];
         [userDefaults setObject:verDic forKey:versionDic];
         [userDefaults synchronize];
     }

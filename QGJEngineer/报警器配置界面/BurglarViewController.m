@@ -180,7 +180,7 @@
     
     [NSNOTIC_CENTER addObserver:self selector:@selector(DeviceMac:) name:KNotification_Mac object:nil];//钥匙Mac地址的监听
     
-    [NSNOTIC_CENTER addObserver:self selector:@selector(DeviceVersion:) name:KNotification_Version object:nil];//报警器硬件版本号的监听
+    //[NSNOTIC_CENTER addObserver:self selector:@selector(DeviceVersion:) name:KNotification_Version object:nil];//报警器硬件版本号的监听
     
     [NSNOTIC_CENTER addObserver:self selector:@selector(DeviceEdition:) name:KNotification_Edition object:nil];//固件版本号
     
@@ -313,8 +313,8 @@
                 [self.table reloadData];
                 
             });
-            
-            [[AppDelegate currentAppDelegate].device readDiviceVersion];
+            [[AppDelegate currentAppDelegate].device readDiviceInformation];//读取固件版本
+            //[[AppDelegate currentAppDelegate].device readDiviceVersion];//读取硬件版本
         }else{
             self.firstview.hidden = NO;
             [countTimer invalidate];
@@ -378,28 +378,28 @@
     
 }
 
--(void)DeviceVersion:(NSNotification*)notification{
-    
-    if ([AppDelegate currentAppDelegate].IsCodeScan) {
-        return;
-    }
-    NSString *version = notification.userInfo[@"version"];
-    
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSDictionary *verDic = [defaults objectForKey:versionDic];
-    if ([version isEqualToString:verDic[@"version"]]) {
-        
-        //读取报警器的固件版本号
-        [[AppDelegate currentAppDelegate].device readDiviceInformation];
-        
-    }else{
-    
-        [SVProgressHUD showSimpleText:@"硬件版本不匹配"];
-        return;
-    
-    }
-    
-}
+//-(void)DeviceVersion:(NSNotification*)notification{
+//
+//    if ([AppDelegate currentAppDelegate].IsCodeScan) {
+//        return;
+//    }
+//    NSString *version = notification.userInfo[@"version"];
+//
+//    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+//    NSDictionary *verDic = [defaults objectForKey:versionDic];
+//    if ([version isEqualToString:verDic[@"version"]]) {
+//
+//        //读取报警器的固件版本号
+//        [[AppDelegate currentAppDelegate].device readDiviceInformation];
+//
+//    }else{
+//
+//        [SVProgressHUD showSimpleText:@"硬件版本不匹配"];
+//        return;
+//
+//    }
+//
+//}
 
 
 -(void)DeviceEdition:(NSNotification*)notification{
