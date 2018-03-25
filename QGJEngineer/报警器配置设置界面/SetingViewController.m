@@ -11,7 +11,8 @@
 #import "LrdOutputView.h"
 #import "DfuDownloadFile.h"
 #import "lhScanQCodeViewController.h"
-
+#import "FunctionSettingTableViewCell.h"
+#import "FounctionModel.h"
 
 #define SETRSSI @"selected"
 #define SETKEY @"selected2"
@@ -38,6 +39,7 @@
 @property (nonatomic, strong) NSArray *keyArr3;
 @property (nonatomic, strong) NSArray *keyArr4;
 @property (nonatomic, strong) NSMutableArray *keyArr5;//固件信息数组
+@property (nonatomic, strong) NSMutableArray *setAry;
 @property (nonatomic, strong) LrdOutputView *outputView;
 @property (nonatomic, weak) UITableView *setingTable;
 @property (nonatomic, assign) NSInteger sectionNum;
@@ -239,6 +241,13 @@
     return _brands;
 }
 
+- (NSMutableArray *)setAry {
+    if (!_setAry) {
+        _setAry = [[NSMutableArray alloc] init];
+    }
+    return _setAry;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -290,8 +299,17 @@
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSDictionary *verDic = [defaults objectForKey:versionDic];
 //    hardwareversionField.text = verDic[@"version"];
-    
-    
+    //self.setAry = verDic[@"settingmodel"];
+    NSArray *array = @[@"指纹配置",@"指纹配置",@"指纹配置"];
+    for (int i = 0; i<3; i++) {
+        
+        FounctionModel *model = [FounctionModel new];
+        model.selectName = array[i];
+        model.select = NO;
+        //将student类型变为NSData类型
+        //NSData *data = [NSKeyedArchiver archivedDataWithRootObject:model];
+        [self.setAry addObject:model];
+    }
     UIView *footVie = [[UIView alloc] initWithFrame:CGRectMake(0, 10, ScreenWidth, 100)];
     
     UIButton *footerButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -319,7 +337,7 @@
     
     InducRssiArray = [NSMutableArray arrayWithObjects:@"-50",@"-51",@"-52",@"-53",@"-54",@"-55",@"-56",@"-57",@"-58",@"-59",@"-60",@"-61",@"-62",@"-63",@"-64",@"-65",@"-66",@"-67",@"-68",@"-69",@"-70", nil];
     
-    _sectionArray = [NSMutableArray arrayWithObjects:@"报警器RSSI",@"钥匙配置",@"钥匙测试",@"感应钥匙",@"感应钥匙RSSI",@"数量",verDic[@"key1"],verDic[@"key2"],verDic[@"key3"],verDic[@"key4"],@"常规测试",@"通讯线路测试",@"震动察觉测试",@"蜂鸣器测试",@"一键启动测试",@"坐桶测试",@"龙头锁&中撑锁测试",@"参数校准",@"一键通线路控制",@"语音测试",@"指纹测试",verDic[@"firmversion"],@"品牌选择", nil];
+    _sectionArray = [NSMutableArray arrayWithObjects:@"报警器RSSI",@"钥匙配置",@"钥匙测试",@"感应钥匙",@"感应钥匙RSSI",@"数量",verDic[@"key1"],verDic[@"key2"],verDic[@"key3"],verDic[@"key4"],@"常规测试",@"通讯线路测试",@"震动察觉测试",@"蜂鸣器测试",@"一键启动测试",@"坐桶测试",@"龙头锁&中撑锁测试",@"参数校准",@"一键通线路控制",@"语音测试",@"指纹测试",verDic[@"firmversion"],@"品牌选择",@"报警器设置", nil];
     
     lineArray = [NSMutableArray arrayWithObjects:@"无",@"单线测试",@"双线测试", nil];
     
@@ -451,6 +469,51 @@
     for (int tt = 0; tt < pmodelArr.count; tt ++)
     {
         [setArray addObject:[NSString stringWithFormat:@"%@",[pmodel valueForKey:pmodelArr[tt]]]];
+    }
+}
+
+- (void)setupmenu{
+    
+    LrdCellModel *one = [[LrdCellModel alloc] initWithTitle:@"设防" imageName:@"item_school"];
+    LrdCellModel *two = [[LrdCellModel alloc] initWithTitle:@"设防撤防" imageName:@"item_school"];
+    
+    self.dataArr = @[one,two];
+}
+
+- (void)setupmenu2{
+    
+    LrdCellModel *one = [[LrdCellModel alloc] initWithTitle:@"撤防" imageName:@"item_school"];
+    LrdCellModel *two = [[LrdCellModel alloc] initWithTitle:@"无" imageName:@"item_school"];
+    
+    self.keyArr2 = @[one,two];
+}
+
+- (void)setupmenu3{
+    
+    LrdCellModel *one = [[LrdCellModel alloc] initWithTitle:@"寻车" imageName:@"item_school"];
+    LrdCellModel *two = [[LrdCellModel alloc] initWithTitle:@"静音" imageName:@"item_school"];
+    LrdCellModel *three = [[LrdCellModel alloc] initWithTitle:@"开坐桶" imageName:@"item_school"];
+    LrdCellModel *four = [[LrdCellModel alloc] initWithTitle:@"无" imageName:@"item_school"];
+    
+    self.keyArr3 = @[one,two,three,four];
+}
+
+- (void)setupmenu4{
+    
+    LrdCellModel *one = [[LrdCellModel alloc] initWithTitle:@"一键启动" imageName:@"item_school"];
+    LrdCellModel *two = [[LrdCellModel alloc] initWithTitle:@"一键启动&开坐桶" imageName:@"item_school"];
+    LrdCellModel *three = [[LrdCellModel alloc] initWithTitle:@"无" imageName:@"item_school"];
+    
+    self.keyArr4 = @[one,two,three];
+}
+
+- (void)setupmenu5{
+    [self.keyArr5 removeAllObjects];
+    NSMutableArray *firmAry = [LVFmdbTool queryFirmData:nil];
+    for (FirmVersionModel *firmodel in firmAry) {
+        
+        LrdCellModel *lrdcellmodel = [[LrdCellModel alloc] initWithTitle:firmodel.latest_version imageName:@"item_school"];
+        [self.keyArr5 addObject:lrdcellmodel];
     }
 }
 
@@ -616,6 +679,9 @@
     }else if(section == 22){
     
         return self.brands.count;
+    }else if(section == 23){
+        
+        return 3;
     }else{
     
         return 0;
@@ -626,15 +692,16 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    
-    static NSString *cell_id = @"profile";
+    if (indexPath.section <23) {
+        
+     NSString *cell_id = [NSString stringWithFormat:@"%ld%ld",indexPath.section,indexPath.row];
     // 先从重用池中找cell
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cell_id];
     
     if (cell == nil) {
         //cell必须先进行初始化
-        cell = [[UITableViewCell alloc]init];
-        //  cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ID andDataArr:[_courArrayM objectAtIndex:indexPath.row] andIndex:0];
+        //cell = [[UITableViewCell alloc]init];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cell_id];
         cell.selectionStyle = UITableViewCellSelectionStyleNone; //选中cell时无色
         cell.separatorInset=UIEdgeInsetsZero;
         cell.clipsToBounds = YES;
@@ -812,11 +879,62 @@
                 cell.accessoryType = UITableViewCellAccessoryNone;
             }
         }
-        
     }
     
-    return cell;
+        return cell;
+    }
+        else{
+    
+    
+                NSString *FunctionCell = [NSString stringWithFormat:@"%ld%ld",indexPath.section,indexPath.row];
+                FunctionSettingTableViewCell *cell =[tableView dequeueReusableCellWithIdentifier:FunctionCell];
+                if (!cell) {
+                    cell = [[FunctionSettingTableViewCell alloc] initWithStyle:0 reuseIdentifier:FunctionCell];
+                }
+    
+                //FounctionModel *model = [NSKeyedUnarchiver unarchiveObjectWithData:self.setAry[indexPath.row]];
+                FounctionModel *model = self.setAry[indexPath.row];
+                if (model.select) {
+                    [cell.selectBtn setImage:[UIImage imageNamed:@"iconchecked"] forState:UIControlStateNormal];
+                }else{
+    
+                    [cell.selectBtn setImage:[UIImage imageNamed:@"iconcheck"] forState:UIControlStateNormal];
+                }
+    
+                cell.settingLab.text = model.selectName;
+                cell.selectBtn.tag = indexPath.row;
+            WS(weakSelf);
+            cell.selectBtnClickBlock = ^{
+                FounctionModel *model = weakSelf.setAry[indexPath.row];
+                model.select = !model.select;
+                model.selectName = @"12121";
+                
+                //    FounctionModel *model = [NSKeyedUnarchiver unarchiveObjectWithData:self.setAry[btn.tag]];
+                //    model.select = !model.select;
+                //    model.selectName = @"12121";
+                //    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:model];
+                //    self.setAry[btn.tag] = data;
+                //    NSLog(@"ifReadOnly value: %@" ,model.select?@"YES":@"NO");
+                [weakSelf.setingTable reloadSections:[NSIndexSet indexSetWithIndex:23] withRowAnimation:UITableViewRowAnimationFade];
+                
+            };
+    
+                //            UILabel *myLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 12, 120, 20)];
+                //            myLabel.text =  [NSString stringWithFormat:@"%@",self.brands[indexPath.row]];
+                //            myLabel.textColor = [UIColor blackColor];
+                //            myLabel.textAlignment = NSTextAlignmentLeft;
+                //            [cell addSubview:myLabel];
+                //
+                //            UIButton *selectBtn = [[UIButton alloc] initWithFrame:CGRectMake(ScreenWidth - 38, 45/2 - 10, 20, 20)];
+                //            [selectBtn setImage:[UIImage imageNamed:@"iconcheck"] forState:UIControlStateNormal];
+                //            [selectBtn addTarget:self action:@selector(isSelect:) forControlEvents:UIControlEventTouchUpInside];
+                //            [cell addSubview: selectBtn];
+    
+            return cell;
+    }
 }
+
+
 
 
 
@@ -873,7 +991,7 @@
     
     // 单击的 Recognizer ,收缩分组cell
     header.tag = section;
-    if (section == 0 || section == 3 ||section == 4 || section == 5 || section == 6 || section == 7 || section == 8 ||section == 9||section == 11||section == 22) {
+    if (section == 0 || section == 3 ||section == 4 || section == 5 || section == 6 || section == 7 || section == 8 ||section == 9||section == 11||section == 22||section == 23) {
         
         UIImageView *image = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth - 40, 18, 14, 9)];
         image.image = [UIImage imageNamed:@"icon_down"];
@@ -1163,50 +1281,7 @@
     
 }
 
-- (void)setupmenu{
-    
-    LrdCellModel *one = [[LrdCellModel alloc] initWithTitle:@"设防" imageName:@"item_school"];
-    LrdCellModel *two = [[LrdCellModel alloc] initWithTitle:@"设防撤防" imageName:@"item_school"];
-    
-    self.dataArr = @[one,two];
-}
 
-- (void)setupmenu2{
-    
-    LrdCellModel *one = [[LrdCellModel alloc] initWithTitle:@"撤防" imageName:@"item_school"];
-    LrdCellModel *two = [[LrdCellModel alloc] initWithTitle:@"无" imageName:@"item_school"];
-    
-    self.keyArr2 = @[one,two];
-}
-
-- (void)setupmenu3{
-    
-    LrdCellModel *one = [[LrdCellModel alloc] initWithTitle:@"寻车" imageName:@"item_school"];
-    LrdCellModel *two = [[LrdCellModel alloc] initWithTitle:@"静音" imageName:@"item_school"];
-    LrdCellModel *three = [[LrdCellModel alloc] initWithTitle:@"开坐桶" imageName:@"item_school"];
-    LrdCellModel *four = [[LrdCellModel alloc] initWithTitle:@"无" imageName:@"item_school"];
-    
-    self.keyArr3 = @[one,two,three,four];
-}
-
-- (void)setupmenu4{
-    
-    LrdCellModel *one = [[LrdCellModel alloc] initWithTitle:@"一键启动" imageName:@"item_school"];
-    LrdCellModel *two = [[LrdCellModel alloc] initWithTitle:@"一键启动&开坐桶" imageName:@"item_school"];
-    LrdCellModel *three = [[LrdCellModel alloc] initWithTitle:@"无" imageName:@"item_school"];
-    
-    self.keyArr4 = @[one,two,three];
-}
-
-- (void)setupmenu5{
-    [self.keyArr5 removeAllObjects];
-    NSMutableArray *firmAry = [LVFmdbTool queryFirmData:nil];
-    for (FirmVersionModel *firmodel in firmAry) {
-        
-        LrdCellModel *lrdcellmodel = [[LrdCellModel alloc] initWithTitle:firmodel.latest_version imageName:@"item_school"];
-        [self.keyArr5 addObject:lrdcellmodel];
-    }
-}
 
 
 - (void)selectbtnClick:(UIButton *)btn{
@@ -1374,10 +1449,9 @@
             [setArray replaceObjectAtIndex:21 withObject:@"0"];
         }
     }
-    
-
-
 }
+
+
 
 #pragma mark 展开收缩section中cell 手势监听
 -(void)SingleTap:(UITapGestureRecognizer*)recognizer{

@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "LoginViewController.h"
 #import <Bugly/Bugly.h>
+#import "FounctionModel.h"
 
 #define BUGLY_APP_ID @"04c576d7c4"
 @interface AppDelegate ()<DeviceDelegate,BuglyDelegate>
@@ -70,7 +71,19 @@
         [userDefaults setObject:userDic forKey:RSSIVALUE];
         [userDefaults synchronize];
         
-        NSDictionary *verDic = [NSDictionary dictionaryWithObjectsAndKeys:@"设防",@"key1",@"撤防",@"key2",@"寻车",@"key3",@"一键启动",@"key4",@"X100.V1.1.0",@"firmversion",nil];
+        NSArray *array = @[@"指纹配置",@"指纹配置",@"指纹配置"];
+        NSMutableArray *setAry = [NSMutableArray new];
+        for (int i = 0; i<3; i++) {
+            
+            FounctionModel *model = [FounctionModel new];
+            model.selectName = array[i];
+            model.select = NO;
+            //将student类型变为NSData类型
+            NSData *data = [NSKeyedArchiver archivedDataWithRootObject:model];
+            [setAry addObject:data];
+        }
+
+        NSMutableDictionary *verDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:setAry,@"settingmodel",@"设防",@"key1",@"撤防",@"key2",@"寻车",@"key3",@"一键启动",@"key4",@"X100.V1.1.0",@"firmversion",nil];
         [userDefaults setObject:verDic forKey:versionDic];
         [userDefaults synchronize];
     }

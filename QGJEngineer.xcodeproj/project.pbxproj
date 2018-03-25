@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0E88D5212067C2140072A176 /* FunctionSettingTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E88D5202067C2140072A176 /* FunctionSettingTableViewCell.m */; };
+		0E88D5242067C2800072A176 /* FounctionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E88D5232067C2800072A176 /* FounctionModel.m */; };
 		18018A511EB0A098005378A9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18018A501EB0A098005378A9 /* Foundation.framework */; };
 		18018A531EB0A0A4005378A9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18018A521EB0A0A4005378A9 /* UIKit.framework */; };
 		18018A5E1EB0B500005378A9 /* AppUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 18018A581EB0B500005378A9 /* AppUtilities.m */; };
@@ -164,6 +166,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0E88D51F2067C2140072A176 /* FunctionSettingTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FunctionSettingTableViewCell.h; sourceTree = "<group>"; };
+		0E88D5202067C2140072A176 /* FunctionSettingTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FunctionSettingTableViewCell.m; sourceTree = "<group>"; };
+		0E88D5222067C2800072A176 /* FounctionModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FounctionModel.h; sourceTree = "<group>"; };
+		0E88D5232067C2800072A176 /* FounctionModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FounctionModel.m; sourceTree = "<group>"; };
 		18018A501EB0A098005378A9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		18018A521EB0A0A4005378A9 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		18018A571EB0B500005378A9 /* AppUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppUtilities.h; sourceTree = "<group>"; };
@@ -464,6 +470,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0E88D51E2067BD030072A176 /* 报警器设置cell */ = {
+			isa = PBXGroup;
+			children = (
+				0E88D5252067C2860072A176 /* model */,
+				0E88D51F2067C2140072A176 /* FunctionSettingTableViewCell.h */,
+				0E88D5202067C2140072A176 /* FunctionSettingTableViewCell.m */,
+			);
+			path = "报警器设置cell";
+			sourceTree = "<group>";
+		};
+		0E88D5252067C2860072A176 /* model */ = {
+			isa = PBXGroup;
+			children = (
+				0E88D5222067C2800072A176 /* FounctionModel.h */,
+				0E88D5232067C2800072A176 /* FounctionModel.m */,
+			);
+			path = model;
+			sourceTree = "<group>";
+		};
 		18018A4F1EB0A098005378A9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -1077,6 +1102,7 @@
 		18F06CD62064E2B9001BB84A /* 报警器配置设置界面 */ = {
 			isa = PBXGroup;
 			children = (
+				0E88D51E2067BD030072A176 /* 报警器设置cell */,
 				18E963D81E497403006AF30B /* LrdOutputView */,
 				18F06CD72064E2E5001BB84A /* settingModel */,
 				18BB90491D9CCB8A00718CA7 /* SetingViewController.h */,
@@ -1357,6 +1383,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				18BB8FBB1D9A5CE200718CA7 /* BurglarViewController.m in Sources */,
+				0E88D5242067C2800072A176 /* FounctionModel.m in Sources */,
 				18BB903F1D9BA3BD00718CA7 /* TwoDimensionalCodeScanViewController.m in Sources */,
 				1830CC001DAB434B005B708A /* FMDatabaseAdditions.m in Sources */,
 				1830CC021DAB434B005B708A /* FMDatabaseQueue.m in Sources */,
@@ -1425,6 +1452,7 @@
 				18BB900B1D9A613D00718CA7 /* AFURLRequestSerialization.m in Sources */,
 				18BB8FDD1D9A607700718CA7 /* UIImage+HC.m in Sources */,
 				1830CBFF1DAB434B005B708A /* FMDatabase.m in Sources */,
+				0E88D5212067C2140072A176 /* FunctionSettingTableViewCell.m in Sources */,
 				18BB8FDA1D9A607700718CA7 /* QFTools.m in Sources */,
 				18BB90321D9A8FBC00718CA7 /* BottomBtn.m in Sources */,
 				18C2AE801DD5B5620045772B /* MJRefreshStateHeader.m in Sources */,
