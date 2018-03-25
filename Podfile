@@ -1,5 +1,6 @@
+platform :ios, '7.0'
 target 'QGJEngineer' do
 use_frameworks!
-pod 'iOSDFULibrary'
-end
 
+
+end

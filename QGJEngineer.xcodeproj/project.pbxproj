@@ -160,6 +160,7 @@
 		18FCD0D32004AFAC00717386 /* MSWeakTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FCD0D22004AFAC00717386 /* MSWeakTimer.m */; };
 		18FCD0D62004AFF100717386 /* SearchBleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FCD0D52004AFF000717386 /* SearchBleModel.m */; };
 		18FD124F1F25875700DD7144 /* DfuDownloadFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FD124E1F25875700DD7144 /* DfuDownloadFile.m */; };
+		DFA9FA04C8CFEAB830C9CDB6 /* Pods_QGJEngineer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D98AA8546EA881A75EE031DA /* Pods_QGJEngineer.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -436,6 +437,9 @@
 		18FCD0D52004AFF000717386 /* SearchBleModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchBleModel.m; sourceTree = "<group>"; };
 		18FD124D1F25875700DD7144 /* DfuDownloadFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DfuDownloadFile.h; sourceTree = "<group>"; };
 		18FD124E1F25875700DD7144 /* DfuDownloadFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DfuDownloadFile.m; sourceTree = "<group>"; };
+		529F567B5BFFF316DECC6E82 /* Pods-QGJEngineer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QGJEngineer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-QGJEngineer/Pods-QGJEngineer.debug.xcconfig"; sourceTree = "<group>"; };
+		B3EF52EC8DB57E84EA169A31 /* Pods-QGJEngineer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QGJEngineer.release.xcconfig"; path = "Pods/Target Support Files/Pods-QGJEngineer/Pods-QGJEngineer.release.xcconfig"; sourceTree = "<group>"; };
+		D98AA8546EA881A75EE031DA /* Pods_QGJEngineer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_QGJEngineer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -453,6 +457,7 @@
 				18018AC31EB0B78B005378A9 /* libz.tbd in Frameworks */,
 				18018A531EB0A0A4005378A9 /* UIKit.framework in Frameworks */,
 				18018A511EB0A098005378A9 /* Foundation.framework in Frameworks */,
+				DFA9FA04C8CFEAB830C9CDB6 /* Pods_QGJEngineer.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -471,6 +476,7 @@
 				18018AC21EB0B78B005378A9 /* libz.tbd */,
 				18018A521EB0A0A4005378A9 /* UIKit.framework */,
 				18018A501EB0A098005378A9 /* Foundation.framework */,
+				D98AA8546EA881A75EE031DA /* Pods_QGJEngineer.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -698,6 +704,7 @@
 				18BB8F9D1D9A5AF200718CA7 /* QGJEngineer */,
 				18BB8F9C1D9A5AF200718CA7 /* Products */,
 				18018A4F1EB0A098005378A9 /* Frameworks */,
+				4A7E12ACCF5374B3D028D0CB /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1183,6 +1190,15 @@
 			path = "QGJEngineer/不会引起循环引用的nstimer";
 			sourceTree = "<group>";
 		};
+		4A7E12ACCF5374B3D028D0CB /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				529F567B5BFFF316DECC6E82 /* Pods-QGJEngineer.debug.xcconfig */,
+				B3EF52EC8DB57E84EA169A31 /* Pods-QGJEngineer.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1190,9 +1206,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 18BB8FB21D9A5AF200718CA7 /* Build configuration list for PBXNativeTarget "QGJEngineer" */;
 			buildPhases = (
+				2FEE7447A58565EF809B0AB3 /* [CP] Check Pods Manifest.lock */,
 				18BB8F971D9A5AF200718CA7 /* Sources */,
 				18BB8F981D9A5AF200718CA7 /* Frameworks */,
 				18BB8F991D9A5AF200718CA7 /* Resources */,
+				2DEADC6A8953A9E34C7DB5F4 /* [CP] Embed Pods Frameworks */,
+				85C286DD48BCCC7A572F0D61 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1280,6 +1299,57 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		2DEADC6A8953A9E34C7DB5F4 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QGJEngineer/Pods-QGJEngineer-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		2FEE7447A58565EF809B0AB3 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-QGJEngineer-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		85C286DD48BCCC7A572F0D61 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QGJEngineer/Pods-QGJEngineer-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		18BB8F971D9A5AF200718CA7 /* Sources */ = {
@@ -1507,6 +1577,7 @@
 		};
 		18BB8FB31D9A5AF200718CA7 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 529F567B5BFFF316DECC6E82 /* Pods-QGJEngineer.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -1540,6 +1611,7 @@
 		};
 		18BB8FB41D9A5AF200718CA7 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B3EF52EC8DB57E84EA169A31 /* Pods-QGJEngineer.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
