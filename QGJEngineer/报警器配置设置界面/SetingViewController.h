@@ -11,7 +11,7 @@
 @interface SetingViewController : BaseViewController
 {
 
-    NSMutableArray *_sectionArray;//每个section的数据
+    NSMutableArray *_sectionArray;
     NSMutableArray *keyArray;
     NSMutableArray *inductionkeyArray;
     NSMutableArray *functionArray;

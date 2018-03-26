@@ -10,12 +10,28 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "QGJEngineer/&#x62a5;&#x8b66;&#x5668;&#x914d;&#x7f6e;&#x754c;&#x9762;/BurglarViewController.m"
-            timestampString = "543747778.796192"
+            timestampString = "543754252.912954"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "4601"
-            endingLineNumber = "4601"
-            landmarkName = "-testStep:"
+            startingLineNumber = "978"
+            endingLineNumber = "978"
+            landmarkName = "-querySuccess:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "QGJEngineer/&#x62a5;&#x8b66;&#x5668;&#x914d;&#x7f6e;&#x754c;&#x9762;/BurglarViewController.m"
+            timestampString = "543754252.913361"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "408"
+            endingLineNumber = "408"
+            landmarkName = "-DeviceEdition:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

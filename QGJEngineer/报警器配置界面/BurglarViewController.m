@@ -583,590 +583,170 @@
             return;
         }
         
-        if ([stepArray[4] isEqualToString:@"2"]) {
-            
-            if (keynumber <= 2) {
-                
-                if (keynumber == 2) {
-                    self.prompttitle2.text = @"钥匙配置完成";
-                    
-                }
-                NSString *key1;
-                NSString *key2;
-                NSString *key3;
-                NSString *key4;
-                
-                if ([stepArray[5] isEqualToString:@"1号按键"]) {
-                    
-                    key1 = [NSString stringWithFormat:@"%@1",uniquecode];
-                }else if ([stepArray[5] isEqualToString:@"2号按键"]){
-                    
-                    key1 = [NSString stringWithFormat:@"%@2",uniquecode];
-                    
-                }else if ([stepArray[5] isEqualToString:@"3号按键"]){
-                    
-                    key1 = [NSString stringWithFormat:@"%@4",uniquecode];
-                    
-                }else if ([stepArray[5] isEqualToString:@"4号按键"]){
-                    
-                    key1 = [NSString stringWithFormat:@"%@8",uniquecode];
-                    
-                }
-                
-                if ([stepArray[6] isEqualToString:@"1号按键"]) {
-                    
-                    if (self.keyType == 7) {
-                        key2 = [NSString stringWithFormat:@"%@0",uniquecode];
-                    }else{
-                        key2 = [NSString stringWithFormat:@"%@1",uniquecode];
-                    }
-                    
-                }else if ([stepArray[6] isEqualToString:@"2号按键"]){
-                    
-                    if (self.keyType == 7) {
-                        key2 = [NSString stringWithFormat:@"%@0",uniquecode];
-                    }else{
-                        key2 = [NSString stringWithFormat:@"%@2",uniquecode];
-                    }
-                    
-                    
-                }else if ([stepArray[6] isEqualToString:@"3号按键"]){
-                    
-                    if (self.keyType == 7) {
-                        key2 = [NSString stringWithFormat:@"%@0",uniquecode];
-                    }else{
-                        key2 = [NSString stringWithFormat:@"%@4",uniquecode];
-                    }
-                    
-                }else if ([stepArray[6] isEqualToString:@"4号按键"]){
-                    
-                    if (self.keyType == 7) {
-                        key2 = [NSString stringWithFormat:@"%@0",uniquecode];
-                    }else{
-                        key2 = [NSString stringWithFormat:@"%@8",uniquecode];
-                    }
-                    
-                }
-                
-                if ([stepArray[7] isEqualToString:@"1号按键"]) {
-                    
-                    if (self.keyType == 3 || self.keyType == 7 || self.keyType == 8 || self.keyType == 9) {
-                        key3 = [NSString stringWithFormat:@"%@0",uniquecode];
-                    }else {
-                        key3 = [NSString stringWithFormat:@"%@1",uniquecode];
-                    }
-                    
-                    
-                }else if ([stepArray[7] isEqualToString:@"2号按键"]){
-                    
-                    if (self.keyType == 3 || self.keyType == 7 || self.keyType == 8 || self.keyType == 9) {
-                        key3 = [NSString stringWithFormat:@"%@0",uniquecode];
-                    }else {
-                        key3 = [NSString stringWithFormat:@"%@2",uniquecode];
-                    }
-                    
-                }else if ([stepArray[7] isEqualToString:@"3号按键"]){
-                    
-                    if (self.keyType == 3 || self.keyType == 7 || self.keyType == 8 || self.keyType == 9) {
-                        key3 = [NSString stringWithFormat:@"%@0",uniquecode];
-                    }else {
-                        key3 = [NSString stringWithFormat:@"%@4",uniquecode];
-                    }
-                    
-                }else if ([stepArray[7] isEqualToString:@"4号按键"]){
-                    
-                    if (self.keyType == 3 || self.keyType == 7 || self.keyType == 8 || self.keyType == 9) {
-                        key3 = [NSString stringWithFormat:@"%@0",uniquecode];
-                    }else {
-                        key3 = [NSString stringWithFormat:@"%@8",uniquecode];
-                    }
-                    
-                }
-                
-                if ([stepArray[8] isEqualToString:@"1号按键"]) {
-                    
-                    if (self.keyType == 3 || self.keyType == 4 || self.keyType == 5 || self.keyType == 6 || self.keyType == 7) {
-                        key4 = [NSString stringWithFormat:@"%@0",uniquecode];
-                    }else {
-                        key4 = [NSString stringWithFormat:@"%@1",uniquecode];
-                    }
-                    
-                }else if ([stepArray[8] isEqualToString:@"2号按键"]){
-                    
-                    if (self.keyType == 3 || self.keyType == 4 || self.keyType == 5 || self.keyType == 6 || self.keyType == 7) {
-                        key4 = [NSString stringWithFormat:@"%@0",uniquecode];
-                    }else {
-                        key4 = [NSString stringWithFormat:@"%@2",uniquecode];
-                    }
-                    
-                }else if ([stepArray[8] isEqualToString:@"3号按键"]){
-                    
-                    if (self.keyType == 3 || self.keyType == 4 || self.keyType == 5 || self.keyType == 6 || self.keyType == 7) {
-                        key4 = [NSString stringWithFormat:@"%@0",uniquecode];
-                    }else {
-                        key4 = [NSString stringWithFormat:@"%@4",uniquecode];
-                    }
-                    
-                }else if ([stepArray[8] isEqualToString:@"4号按键"]){
-                    
-                    if (self.keyType == 3 || self.keyType == 4 || self.keyType == 5 || self.keyType == 6 || self.keyType == 7) {
-                        key4 = [NSString stringWithFormat:@"%@0",uniquecode];
-                    }else {
-                        key4 = [NSString stringWithFormat:@"%@8",uniquecode];
-                    }
-                    
-                }
-                
-                //A500001740030000A1196100A1196200A1196400A11968
-                
-                NSString *passwordHEX = [NSString stringWithFormat:@"A500001740030%d%@%@%@%@",(int)keynumber-1,key1,key2,key3,key4];
-                
-                [[AppDelegate currentAppDelegate].device sendHexstring:passwordHEX];
-                [[AppDelegate currentAppDelegate].device sendKeyValue:[ConverUtil parseHexStringToByteArray:[passwordHEX substringWithRange:NSMakeRange(0, 40)]]];
-            }else{
-//                self.prompttitle2.text = @"钥匙配置完成";
-//                NSString *title = @"第二把钥匙配置完成";
-//                [self.promteArray addObject:title];
-//                
-//                //主线程
-//                dispatch_async(dispatch_get_main_queue(), ^{
-//                    
-//                    [self.resulttable reloadData];
-//                });
-            }
+        if ([stepArray[4] intValue] < keynumber) {
+            self.prompttitle2.text = @"钥匙配置完成";
+            [self testStep:2];
         }else{
-            if (keynumber == 1) {
+            NSString *key1;
+            NSString *key2;
+            NSString *key3;
+            NSString *key4;
+            if ([stepArray[5] isEqualToString:@"1号按键"]) {
                 
-                NSString *key1;
-                NSString *key2;
-                NSString *key3;
-                NSString *key4;
-                if ([stepArray[5] isEqualToString:@"1号按键"]) {
-                    
-                    key1 = [NSString stringWithFormat:@"%@1",uniquecode];
-                }else if ([stepArray[5] isEqualToString:@"2号按键"]){
-                    
-                    key1 = [NSString stringWithFormat:@"%@2",uniquecode];
-                    
-                }else if ([stepArray[5] isEqualToString:@"3号按键"]){
-                    
-                    key1 = [NSString stringWithFormat:@"%@4",uniquecode];
-                    
-                }else if ([stepArray[5] isEqualToString:@"4号按键"]){
-                    
-                    key1 = [NSString stringWithFormat:@"%@8",uniquecode];
-                    
-                }
+                key1 = [NSString stringWithFormat:@"%@1",uniquecode];
+            }else if ([stepArray[5] isEqualToString:@"2号按键"]){
                 
-                if ([stepArray[6] isEqualToString:@"1号按键"]) {
-                    
-                    if (self.keyType == 7) {
-                        key2 = [NSString stringWithFormat:@"%@0",uniquecode];
-                    }else{
-                        key2 = [NSString stringWithFormat:@"%@1",uniquecode];
-                    }
-                    
-                }else if ([stepArray[6] isEqualToString:@"2号按键"]){
-                    
-                    if (self.keyType == 7) {
-                        key2 = [NSString stringWithFormat:@"%@0",uniquecode];
-                    }else{
-                        key2 = [NSString stringWithFormat:@"%@2",uniquecode];
-                    }
-                    
-                    
-                }else if ([stepArray[6] isEqualToString:@"3号按键"]){
-                    
-                    if (self.keyType == 7) {
-                        key2 = [NSString stringWithFormat:@"%@0",uniquecode];
-                    }else{
-                        key2 = [NSString stringWithFormat:@"%@4",uniquecode];
-                    }
-                    
-                }else if ([stepArray[6] isEqualToString:@"4号按键"]){
-                    
-                    if (self.keyType == 7) {
-                        key2 = [NSString stringWithFormat:@"%@0",uniquecode];
-                    }else{
-                        key2 = [NSString stringWithFormat:@"%@8",uniquecode];
-                    }
-                    
-                }
+                key1 = [NSString stringWithFormat:@"%@2",uniquecode];
                 
-                if ([stepArray[7] isEqualToString:@"1号按键"]) {
-                    
-                    if (self.keyType == 3 || self.keyType == 7 || self.keyType == 8 || self.keyType == 9) {
-                        key3 = [NSString stringWithFormat:@"%@0",uniquecode];
-                    }else {
-                        key3 = [NSString stringWithFormat:@"%@1",uniquecode];
-                    }
-                    
-                    
-                }else if ([stepArray[7] isEqualToString:@"2号按键"]){
-                    
-                    if (self.keyType == 3 || self.keyType == 7 || self.keyType == 8|| self.keyType == 9) {
-                        key3 = [NSString stringWithFormat:@"%@0",uniquecode];
-                    }else {
-                        key3 = [NSString stringWithFormat:@"%@2",uniquecode];
-                    }
-                    
-                }else if ([stepArray[7] isEqualToString:@"3号按键"]){
-                    
-                    if (self.keyType == 3 || self.keyType == 7 || self.keyType == 8|| self.keyType == 9) {
-                        key3 = [NSString stringWithFormat:@"%@0",uniquecode];
-                    }else {
-                        key3 = [NSString stringWithFormat:@"%@4",uniquecode];
-                    }
-                    
-                }else if ([stepArray[7] isEqualToString:@"4号按键"]){
-                    
-                    if (self.keyType == 3 || self.keyType == 7 || self.keyType == 8|| self.keyType == 9) {
-                        key3 = [NSString stringWithFormat:@"%@0",uniquecode];
-                    }else {
-                        key3 = [NSString stringWithFormat:@"%@8",uniquecode];
-                    }
-                    
-                }
+            }else if ([stepArray[5] isEqualToString:@"3号按键"]){
                 
-                if ([stepArray[8] isEqualToString:@"1号按键"]) {
-                    
-                    if (self.keyType == 3 || self.keyType == 4 || self.keyType == 5 || self.keyType == 6 || self.keyType == 7) {
-                        key4 = [NSString stringWithFormat:@"%@0",uniquecode];
-                    }else {
-                        key4 = [NSString stringWithFormat:@"%@1",uniquecode];
-                    }
-                    
-                }else if ([stepArray[8] isEqualToString:@"2号按键"]){
-                    
-                    if (self.keyType == 3 || self.keyType == 4 || self.keyType == 5 || self.keyType == 6 || self.keyType == 7) {
-                        key4 = [NSString stringWithFormat:@"%@0",uniquecode];
-                    }else {
-                        key4 = [NSString stringWithFormat:@"%@2",uniquecode];
-                    }
-                    
-                }else if ([stepArray[8] isEqualToString:@"3号按键"]){
-                    
-                    if (self.keyType == 3 || self.keyType == 4 || self.keyType == 5 || self.keyType == 6 || self.keyType == 7) {
-                        key4 = [NSString stringWithFormat:@"%@0",uniquecode];
-                    }else {
-                        key4 = [NSString stringWithFormat:@"%@4",uniquecode];
-                    }
-                    
-                }else if ([stepArray[8] isEqualToString:@"4号按键"]){
-                    
-                    if (self.keyType == 3 || self.keyType == 4 || self.keyType == 5 || self.keyType == 6 || self.keyType == 7) {
-                        key4 = [NSString stringWithFormat:@"%@0",uniquecode];
-                    }else {
-                        key4 = [NSString stringWithFormat:@"%@8",uniquecode];
-                    }
-                    
-                }
+                key1 = [NSString stringWithFormat:@"%@4",uniquecode];
                 
-                NSString *passwordHEX = [NSString stringWithFormat:@"A500001740030%d%@%@%@%@",(int)keynumber-1,key1,key2,key3,key4];
-                [[AppDelegate currentAppDelegate].device sendHexstring:passwordHEX];
-                [[AppDelegate currentAppDelegate].device sendKeyValue:[ConverUtil parseHexStringToByteArray:[passwordHEX substringWithRange:NSMakeRange(0, 40)]]];
+            }else if ([stepArray[5] isEqualToString:@"4号按键"]){
+                
+                key1 = [NSString stringWithFormat:@"%@8",uniquecode];
                 
             }
+            
+            if ([stepArray[6] isEqualToString:@"1号按键"]) {
+                
+                if (self.keyType == 7) {
+                    key2 = [NSString stringWithFormat:@"%@0",uniquecode];
+                }else{
+                    key2 = [NSString stringWithFormat:@"%@1",uniquecode];
+                }
+                
+            }else if ([stepArray[6] isEqualToString:@"2号按键"]){
+                
+                if (self.keyType == 7) {
+                    key2 = [NSString stringWithFormat:@"%@0",uniquecode];
+                }else{
+                    key2 = [NSString stringWithFormat:@"%@2",uniquecode];
+                }
+                
+                
+            }else if ([stepArray[6] isEqualToString:@"3号按键"]){
+                
+                if (self.keyType == 7) {
+                    key2 = [NSString stringWithFormat:@"%@0",uniquecode];
+                }else{
+                    key2 = [NSString stringWithFormat:@"%@4",uniquecode];
+                }
+                
+            }else if ([stepArray[6] isEqualToString:@"4号按键"]){
+                
+                if (self.keyType == 7) {
+                    key2 = [NSString stringWithFormat:@"%@0",uniquecode];
+                }else{
+                    key2 = [NSString stringWithFormat:@"%@8",uniquecode];
+                }
+                
+            }
+            
+            if ([stepArray[7] isEqualToString:@"1号按键"]) {
+                
+                if (self.keyType == 3 || self.keyType == 7 || self.keyType == 8 || self.keyType == 9) {
+                    key3 = [NSString stringWithFormat:@"%@0",uniquecode];
+                }else {
+                    key3 = [NSString stringWithFormat:@"%@1",uniquecode];
+                }
+                
+                
+            }else if ([stepArray[7] isEqualToString:@"2号按键"]){
+                
+                if (self.keyType == 3 || self.keyType == 7 || self.keyType == 8|| self.keyType == 9) {
+                    key3 = [NSString stringWithFormat:@"%@0",uniquecode];
+                }else {
+                    key3 = [NSString stringWithFormat:@"%@2",uniquecode];
+                }
+                
+            }else if ([stepArray[7] isEqualToString:@"3号按键"]){
+                
+                if (self.keyType == 3 || self.keyType == 7 || self.keyType == 8|| self.keyType == 9) {
+                    key3 = [NSString stringWithFormat:@"%@0",uniquecode];
+                }else {
+                    key3 = [NSString stringWithFormat:@"%@4",uniquecode];
+                }
+                
+            }else if ([stepArray[7] isEqualToString:@"4号按键"]){
+                
+                if (self.keyType == 3 || self.keyType == 7 || self.keyType == 8|| self.keyType == 9) {
+                    key3 = [NSString stringWithFormat:@"%@0",uniquecode];
+                }else {
+                    key3 = [NSString stringWithFormat:@"%@8",uniquecode];
+                }
+                
+            }
+            
+            if ([stepArray[8] isEqualToString:@"1号按键"]) {
+                
+                if (self.keyType == 3 || self.keyType == 4 || self.keyType == 5 || self.keyType == 6 || self.keyType == 7) {
+                    key4 = [NSString stringWithFormat:@"%@0",uniquecode];
+                }else {
+                    key4 = [NSString stringWithFormat:@"%@1",uniquecode];
+                }
+                
+            }else if ([stepArray[8] isEqualToString:@"2号按键"]){
+                
+                if (self.keyType == 3 || self.keyType == 4 || self.keyType == 5 || self.keyType == 6 || self.keyType == 7) {
+                    key4 = [NSString stringWithFormat:@"%@0",uniquecode];
+                }else {
+                    key4 = [NSString stringWithFormat:@"%@2",uniquecode];
+                }
+                
+            }else if ([stepArray[8] isEqualToString:@"3号按键"]){
+                
+                if (self.keyType == 3 || self.keyType == 4 || self.keyType == 5 || self.keyType == 6 || self.keyType == 7) {
+                    key4 = [NSString stringWithFormat:@"%@0",uniquecode];
+                }else {
+                    key4 = [NSString stringWithFormat:@"%@4",uniquecode];
+                }
+                
+            }else if ([stepArray[8] isEqualToString:@"4号按键"]){
+                
+                if (self.keyType == 3 || self.keyType == 4 || self.keyType == 5 || self.keyType == 6 || self.keyType == 7) {
+                    key4 = [NSString stringWithFormat:@"%@0",uniquecode];
+                }else {
+                    key4 = [NSString stringWithFormat:@"%@8",uniquecode];
+                }
+                
+            }
+            
+            NSString *passwordHEX = [NSString stringWithFormat:@"A500001740030%d%@%@%@%@",(int)keynumber-1,key1,key2,key3,key4];
+            [[AppDelegate currentAppDelegate].device sendHexstring:passwordHEX];
+            [[AppDelegate currentAppDelegate].device sendKeyValue:[ConverUtil parseHexStringToByteArray:[passwordHEX substringWithRange:NSMakeRange(0, 40)]]];
+            
         }
         
     }else if ([[date substringWithRange:NSMakeRange(8, 4)] isEqualToString:@"4003"]) {
         
-        if ([stepArray[4] isEqualToString:@"2"]) {
-        
-            NSString *title = [NSString stringWithFormat:@"第%d把钥匙配置完成",(int)keynumber];
-            [self.promteArray addObject:title];
-            //主线程uitableview刷新
-            dispatch_async(dispatch_get_main_queue(), ^{
-                
-                [self.resulttable reloadData];
-            });
+        NSString *title = [NSString stringWithFormat:@"第%d把钥匙配置完成",(int)keynumber];
+        [self.promteArray addObject:title];
+        //主线程uitableview刷新
+        dispatch_async(dispatch_get_main_queue(), ^{
             
-            if (keynumber<2) {
-                self.prompttitle.text = [NSString stringWithFormat:@"第%d把钥匙配置",(int)keynumber+1];
-                
-                self.countdown.hidden = NO;
-                [self keypair];
-                
-            }else if(keynumber == 2){
-                
-                keynumber = 0;
-                //******************************************//
-                
-                    if ([stepArray[2] isEqualToString:@"1"]) {
-                        
-                        self.prompttitle.text = @"钥匙1测试";
-                        [self keyTest];
-                        
-                    }else{
-                        
-                        if ([stepArray[3] intValue] >0 ) {
-                            
-                            [self inductionkeyTest];
-                            
-                        }else{
-                            
-                            if ([stepArray[9] isEqualToString:@"1"]) {
-                                
-                                self.prompttitle.text = @"常规测试";
-                                [self nomalTest];
-                            }else{
-                                
-                                if ([stepArray[10] isEqualToString:@"单线测试"]){
-                                    
-//                                    lineNumber = 8;
-//                                    linetype = 2;
-                                    self.prompttitle.text = @"单线测试";
-                                    [self roudTest];
-                                    
-                                }else if ([stepArray[10] isEqualToString:@"双线测试"]){
-                                    
-//                                    lineNumber = 8;
-//                                    linetype = 2;
-                                    self.prompttitle.text = @"双线测试";
-                                    [self roudTest];
-                                    
-                                }else{
-                                    
-                                    if ([stepArray[11] isEqualToString:@"1"]) {
-                                        
-                                        self.prompttitle.text = @"震动察觉测试";
-                                        [self vibrationdetection];
-                                    }else{
-                                        
-                                        if ([stepArray[12] isEqualToString:@"1"]) {
-                                            
-                                            self.prompttitle.text = @"蜂鸣器测试";
-                                            [self buzzerTest];
-                                        }else{
-                                            
-                                            if ([stepArray[13] isEqualToString:@"1"]) {
-                                                
-                                                self.prompttitle.text = @"一键启动测试";
-                                                [self onekeystart];
-                                            }else{
-                                                
-                                                if ([stepArray[14] isEqualToString:@"1"]) {
-                                                    
-                                                    self.prompttitle.text = @"坐桶测试";
-                                                    [self seatTest];
-                                                }else{
-                                                    
-                                                    if ([stepArray[15] isEqualToString:@"1"]) {
-                                                        
-                                                        self.prompttitle.text = @"龙头锁测试";
-                                                        [self lockTest];
-                                                    }else{
-                                                        
-                                                        if ([stepArray[16] isEqualToString:@"1"]) {
-                                                            
-                                                            self.prompttitle.text = @"参数校准";
-                                                            [self calibrationTest];
-                                                        }else{
-                                                            if ([stepArray[18] isEqualToString:@"1"]) {
-                                                                
-                                                                
-                                                                
-                                                                self.prompttitle.text = @"一键通线路控制";
-                                                                [self oneClickControlHigh];
-                                                                
-                                                            }else{
-                                                                
-                                                                if ([stepArray[19] isEqualToString:@"1"]) {
-                                                                    
-                                                                    
-                                                                    self.prompttitle.text = @"一线通语音";
-                                                                    [self oneLineSpeechClose];
-                                                                    
-                                                                }else{
-                                                                    
-                                                                    if ([stepArray[20] isEqualToString:@"1"]) {
-                                                                        self.prompttitle.text = @"指纹测试";
-                                                                        [self fingerPrintTest];
-                                                                        
-                                                                    }else{
-                                                                        
-                                                                        if ([stepArray[21] isEqualToString:@"1"]) {
-                                                                            
-                                                                            [self firmwareUpdate];
-                                                                            
-                                                                        }else{
-                                                                            
-                                                                            [self testend];
-                                                                        }
-                                                                    }
-                                                                }
-                                                            }
-                                                            
-                                                        }
-                                                    }
-                                                }
-                                                
-                                            }
-                                            
-                                        }
-                                        
-                                    }
-                                    
-                                }
-                                
-                            }
-                        }
-                    }
-                
-                //*******************************************//
-            }
-            
-        }else if([stepArray[4] isEqualToString:@"1"]){
+            [self.resulttable reloadData];
+        });
         
-            NSString *title = [NSString stringWithFormat:@"第%d把钥匙配置完成",(int)keynumber];
-            [self.promteArray addObject:title];
-            //主线程uitableview刷新
-            dispatch_async(dispatch_get_main_queue(), ^{
-                
-                [self.resulttable reloadData];
-            });
+        if ([stepArray[4] intValue] <= keynumber) {
+            keynumber = 0;
+            [self testStep:2];
+        }else{
+            self.prompttitle.text = [NSString stringWithFormat:@"第%d把钥匙配置",(int)keynumber+1];
             
-            if (keynumber<1) {
-                self.prompttitle.text = [NSString stringWithFormat:@"第%d把钥匙配置",(int)keynumber+1];
-                self.prompttitle2.text = @"请按键";
-                self.countdown.hidden = NO;
-                [self keyTest];
-            }else if(keynumber == 1){
-                
-                keynumber = 0;
-                
-                if ([stepArray[2] isEqualToString:@"1"]) {
-                    
-                    self.prompttitle.text = @"钥匙1测试";
-                    [self keyTest];
-                    self.countdown.hidden = NO;
-                }else{
-                    
-                    if ([stepArray[3] intValue] >0 ) {
-                        
-                        [self inductionkeyTest];
-                        
-                    }else{
-                        
-                        if ([stepArray[9] isEqualToString:@"1"]) {
-                            
-                            self.prompttitle.text = @"常规测试";
-                            [self nomalTest];
-                        }else{
-                            
-                            if ([stepArray[10] isEqualToString:@"单线测试"]){
-                                
-//                                lineNumber = 8;
-//                                linetype = 2;
-                                self.prompttitle.text = @"单线测试";
-                                [self roudTest];
-                                
-                            }else if ([stepArray[10] isEqualToString:@"双线测试"]){
-                                
-//                                lineNumber = 8;
-//                                linetype = 2;
-                                self.prompttitle.text = @"双线测试";
-                                [self roudTest];
-                                
-                            }else{
-                                
-                                if ([stepArray[11] isEqualToString:@"1"]) {
-                                    
-                                    self.prompttitle.text = @"震动察觉测试";
-                                    [self vibrationdetection];
-                                }else{
-                                    
-                                    if ([stepArray[12] isEqualToString:@"1"]) {
-                                        self.prompttitle.text = @"蜂鸣器测试";
-                                        [self buzzerTest];
-                                    }else{
-                                        
-                                        if ([stepArray[13] isEqualToString:@"1"]) {
-                                            self.prompttitle.text = @"一键启动测试";
-                                            [self onekeystart];
-                                        }else{
-                                            
-                                            if ([stepArray[14] isEqualToString:@"1"]) {
-                                                
-                                                self.prompttitle.text = @"坐桶测试";
-                                                [self seatTest];
-                                            }else{
-                                                
-                                                if ([stepArray[15] isEqualToString:@"1"]) {
-                                                    
-                                                    self.prompttitle.text = @"龙头锁测试";
-                                                    [self lockTest];
-                                                }else{
-                                                    
-                                                    if ([stepArray[16] isEqualToString:@"1"]) {
-                                                        
-                                                        self.prompttitle.text = @"参数校准";
-                                                        [self calibrationTest];
-                                                    }else{
-                                                        
-                                                        if ([stepArray[18] isEqualToString:@"1"]) {
-                                                            
-                                                            
-                                                            self.prompttitle.text = @"一键通线路控制";
-                                                            [self oneClickControlHigh];
-                                                            
-                                                        }else{
-                                                            
-                                                            if ([stepArray[19] isEqualToString:@"1"]) {
-                                                                
-                                                                
-                                                                self.prompttitle.text = @"一线通语音";
-                                                                [self oneLineSpeechOpen];
-                                                                
-                                                            }else{
-                                                                
-                                                                if ([stepArray[20] isEqualToString:@"1"]) {
-                                                                    self.prompttitle.text = @"指纹测试";
-                                                                    [self fingerPrintTest];
-                                                                    
-                                                                }else{
-                                                                    
-                                                                    if ([stepArray[21] isEqualToString:@"1"]) {
-                                                                        
-                                                                        [self firmwareUpdate];
-                                                                        
-                                                                    }else{
-                                                                        
-                                                                        [self testend];
-                                                                    }
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                            
-                                        }
-                                        
-                                    }
-                                    
-                                }
-                                
-                            }
-                            
-                        }
-                    }
-                    
-                }
-                
-            }
-        
+            self.countdown.hidden = NO;
+            [self keypair];
         }
         
     }else if ([[date substringWithRange:NSMakeRange(8, 4)] isEqualToString:@"4004"]) {
         
         NSInteger testkey;
         
-        if ([stepArray[4] isEqualToString:@"1"]) {
+        if ([stepArray[4] intValue] == 1) {
         
             testkey = 1;
         
-        }else if ([stepArray[4] isEqualToString:@"2"]) {
+        }else {
         
             testkey = 2;
         }
@@ -1196,8 +776,6 @@
                     bindingtime ++;
                     timeNumber = 11;
                 }
-                
-                
                 
             }else if (bindingtime == 2){
                 
@@ -1264,19 +842,9 @@
                         [[AppDelegate currentAppDelegate].device sendKeyValue:[ConverUtil parseHexStringToByteArray:passwordHEX]];
                         
                         
-                        if ([stepArray[3] intValue] >0) {
-                            
-                            [self inductionkeyTest];
-                            
-                        }else{
-                            
-                            [self nexTest];
-                            
-                        }
-                        
+                        [self testStep:3];
                     }
                 }
-                
             }
         
         }else if (self.keyType == 4 || self.keyType == 5 || self.keyType == 6 || self.keyType == 8 || self.keyType == 9){
@@ -1350,20 +918,10 @@
                         //[appDelegate.device sendHexstring:passwordHEX];
                         [[AppDelegate currentAppDelegate].device sendKeyValue:[ConverUtil parseHexStringToByteArray:passwordHEX]];
                         
-                        
-                        if ([stepArray[3] intValue] >0) {
-                            
-                            [self inductionkeyTest];
-                            
-                        }else{
-                            
-                            [self nexTest];
-                            
-                        }
+                        [self testStep:3];
                         
                     }
                 }
-                
             }
         
         }else if (self.keyType == 3){
@@ -1400,12 +958,7 @@
                     bindingtime ++;
                     timeNumber = 11;
                     if (keynumber < testkey) {
-                        
-                        /**
-                         *  /////////////////////////////////////////////////
-                         */
                         [self beganKeytest];
-                        
                         self.prompttitle.text = [NSString stringWithFormat:@"钥匙%d测试",(int)keynumber+1];
                         
                         keytitle1 = nil;
@@ -1421,20 +974,8 @@
                         self.countdown.hidden = YES;
                         
                         NSString *passwordHEX = @"A5000007400400";
-                        //[appDelegate.device sendHexstring:passwordHEX];
                         [[AppDelegate currentAppDelegate].device sendKeyValue:[ConverUtil parseHexStringToByteArray:passwordHEX]];
-                        
-                        
-                        if ([stepArray[3] intValue] >0) {
-                            
-                            [self inductionkeyTest];
-                            
-                        }else{
-                            
-                            [self nexTest];
-                            
-                        }
-                        
+                        [self testStep:3];
                     }
                 }
                 
@@ -1484,15 +1025,7 @@
                     NSString *passwordHEX = @"A5000007400400";
                     [[AppDelegate currentAppDelegate].device sendKeyValue:[ConverUtil parseHexStringToByteArray:passwordHEX]];
                     
-                    if ([stepArray[3] intValue] >0) {
-                        
-                        [self inductionkeyTest];
-                        
-                    }else{
-                        
-                        [self nexTest];
-                        
-                    }
+                    [self testStep:3];
                     
                 }
             
@@ -1607,105 +1140,7 @@
                 [countTimer invalidate];
                 countTimer = nil;
                 
-                if ([stepArray[10] isEqualToString:@"单线测试"] || [stepArray[10] isEqualToString:@"双线测试"]) {
-                    
-                    if ([stepArray[10] isEqualToString:@"单线测试"]) {
-                        self.prompttitle.text = @"单线测试";
-                    }else if ([stepArray[10] isEqualToString:@"双线测试"]){
-                        self.prompttitle.text = @"双线测试";
-                    }
-                    [self roudTest];
-                    
-                    
-                }else {
-                    
-                    if ([stepArray[11] isEqualToString:@"1"]) {
-                        
-                        self.prompttitle.text = @"震动察觉测试";
-                        [self vibrationdetection];
-                        
-                    }else{
-                        
-                        if ([stepArray[12] isEqualToString:@"1"]) {
-                           
-                            self.prompttitle.text = @"蜂鸣器测试";
-                            [self buzzerTest];
-                            
-                        }else{
-                            
-                            if ([stepArray[13] isEqualToString:@"1"]) {
-                                
-                                self.prompttitle.text = @"一键启动测试";
-                                [self onekeystart];
-                                
-                                
-                            }else{
-                                
-                                if ([stepArray[14] isEqualToString:@"1"]) {
-                                    
-                                    self.prompttitle.text = @"坐桶测试";
-                                    [self seatTest];
-                                    
-                                }else{
-                                    
-                                    if ([stepArray[15] isEqualToString:@"1"]) {
-                                        
-                                        self.prompttitle.text = @"龙头锁测试";
-                                        [self lockTest];
-                                        
-                                    }else{
-                                        
-                                        if ([stepArray[16] isEqualToString:@"1"]) {
-                                            
-                                            self.prompttitle.text = @"参数校准";
-                                            
-                                            [self calibrationTest];
-                                            
-                                        }else{
-                                            if ([stepArray[18] isEqualToString:@"1"]) {
-        
-                                                
-                                                self.prompttitle.text = @"一键通线路控制";
-                                                [self oneClickControlHigh];
-                                                
-                                            }else{
-                                                
-                                                if ([stepArray[19] isEqualToString:@"1"]) {
-                                                    
-                                                
-                                                    self.prompttitle.text = @"一线通语音";
-                                                    [self oneLineSpeechOpen];
-                                                    
-                                                }else{
-                                                    
-                                                    if ([stepArray[20] isEqualToString:@"1"]) {
-                                                        self.prompttitle.text = @"指纹测试";
-                                                        [self fingerPrintTest];
-                                                        
-                                                    }else{
-                                                        
-                                                        if ([stepArray[21] isEqualToString:@"1"]) {
-                                                            
-                                                            [self firmwareUpdate];
-                                                            
-                                                        }else{
-                                                            
-                                                            [self testend];
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                            
-                                        }
-                                    }
-                                }
-                                
-                            }
-                            
-                        }
-                        
-                    }
-                }
+                [self testStep:10];
                 
             }else if ([[date substringWithRange:NSMakeRange(12, 2)] isEqualToString:@"01"]){
                 
@@ -1774,92 +1209,7 @@
                         [self.resulttable reloadData];
                     });
                     
-                    if ([stepArray[11] isEqualToString:@"1"]) {
-                        
-                        
-                        self.prompttitle.text = @"震动察觉测试";
-                        [self vibrationdetection];
-                        
-                    }else{
-                        
-                        if ([stepArray[12] isEqualToString:@"1"]) {
-                            
-                            self.prompttitle.text = @"蜂鸣器测试";
-                            [self buzzerTest];
-                            
-                        }else{
-                            
-                            if ([stepArray[13] isEqualToString:@"1"]) {
-                                
-                                self.prompttitle.text = @"一键启动测试测试";
-                                [self onekeystart];
-                                
-                            }else{
-                                
-                                if ([stepArray[14] isEqualToString:@"1"]) {
-                                    
-                                    self.prompttitle.text = @"坐桶测试";
-                                    [self seatTest];
-                                    
-                                }else{
-                                    
-                                    if ([stepArray[15] isEqualToString:@"1"]) {
-                                        
-                                        self.prompttitle.text = @"龙头锁测试";
-                                        [self lockTest];
-                                        
-                                    }else{
-                                        
-                                        if ([stepArray[16] isEqualToString:@"1"]) {
-                                            
-                                            self.prompttitle.text = @"参数校准";
-                                            [self calibrationTest];
-                                            
-                                        }else{
-                                            
-                                            if ([stepArray[18] isEqualToString:@"1"]) {
-                                                
-                                                
-                                                self.prompttitle.text = @"一键通线路控制";
-                                                [self oneClickControlHigh];
-                                                
-                                            }else{
-                                                
-                                                if ([stepArray[19] isEqualToString:@"1"]) {
-                                                    
-                                                    
-                                                    self.prompttitle.text = @"一线通语音";
-                                                    [self oneLineSpeechOpen];
-                                                    
-                                                }else{
-                                                    
-                                                    if ([stepArray[20] isEqualToString:@"1"]) {
-                                                        self.prompttitle.text = @"指纹测试";
-                                                        [self fingerPrintTest];
-                                                        
-                                                    }else{
-                                                        
-                                                        if ([stepArray[21] isEqualToString:@"1"]) {
-                                                            
-                                                            [self firmwareUpdate];
-                                                            
-                                                        }else{
-                                                            
-                                                            [self testend];
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                    
-                                }
-                                
-                            }
-                            
-                        }
-                        
-                    }
+                    [self testStep:11];
                     
                 }else if ([stepArray[10] isEqualToString:@"双线测试"]){
                     
@@ -1917,30 +1267,7 @@
                 
                 [countTimer invalidate];
                 countTimer = nil;
-                    if ([stepArray[19] isEqualToString:@"1"]) {
-                        
-                        
-                        self.prompttitle.text = @"一线通语音";
-                        [self oneLineSpeechOpen];
-                        
-                    }else{
-                        
-                        if ([stepArray[20] isEqualToString:@"1"]) {
-                            self.prompttitle.text = @"指纹测试";
-                            [self fingerPrintTest];
-                            
-                        }else{
-                            
-                            if ([stepArray[21] isEqualToString:@"1"]) {
-                                
-                                [self firmwareUpdate];
-                                
-                            }else{
-                                
-                                [self testend];
-                            }
-                        }
-                    }
+                [self testStep:19];
             }
         }
         
@@ -1960,67 +1287,7 @@
         NSString *passwordHEX = @"A5000007400900";
         [[AppDelegate currentAppDelegate].device sendKeyValue:[ConverUtil parseHexStringToByteArray:passwordHEX]];
         
-        if ([stepArray[14] isEqualToString:@"1"]) {
-            
-            self.prompttitle.text = @"坐桶测试";
-            
-            [self seatTest];
-            
-            
-        }else{
-            
-            if ([stepArray[15] isEqualToString:@"1"]) {
-               
-                self.prompttitle.text = @"龙头锁测试";
-                [self lockTest];
-                
-            }else{
-                
-                if ([stepArray[16] isEqualToString:@"1"]) {
-                    
-                    self.prompttitle.text = @"参数校准";
-                    [self calibrationTest];
-                }else{
-                    
-                    if ([stepArray[18] isEqualToString:@"1"]) {
-                        
-                        
-                        self.prompttitle.text = @"一键通线路控制";
-                        [self oneClickControlHigh];
-                        
-                    }else{
-                        
-                        if ([stepArray[19] isEqualToString:@"1"]) {
-                            
-                            
-                            self.prompttitle.text = @"一线通语音";
-                            [self oneLineSpeechOpen];
-                            
-                            
-                        }else{
-                            
-                            if ([stepArray[20] isEqualToString:@"1"]) {
-                                self.prompttitle.text = @"指纹测试";
-                                [self fingerPrintTest];
-                                
-                            }else{
-                                
-                                if ([stepArray[21] isEqualToString:@"1"]) {
-                                    
-                                    [self firmwareUpdate];
-                                    
-                                }else{
-                                    
-                                    [self testend];
-                                }
-                            }
-                        }
-                    }
-                }
-                
-            }
-            
-        }
+        [self testStep:14];
         
     }else if ([[date substringWithRange:NSMakeRange(8, 4)] isEqualToString:@"400C"]) {
     
@@ -2037,41 +1304,7 @@
                 [self.resulttable reloadData];
             });
              
-             if ([stepArray[18] isEqualToString:@"1"]) {
-                 
-                 
-                 self.prompttitle.text = @"一键通线路控制";
-                 [self oneClickControlHigh];
-                 
-             }else{
-                 
-                 if ([stepArray[19] isEqualToString:@"1"]) {
-                     
-                     
-                     self.prompttitle.text = @"一线通语音";
-                     [self oneLineSpeechOpen];
-                     
-                     
-                 }else{
-                     
-                     if ([stepArray[20] isEqualToString:@"1"]) {
-                         self.prompttitle.text = @"指纹测试";
-                         [self fingerPrintTest];
-                         
-                     }else{
-                         
-                         if ([stepArray[21] isEqualToString:@"1"]) {
-                             
-                             [self firmwareUpdate];
-                             
-                         }else{
-                             
-                             [self testend];
-                         }
-                     }
-                 }
-             }
-
+             [self testStep:18];
             
          }else if ([[date substringWithRange:NSMakeRange(12, 2)] isEqualToString:@"00"]){
          
@@ -2098,82 +1331,7 @@
             [self.resulttable reloadData];
         });
         
-        if ([stepArray[12] isEqualToString:@"1"]) {
-            
-            self.prompttitle.text = @"蜂鸣器测试";
-            [self buzzerTest];
-            
-        }else{
-            
-            if ([stepArray[13] isEqualToString:@"1"]) {
-                
-                self.prompttitle.text = @"一键启动测试";
-                [self onekeystart];
-                
-            }else{
-                
-                if ([stepArray[14] isEqualToString:@"1"]) {
-                    
-                    self.prompttitle.text = @"坐桶测试";
-                    [self seatTest];
-                    
-                }else{
-                    
-                    if ([stepArray[15] isEqualToString:@"1"]) {
-                       
-                        self.prompttitle.text = @"龙头锁测试";
-                        [self lockTest];
-                        
-                    }else{
-                        
-                        if ([stepArray[16] isEqualToString:@"1"]) {
-                            
-                            self.prompttitle.text = @"参数校准";
-                            [self calibrationTest];
-                            
-                        }else{
-                            if ([stepArray[18] isEqualToString:@"1"]) {
-                                
-                                
-                                self.prompttitle.text = @"一键通线路控制";
-                                [self oneClickControlHigh];
-                                
-                            }else{
-                                
-                                if ([stepArray[19] isEqualToString:@"1"]) {
-                                    
-                                    
-                                    self.prompttitle.text = @"一线通语音";
-                                    [self oneLineSpeechOpen];
-                                    
-                                    
-                                }else{
-                                    
-                                    if ([stepArray[20] isEqualToString:@"1"]) {
-                                        self.prompttitle.text = @"指纹测试";
-                                        [self fingerPrintTest];
-                                        
-                                    }else{
-                                        
-                                        if ([stepArray[21] isEqualToString:@"1"]) {
-                                            
-                                            [self firmwareUpdate];
-                                            
-                                        }else{
-                                            
-                                            [self testend];
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-                
-            }
-        }
-        
-        
+        [self testStep:12];
         
     }else if ([[date substringWithRange:NSMakeRange(8, 4)] isEqualToString:@"400D"]){
         
@@ -2198,107 +1356,8 @@
                 [self inductionkeyTest];
                 
             }else{
-                
-                if ([stepArray[9] isEqualToString:@"1"]) {
-                    
-                    self.prompttitle.text = @"常规测试";
-                    [self nomalTest];
-                }else{
-                    
-                    if ([stepArray[10] isEqualToString:@"单线测试"]){
-                        
-                        lineNumber = 8;
-                        linetype = 2;
-                        self.prompttitle.text = @"单线测试";
-                        [self roudTest];
-                        
-                    }else if ([stepArray[10] isEqualToString:@"双线测试"]){
-                        
-                        lineNumber = 8;
-                        linetype = 2;
-                        self.prompttitle.text = @"双线测试";
-                        [self roudTest];
-                        
-                    }else{
-                        
-                        if ([stepArray[11] isEqualToString:@"1"]) {
-                            
-                            self.prompttitle.text = @"震动察觉测试";
-                            [self vibrationdetection];
-                        }else{
-                            
-                            if ([stepArray[12] isEqualToString:@"1"]) {
-                                
-                                self.prompttitle.text = @"蜂鸣器测试";
-                                [self buzzerTest];
-                            }else{
-                                
-                                if ([stepArray[13] isEqualToString:@"1"]) {
-                                    
-                                    self.prompttitle.text = @"一键启动测试";
-                                    [self onekeystart];
-                                }else{
-                                    
-                                    if ([stepArray[14] isEqualToString:@"1"]) {
-                                        
-                                        self.prompttitle.text = @"坐桶测试";
-                                        [self seatTest];
-                                    }else{
-                                        
-                                        if ([stepArray[15] isEqualToString:@"1"]) {
-                                            
-                                            self.prompttitle.text = @"龙头锁测试";
-                                            [self lockTest];
-                                        }else{
-                                            
-                                            if ([stepArray[16] isEqualToString:@"1"]) {
-                                                
-                                                self.prompttitle.text = @"参数校准";
-                                                [self calibrationTest];
-                                            }else{
-                                                
-                                                if ([stepArray[18] isEqualToString:@"1"]) {
-                                                    
-                                                    
-                                                    self.prompttitle.text = @"一键通线路控制";
-                                                    [self oneClickControlHigh];
-                                                    
-                                                }else{
-                                                    
-                                                    if ([stepArray[19] isEqualToString:@"1"]) {
-                                                        
-                                                        
-                                                        self.prompttitle.text = @"一线通语音";
-                                                        [self oneLineSpeechOpen];
-                                                        
-                                                        
-                                                    }else{
-                                                        
-                                                        if ([stepArray[20] isEqualToString:@"1"]) {
-                                                            self.prompttitle.text = @"指纹测试";
-                                                            [self fingerPrintTest];
-                                                            
-                                                        }else{
-                                                            
-                                                            if ([stepArray[21] isEqualToString:@"1"]) {
-                                                                
-                                                                [self firmwareUpdate];
-                                                                
-                                                            }else{
-                                                                
-                                                                [self testend];
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
+             
+                [self testStep:9];
             }
             
         }else if ([[date substringWithRange:NSMakeRange(8, 6)] isEqualToString:@"400D00"]){
@@ -2376,122 +1435,9 @@
                 
                 [self.resulttable reloadData];
             });
-            if ([stepArray[1] isEqualToString:@"1"]) {
-                
-                self.prompttitle.text = @"第1把钥匙配置";
-                self.prompttitle2.text = @"请按键";
-                [self matchkeytype];
-            }else {
-                
-                if ([stepArray[2] isEqualToString:@"1"]) {
-                    
-                    self.prompttitle.text = @"钥匙1测试";
-                    self.prompttitle2.text = @"请按键";
-                    [self keyTest];
-                }else{
-                    
-                    if ([stepArray[3] intValue] >0 ) {
-                        
-                        [self inductionkeyTest];
-                        
-                    }else{
-                        
-                        if ([stepArray[9] isEqualToString:@"1"]) {
-                            
-                            self.prompttitle.text = @"常规测试";
-                            [self nomalTest];
-                        }else{
-                            
-                            if ([stepArray[10] isEqualToString:@"单线测试"]){
-                                
-                                self.prompttitle.text = @"单线测试";
-                                [self roudTest];
-                                
-                            }else if ([stepArray[10] isEqualToString:@"双线测试"]){
-                                
-                                self.prompttitle.text = @"双线测试";
-                                [self roudTest];
-                                
-                            }else{
-                                
-                                if ([stepArray[11] isEqualToString:@"1"]) {
-                                    self.prompttitle.text = @"震动察觉测试";
-                                    [self vibrationdetection];
-                                }else{
-                                    
-                                    if ([stepArray[12] isEqualToString:@"1"]) {
-                                        self.prompttitle.text = @"蜂鸣器测试";
-                                        [self buzzerTest];
-                                    }else{
-                                        
-                                        if ([stepArray[13] isEqualToString:@"1"]) {
-                                            self.prompttitle.text = @"一键启动测试";
-                                            [self onekeystart];
-                                        }else{
-                                            
-                                            if ([stepArray[14] isEqualToString:@"1"]) {
-                                                self.prompttitle.text = @"坐桶测试";
-                                                [self seatTest];
-                                            }else{
-                                                
-                                                if ([stepArray[15] isEqualToString:@"1"]) {
-                                                    self.prompttitle.text = @"龙头锁测试";
-                                                    [self lockTest];
-                                                }else{
-                                                    
-                                                    if ([stepArray[16] isEqualToString:@"1"]) {
-                                                        
-                                                        self.prompttitle.text = @"参数校准";
-                                                        [self calibrationTest];
-                                                    }else{
-                                                        
-                                                        if ([stepArray[18] isEqualToString:@"1"]) {
-                                                            
-                                                            
-                                                            self.prompttitle.text = @"一键通线路控制";
-                                                            [self oneClickControlHigh];
-                                                        }else{
-                                                            
-                                                            if ([stepArray[19] isEqualToString:@"1"]) {
-                                                                
-                                                                
-                                                                self.prompttitle.text = @"一线通语音";
-                                                                [self oneLineSpeechOpen];
-                                                                
-                                                            }else{
-                                                                
-                                                                if ([stepArray[20] isEqualToString:@"1"]) {
-                                                                    self.prompttitle.text = @"指纹测试";
-                                                                    [self fingerPrintTest];
-                                                                    
-                                                                }else{
-                                                                    
-                                                                    if ([stepArray[21] isEqualToString:@"1"]) {
-                                                                        
-                                                                        [self firmwareUpdate];
-                                                                        
-                                                                    }else{
-                                                                        
-                                                                        [SVProgressHUD showSimpleText:@"请先设置测试选项"];
-                                                                        [self testend];
-                                                                    }
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
+            [self testStep:1];
     }
-
+}
     }else if (tag.intValue == 2){/////////////////////////////////设备盒子
     
         if ([[date substringWithRange:NSMakeRange(8, 4)] isEqualToString:@"1001"]) {
@@ -2673,93 +1619,7 @@
                     
                     [countTimer invalidate];
                     countTimer = nil;
-                    
-                    if ([stepArray[11] isEqualToString:@"1"]) {
-                        
-                        self.prompttitle.text = @"震动察觉测试";
-                        [self vibrationdetection];
-                        
-                    }else{
-                        
-                        if ([stepArray[12] isEqualToString:@"1"]) {
-                            
-                            self.prompttitle.text = @"蜂鸣器测试";
-                            [self buzzerTest];
-                        }else{
-                            
-                            if ([stepArray[13] isEqualToString:@"1"]) {
-                                
-                                self.prompttitle.text = @"一键启动测试";
-                                
-                                [self onekeystart];
-                                
-                            }else{
-                                
-                                if ([stepArray[14] isEqualToString:@"1"]) {
-                                    
-                                    self.prompttitle.text = @"坐桶测试";
-                                    [self seatTest];
-                                    
-                                }else{
-                                    
-                                    if ([stepArray[15] isEqualToString:@"1"]) {
-                                        
-                                        self.prompttitle.text = @"龙头锁测试";
-                                        [self lockTest];
-                                        
-                                    }else{
-                                        
-                                        if ([stepArray[16] isEqualToString:@"1"]) {
-                                            
-                                            self.prompttitle.text = @"参数校准";
-                                            [self calibrationTest];
-                                        }else{
-                                            
-                                            if ([stepArray[18] isEqualToString:@"1"]) {
-                                                
-                                                
-                                                self.prompttitle.text = @"一键通线路控制";
-                                                [self oneClickControlHigh];
-                                                
-                                            }else{
-                                                
-                                                if ([stepArray[19] isEqualToString:@"1"]) {
-                                                    
-                                                    
-                                                    self.prompttitle.text = @"一线通语音";
-                                                    [self oneLineSpeechOpen];
-                                                    
-                                                    
-                                                    
-                                                }else{
-                                                    
-                                                    if ([stepArray[20] isEqualToString:@"1"]) {
-                                                        self.prompttitle.text = @"指纹测试";
-                                                        [self fingerPrintTest];
-                                                        
-                                                    }else{
-                                                        
-                                                        if ([stepArray[21] isEqualToString:@"1"]) {
-                                                            
-                                                            [self firmwareUpdate];
-                                                            
-                                                        }else{
-                                                            
-                                                            [self testend];
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                                
-                            }
-                            
-                        }
-                        
-                    }
-
+                    [self testStep:11];
                     
                 }else if ([[date substringWithRange:NSMakeRange(12, 2)] isEqualToString:@"01"]){
                     
@@ -2862,48 +1722,7 @@
             
         }else{
             
-            if ([stepArray[16 ] isEqualToString:@"1"]) {
-                
-                self.prompttitle.text = @"参数校准";
-                [self calibrationTest];
-                
-            }else{
-                
-                
-                
-                if ([stepArray[18] isEqualToString:@"1"]) {
-                    
-                    self.prompttitle.text = @"一键通线路控制";
-                    [self oneClickControlHigh];
-                    
-                }else{
-                    
-                    if ([stepArray[19] isEqualToString:@"1"]) {
-                        
-                        
-                        self.prompttitle.text = @"一线通语音";
-                        [self oneLineSpeechOpen];
-                        
-                    }else{
-                        
-                        if ([stepArray[20] isEqualToString:@"1"]) {
-                            self.prompttitle.text = @"指纹测试";
-                            [self fingerPrintTest];
-                            
-                        }else{
-                            
-                            if ([stepArray[21] isEqualToString:@"1"]) {
-                                
-                                [self firmwareUpdate];
-                                
-                            }else{
-                                
-                                [self testend];
-                            }
-                        }
-                    }
-                }
-            }
+            [self testStep:16];
             
         }
         
@@ -2920,47 +1739,7 @@
             [self.resulttable reloadData];
         });
         
-        if ([stepArray[16] isEqualToString:@"1"]) {
-            
-            self.prompttitle.text = @"参数校准";
-            [self calibrationTest];
-            
-        }else{
-            
-            if ([stepArray[18] isEqualToString:@"1"]) {
-                
-                self.prompttitle.text = @"一键通线路控制";
-                [self oneClickControlHigh];
-                
-            }else{
-                
-                if ([stepArray[19] isEqualToString:@"1"]) {
-                    
-                    
-                    self.prompttitle.text = @"一线通语音";
-                    [self oneLineSpeechOpen];
-                    
-                    
-                }else{
-                    
-                    if ([stepArray[20] isEqualToString:@"1"]) {
-                        self.prompttitle.text = @"指纹测试";
-                        [self fingerPrintTest];
-                        
-                    }else{
-                        
-                        if ([stepArray[21] isEqualToString:@"1"]) {
-                            
-                            [self firmwareUpdate];
-                            
-                        }else{
-                            
-                            [self testend];
-                        }
-                    }
-                }
-            }
-        }
+        [self testStep:16];
         
     }else if ([self.prompttitle.text isEqualToString:@"蜂鸣器测试"]){
         [countTimer invalidate];
@@ -2979,68 +1758,7 @@
             [self.resulttable reloadData];
         });
         
-        if ([stepArray[13] isEqualToString:@"1"]) {
-            
-            
-            self.prompttitle.text = @"一键启动测试";
-            [self onekeystart];
-            
-        }else{
-            
-            if ([stepArray[14] isEqualToString:@"1"]) {
-                
-                self.prompttitle.text = @"坐桶测试";
-                [self seatTest];
-                
-            }else{
-                
-                if ([stepArray[15] isEqualToString:@"1"]) {
-                   
-                    self.prompttitle.text = @"龙头锁测试";
-                    [self lockTest];
-                    
-                }else{
-                    
-                    if ([stepArray[16] isEqualToString:@"1"]) {
-                       
-                        self.prompttitle.text = @"参数校准";
-                        [self calibrationTest];
-                    }else{
-                        
-                        if ([stepArray[18] isEqualToString:@"1"]) {
-                            
-                            self.prompttitle.text = @"一键通线路控制";
-                            [self oneClickControlHigh];
-                            
-                        }else{
-                            
-                            if ([stepArray[19] isEqualToString:@"1"]) {
-                                self.prompttitle.text = @"一线通语音";
-                                [self oneLineSpeechOpen];
-                            }else{
-                                if ([stepArray[20] isEqualToString:@"1"]) {
-                                    self.prompttitle.text = @"指纹测试";
-                                    [self fingerPrintTest];
-                                    
-                                }else{
-                                    
-                                    if ([stepArray[21] isEqualToString:@"1"]) {
-                                        
-                                        [self firmwareUpdate];
-                                        
-                                    }else{
-                                        
-                                        [self testend];
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-                
-            }
-            
-        }
+        [self testStep:13];
         
     }else if ([self.prompttitle.text isEqualToString:@"一线通语音"]){
         [countTimer invalidate];
@@ -3055,21 +1773,7 @@
             [self.resulttable reloadData];
         });
         
-        if ([stepArray[20] isEqualToString:@"1"]) {
-            self.prompttitle.text = @"指纹测试";
-            [self fingerPrintTest];
-            
-        }else{
-            
-            if ([stepArray[21] isEqualToString:@"1"]) {
-                
-                [self firmwareUpdate];
-                
-            }else{
-                
-                [self testend];
-            }
-        }
+        [self testStep:20];
         
     }else if ([self.prompttitle.text isEqualToString:@"指纹测试"]){
         [countTimer invalidate];
@@ -3084,13 +1788,7 @@
             [self.resulttable reloadData];
         });
         
-        if ([stepArray[21] isEqualToString:@"1"]) {
-            
-            [self firmwareUpdate];
-            
-        }else{
-            [self testend];
-        }
+        [self testStep:21];
     }
 }
 
@@ -3351,7 +2049,6 @@
             [self inductionkeyTest];
         
         }
-    
     }
 }
 
@@ -3990,7 +2687,6 @@
     self.countdown.hidden = NO;
     self.prompttitle2.text = @"请按键";
     NSString *passwordHEX = @"A5000007400401";
-    //[appDelegate.device sendHexstring:passwordHEX];
     [[AppDelegate currentAppDelegate].device sendKeyValue:[ConverUtil parseHexStringToByteArray:passwordHEX]];
     
 }
@@ -4313,104 +3009,6 @@
     }
 }
 
-/**
- *  钥匙测试后检测
- */
-
--(void)nexTest{
-
-    if ([stepArray[9] isEqualToString:@"1"]) {
-        self.prompttitle.text = @"常规测试";
-        [self nomalTest];
-    }else{
-    
-    if ([stepArray[10] isEqualToString:@"单线测试"]){
-        
-        self.prompttitle.text = @"单线测试";
-        [self roudTest];
-        
-    }else if ([stepArray[10] isEqualToString:@"双线测试"]){
-        
-        self.prompttitle.text = @"双线测试";
-        [self roudTest];
-        
-    }else{
-        
-        if ([stepArray[11] isEqualToString:@"1"]) {
-            
-            self.prompttitle.text = @"震动察觉测试";
-            [self vibrationdetection];
-        }else{
-            
-            if ([stepArray[12] isEqualToString:@"1"]) {
-                
-                self.prompttitle.text = @"蜂鸣器测试";
-                [self buzzerTest];
-            }else{
-                
-                if ([stepArray[13] isEqualToString:@"1"]) {
-                    self.prompttitle.text = @"一键启动测试";
-                    [self onekeystart];
-                }else{
-                    
-                    if ([stepArray[14] isEqualToString:@"1"]) {
-                        
-                        self.prompttitle.text = @"坐桶测试";
-                        [self seatTest];
-                    }else{
-                        
-                        if ([stepArray[15] isEqualToString:@"1"]) {
-                            
-                            self.prompttitle.text = @"龙头锁测试";
-                            [self lockTest];
-                        }else{
-                            
-                            if ([stepArray[16] isEqualToString:@"1"]) {
-                                
-                                self.prompttitle.text = @"参数校准";
-                                [self calibrationTest];
-                            }else{
-                                
-                                if ([stepArray[18] isEqualToString:@"1"]) {
-                                    
-                                    self.prompttitle.text = @"一键通线路控制";
-                                    [self oneClickControlHigh];
-                                    
-                                }else{
-                                    
-                                    if ([stepArray[19] isEqualToString:@"1"]) {
-                                        
-                                        self.prompttitle.text = @"一线通语音";
-                                        [self oneLineSpeechOpen];
-                                        
-                                    }else{
-                                        
-                                        if ([stepArray[20] isEqualToString:@"1"]) {
-                                            self.prompttitle.text = @"指纹测试";
-                                            [self fingerPrintTest];
-                                            
-                                        }else{
-                                            
-                                            if ([stepArray[21] isEqualToString:@"1"]) {
-                                                
-                                                [self firmwareUpdate];
-                                                
-                                            }else{
-                                                
-                                                [self testend];
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-     }
-  }
-}
 
 /**
  *  匹配报警器配置
@@ -4622,7 +3220,7 @@
         }
     }else if (index == 3){
         
-        if ([stepArray[3] intValue] == 1) {
+        if ([stepArray[3] intValue] >= 1) {
             
             [self inductionkeyTest];
             
