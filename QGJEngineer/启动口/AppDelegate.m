@@ -71,9 +71,9 @@
         [userDefaults setObject:userDic forKey:RSSIVALUE];
         [userDefaults synchronize];
         
-        NSArray *array = @[@"支持指纹",@"支持语音"];
+        NSArray *array = @[@"支持指纹",@"支持语音",@"配置检测"];
         NSMutableArray *setAry = [NSMutableArray new];
-        for (int i = 0; i<2; i++) {
+        for (int i = 0; i<3; i++) {
             
             FounctionModel *model = [FounctionModel new];
             model.selectName = array[i];

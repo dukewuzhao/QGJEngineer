@@ -635,12 +635,12 @@
 }
 
 //section底部间距
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
-{   if (section == 0 || section == 4 || section == 9) {
-    return 20;
-}else{
-    return 1;
-}
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    if (section == 0 || section == 4 || section == 9) {
+        return 20;
+    }else{
+        return 1;
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -649,7 +649,6 @@
         
         return 45;
     }
-    
     return 0;
 }
 
@@ -661,10 +660,9 @@
     if (section%2) {
         
         header .backgroundColor  = [QFTools colorWithHexString:@"#f1f1f1"];
-        
     }else{
-        header .backgroundColor  = [UIColor cyanColor];
         
+        header .backgroundColor  = [UIColor cyanColor];
     }
     
     UILabel *myLabel = [[UILabel alloc]initWithFrame:CGRectMake(40, 12, 180, 20)];
@@ -689,9 +687,7 @@
             share.backgroundColor = [UIColor clearColor];
             share.tag = section;
             [header addSubview:share];
-            
         }
-        
         
         UITapGestureRecognizer *singleRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(SingleTap:)];
         singleRecognizer.numberOfTapsRequired = 1; //点击的次数 =1:单击
@@ -812,8 +808,6 @@
         selectBtn.tag = section;
         [selectBtn addTarget:self action:@selector(selectbtnClick:) forControlEvents:UIControlEventTouchUpInside];
         [header addSubview:selectBtn];
-        
-        
         
     }
     

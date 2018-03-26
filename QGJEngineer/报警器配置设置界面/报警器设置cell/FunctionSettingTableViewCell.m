@@ -25,7 +25,7 @@
     
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         
-        self.settingLab = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 120, 25)];
+        self.settingLab = [[UILabel alloc] initWithFrame:CGRectMake(20, 10, 120, 25)];
         self.settingLab.textColor = [UIColor blackColor];
         self.settingLab.font = [UIFont systemFontOfSize:15];
         [self.contentView addSubview:self.settingLab];

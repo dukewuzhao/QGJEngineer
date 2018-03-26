@@ -1435,7 +1435,20 @@
                 
                 [self.resulttable reloadData];
             });
-            [self testStep:1];
+            NSDictionary *verDic = [[NSUserDefaults standardUserDefaults] objectForKey:versionDic];
+            NSMutableArray* setAry = [verDic[@"settingmodel"] mutableCopy];
+            FounctionModel *model = [NSKeyedUnarchiver unarchiveObjectWithData:setAry[2]];
+            
+            if (model.select) {
+                
+                
+                
+            }else{
+                
+               [self testStep:1];
+            }
+            
+            
     }
 }
     }else if (tag.intValue == 2){/////////////////////////////////设备盒子
