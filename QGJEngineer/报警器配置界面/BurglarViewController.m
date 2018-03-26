@@ -21,7 +21,7 @@
 #import "DFUHelper.h"
 #import "QuartzCore/QuartzCore.h"
 #import "CustomProgress.h"
-
+#import "FounctionModel.h"
 
 @interface BurglarViewController ()<UITableViewDataSource,UITableViewDelegate,ScanDelegate,UIAlertViewDelegate>
 {
@@ -457,7 +457,6 @@
     }failure:^(NSError *error) {
         
         NSLog(@"error :%@",error);
-        NSLog(@"error :%@",error);
         [[self class] cancelPreviousPerformRequestsWithTarget:self selector:@selector(bindingfail) object:nil];
         self.prompttitle.text = @"网络上传失败";
         [self  failer];
@@ -555,127 +554,7 @@
         [[AppDelegate currentAppDelegate].device stopScan];
         [[self class] cancelPreviousPerformRequestsWithTarget:self selector:@selector(Verification) object:nil];
         self.engineering = YES;
-        
-        if ([stepArray[1] isEqualToString:@"1"]) {
-            
-            self.prompttitle.text = @"第1把钥匙配置";
-            self.prompttitle2.text = @"请按键";
-            [self matchkeytype];
-        }else {
-            
-            if ([stepArray[2] isEqualToString:@"1"]) {
-                
-                self.prompttitle.text = @"钥匙1测试";
-                self.prompttitle2.text = @"请按键";
-                [self keyTest];
-            }else{
-                
-                if ([stepArray[3] intValue] >0 ) {
-                    
-                    [self inductionkeyTest];
-                    
-                }else{
-                
-                if ([stepArray[9] isEqualToString:@"1"]) {
-                    
-                    self.prompttitle.text = @"常规测试";
-                    [self nomalTest];
-                }else{
-                    
-                    if ([stepArray[10] isEqualToString:@"单线测试"]){
-                        
-                        self.prompttitle.text = @"单线测试";
-                        [self roudTest];
-                        
-                    }else if ([stepArray[10] isEqualToString:@"双线测试"]){
-                        
-                        self.prompttitle.text = @"双线测试";
-                        [self roudTest];
-                        
-                    }else{
-                        
-                        if ([stepArray[11] isEqualToString:@"1"]) {
-                            self.prompttitle.text = @"震动察觉测试";
-                            [self vibrationdetection];
-                        }else{
-                            
-                            if ([stepArray[12] isEqualToString:@"1"]) {
-                                self.prompttitle.text = @"蜂鸣器测试";
-                                [self buzzerTest];
-                            }else{
-                                
-                                if ([stepArray[13] isEqualToString:@"1"]) {
-                                    self.prompttitle.text = @"一键启动测试";
-                                    [self onekeystart];
-                                }else{
-                                    
-                                    if ([stepArray[14] isEqualToString:@"1"]) {
-                                        self.prompttitle.text = @"坐桶测试";
-                                        [self seatTest];
-                                    }else{
-                                        
-                                        if ([stepArray[15] isEqualToString:@"1"]) {
-                                            self.prompttitle.text = @"龙头锁测试";
-                                            [self lockTest];
-                                        }else{
-                                            
-                                            if ([stepArray[16] isEqualToString:@"1"]) {
-                                                
-                                                self.prompttitle.text = @"参数校准";
-                                                [self calibrationTest];
-                                            }else{
-                                                
-                                                if ([stepArray[18] isEqualToString:@"1"]) {
-                                                    
-                                                    
-                                                    self.prompttitle.text = @"一键通线路控制";
-                                                    [self oneClickControlHigh];
-                                                }else{
-                                                    
-                                                    if ([stepArray[19] isEqualToString:@"1"]) {
-                                                        
-                                                        
-                                                        self.prompttitle.text = @"一线通语音";
-                                                        [self oneLineSpeechOpen];
-                                                        
-                                                    }else{
-                                                    
-                                                        if ([stepArray[20] isEqualToString:@"1"]) {
-                                                            self.prompttitle.text = @"指纹测试";
-                                                            [self fingerPrintTest];
-                                                            
-                                                        }else{
-                                                            
-                                                            if ([stepArray[21] isEqualToString:@"1"]) {
-                                                                
-                                                                [self firmwareUpdate];
-                                                                
-                                                            }else{
-                                                                
-                                                                [SVProgressHUD showSimpleText:@"请先设置测试选项"];
-                                                                [self testend];
-                                                            }
-                                                        }
-                                                        
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                    
-                                }
-                                
-                            }
-                            
-                        }
-                        
-                    }
-                    
-                }
-              }
-            }
-            
-        }
+        [self matchingAlarmSet];
         
     }
         
@@ -990,7 +869,6 @@
             }
         }
         
-        
     }else if ([[date substringWithRange:NSMakeRange(8, 4)] isEqualToString:@"4003"]) {
         
         if ([stepArray[4] isEqualToString:@"2"]) {
@@ -1113,7 +991,6 @@
                                                                             
                                                                         }else{
                                                                             
-                                                                            [SVProgressHUD showSimpleText:@"请先设置测试选项"];
                                                                             [self testend];
                                                                         }
                                                                     }
@@ -1255,7 +1132,6 @@
                                                                         
                                                                     }else{
                                                                         
-                                                                        [SVProgressHUD showSimpleText:@"请先设置测试选项"];
                                                                         [self testend];
                                                                     }
                                                                 }
@@ -1814,7 +1690,6 @@
                                                             
                                                         }else{
                                                             
-                                                            [SVProgressHUD showSimpleText:@"请先设置测试选项"];
                                                             [self testend];
                                                         }
                                                     }
@@ -1970,7 +1845,6 @@
                                                             
                                                         }else{
                                                             
-                                                            [SVProgressHUD showSimpleText:@"请先设置测试选项"];
                                                             [self testend];
                                                         }
                                                     }
@@ -2063,7 +1937,6 @@
                                 
                             }else{
                                 
-                                [SVProgressHUD showSimpleText:@"请先设置测试选项"];
                                 [self testend];
                             }
                         }
@@ -2138,7 +2011,6 @@
                                     
                                 }else{
                                     
-                                    [SVProgressHUD showSimpleText:@"请先设置测试选项"];
                                     [self testend];
                                 }
                             }
@@ -2194,7 +2066,6 @@
                              
                          }else{
                              
-                             [SVProgressHUD showSimpleText:@"请先设置测试选项"];
                              [self testend];
                          }
                      }
@@ -2290,7 +2161,6 @@
                                             
                                         }else{
                                             
-                                            [SVProgressHUD showSimpleText:@"请先设置测试选项"];
                                             [self testend];
                                         }
                                     }
@@ -2416,7 +2286,6 @@
                                                                 
                                                             }else{
                                                                 
-                                                                [SVProgressHUD showSimpleText:@"请先设置测试选项"];
                                                                 [self testend];
                                                             }
                                                         }
@@ -2425,15 +2294,10 @@
                                             }
                                         }
                                     }
-                                    
                                 }
-                                
                             }
-                            
                         }
-                        
                     }
-                    
                 }
             }
             
@@ -2496,6 +2360,135 @@
             timeNumber = 10;
             self.backView.hidden = NO;
             
+        }
+    }else if ([[date substringWithRange:NSMakeRange(8, 4)] isEqualToString:@"4010"]) {
+        
+        if ([[date substringWithRange:NSMakeRange(12, 2)] isEqualToString:@"00"]) {
+            
+            [SVProgressHUD showSimpleText:@"报警器设置配置失败"];
+            [self testend];
+        }else if([[date substringWithRange:NSMakeRange(12, 2)] isEqualToString:@"01"]){
+            
+            NSString *title = [NSString stringWithFormat:@"报警器设置成功"];
+            [self.promteArray addObject:title];
+            //主线程uitableview刷新
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                [self.resulttable reloadData];
+            });
+            if ([stepArray[1] isEqualToString:@"1"]) {
+                
+                self.prompttitle.text = @"第1把钥匙配置";
+                self.prompttitle2.text = @"请按键";
+                [self matchkeytype];
+            }else {
+                
+                if ([stepArray[2] isEqualToString:@"1"]) {
+                    
+                    self.prompttitle.text = @"钥匙1测试";
+                    self.prompttitle2.text = @"请按键";
+                    [self keyTest];
+                }else{
+                    
+                    if ([stepArray[3] intValue] >0 ) {
+                        
+                        [self inductionkeyTest];
+                        
+                    }else{
+                        
+                        if ([stepArray[9] isEqualToString:@"1"]) {
+                            
+                            self.prompttitle.text = @"常规测试";
+                            [self nomalTest];
+                        }else{
+                            
+                            if ([stepArray[10] isEqualToString:@"单线测试"]){
+                                
+                                self.prompttitle.text = @"单线测试";
+                                [self roudTest];
+                                
+                            }else if ([stepArray[10] isEqualToString:@"双线测试"]){
+                                
+                                self.prompttitle.text = @"双线测试";
+                                [self roudTest];
+                                
+                            }else{
+                                
+                                if ([stepArray[11] isEqualToString:@"1"]) {
+                                    self.prompttitle.text = @"震动察觉测试";
+                                    [self vibrationdetection];
+                                }else{
+                                    
+                                    if ([stepArray[12] isEqualToString:@"1"]) {
+                                        self.prompttitle.text = @"蜂鸣器测试";
+                                        [self buzzerTest];
+                                    }else{
+                                        
+                                        if ([stepArray[13] isEqualToString:@"1"]) {
+                                            self.prompttitle.text = @"一键启动测试";
+                                            [self onekeystart];
+                                        }else{
+                                            
+                                            if ([stepArray[14] isEqualToString:@"1"]) {
+                                                self.prompttitle.text = @"坐桶测试";
+                                                [self seatTest];
+                                            }else{
+                                                
+                                                if ([stepArray[15] isEqualToString:@"1"]) {
+                                                    self.prompttitle.text = @"龙头锁测试";
+                                                    [self lockTest];
+                                                }else{
+                                                    
+                                                    if ([stepArray[16] isEqualToString:@"1"]) {
+                                                        
+                                                        self.prompttitle.text = @"参数校准";
+                                                        [self calibrationTest];
+                                                    }else{
+                                                        
+                                                        if ([stepArray[18] isEqualToString:@"1"]) {
+                                                            
+                                                            
+                                                            self.prompttitle.text = @"一键通线路控制";
+                                                            [self oneClickControlHigh];
+                                                        }else{
+                                                            
+                                                            if ([stepArray[19] isEqualToString:@"1"]) {
+                                                                
+                                                                
+                                                                self.prompttitle.text = @"一线通语音";
+                                                                [self oneLineSpeechOpen];
+                                                                
+                                                            }else{
+                                                                
+                                                                if ([stepArray[20] isEqualToString:@"1"]) {
+                                                                    self.prompttitle.text = @"指纹测试";
+                                                                    [self fingerPrintTest];
+                                                                    
+                                                                }else{
+                                                                    
+                                                                    if ([stepArray[21] isEqualToString:@"1"]) {
+                                                                        
+                                                                        [self firmwareUpdate];
+                                                                        
+                                                                    }else{
+                                                                        
+                                                                        [SVProgressHUD showSimpleText:@"请先设置测试选项"];
+                                                                        [self testend];
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -2752,7 +2745,6 @@
                                                             
                                                         }else{
                                                             
-                                                            [SVProgressHUD showSimpleText:@"请先设置测试选项"];
                                                             [self testend];
                                                         }
                                                     }
@@ -2906,7 +2898,6 @@
                                 
                             }else{
                                 
-                                [SVProgressHUD showSimpleText:@"请先设置测试选项"];
                                 [self testend];
                             }
                         }
@@ -2964,7 +2955,6 @@
                             
                         }else{
                             
-                            [SVProgressHUD showSimpleText:@"请先设置测试选项"];
                             [self testend];
                         }
                     }
@@ -3040,7 +3030,6 @@
                                         
                                     }else{
                                         
-                                        [SVProgressHUD showSimpleText:@"请先设置测试选项"];
                                         [self testend];
                                     }
                                 }
@@ -3078,7 +3067,6 @@
                 
             }else{
                 
-                [SVProgressHUD showSimpleText:@"请先设置测试选项"];
                 [self testend];
             }
         }
@@ -3248,7 +3236,6 @@
         [self  failer];
         
     }
-    
 }
 
 //测试失败
@@ -3831,17 +3818,12 @@
         [alert show];
         self.backView.hidden = YES;
     }
-    
-    
 }
 
-
-
-
 /**
- *
  *  记录绑定的感应钥匙
  */
+
 -(void)recordInduckey:(NSString *)mac{
     
     [self.keyArray removeAllObjects];
@@ -4423,18 +4405,40 @@
                             }
                         }
                     }
-                    
                 }
-                
             }
-            
         }
      }
-    
   }
 }
 
+/**
+ *  匹配报警器配置
+ */
 
+- (void)matchingAlarmSet{
+    
+    NSDictionary *verDic = [[NSUserDefaults standardUserDefaults] objectForKey:versionDic];
+    NSMutableArray* setAry = [verDic[@"settingmodel"] mutableCopy];
+    FounctionModel *model = [NSKeyedUnarchiver unarchiveObjectWithData:setAry[0]];
+    FounctionModel *model2 = [NSKeyedUnarchiver unarchiveObjectWithData:setAry[1]];
+    
+    if (model.select && model2.select) {
+        //00000011
+        [[AppDelegate currentAppDelegate].device sendKeyValue:[ConverUtil parseHexStringToByteArray:@"A5000007401003"]];
+    }else if (model.select && !model2.select){
+        //00000001
+        [[AppDelegate currentAppDelegate].device sendKeyValue:[ConverUtil parseHexStringToByteArray:@"A5000007401001"]];
+        
+    }else if (!model.select && model2.select){
+        //00000010
+        [[AppDelegate currentAppDelegate].device sendKeyValue:[ConverUtil parseHexStringToByteArray:@"A5000007401002"]];
+        
+    }else{
+        //00000000
+        [[AppDelegate currentAppDelegate].device sendKeyValue:[ConverUtil parseHexStringToByteArray:@"A5000007401000"]];
+    }
+}
 
 /**
  *  匹配钥匙类型
@@ -4593,6 +4597,151 @@
     }
 }
 
+-(void)testStep:(NSInteger)index{
+    
+    if (index == 1) {
+        
+        if ([stepArray[1] isEqualToString:@"1"]) {
+            
+            self.prompttitle.text = @"第1把钥匙配置";
+            self.prompttitle2.text = @"请按键";
+            [self matchkeytype];
+        }else{
+            [self testStep:2];
+        }
+        
+    }else if (index == 2){
+        
+        if ([stepArray[2] isEqualToString:@"1"]) {
+            
+            self.prompttitle.text = @"钥匙1测试";
+            self.prompttitle2.text = @"请按键";
+            [self keyTest];
+        }else if ([stepArray[2] isEqualToString:@"0"]){
+            [self testStep:3];
+        }
+    }else if (index == 3){
+        
+        if ([stepArray[3] intValue] == 1) {
+            
+            [self inductionkeyTest];
+            
+        }else if ([stepArray[3] intValue] == 0){
+            [self testStep:9];
+        }
+    }else if (index == 9){
+        
+        if ([stepArray[9] isEqualToString:@"1"]) {
+            
+            self.prompttitle.text = @"常规测试";
+            [self nomalTest];
+        }else if ([stepArray[9] isEqualToString:@"0"]){
+            [self testStep:10];
+        }
+    }else if (index == 10){
+        
+        if ([stepArray[10] isEqualToString:@"单线测试"]){
+            
+            self.prompttitle.text = @"单线测试";
+            [self roudTest];
+            
+        }else if ([stepArray[10] isEqualToString:@"双线测试"]){
+            
+            self.prompttitle.text = @"双线测试";
+            [self roudTest];
+            
+        }else if ([stepArray[10] isEqualToString:@"无"]){
+            [self testStep:11];
+        }
+    }else if (index == 11){
+        
+        if ([stepArray[11] isEqualToString:@"1"]) {
+            self.prompttitle.text = @"震动察觉测试";
+            [self vibrationdetection];
+        }else if ([stepArray[11] isEqualToString:@"0"]){
+            [self testStep:12];
+        }
+    }else if (index == 12){
+        
+        if ([stepArray[12] isEqualToString:@"1"]) {
+            self.prompttitle.text = @"蜂鸣器测试";
+            [self buzzerTest];
+        }else if ([stepArray[12] isEqualToString:@"0"]){
+            [self testStep:13];
+        }
+    }else if (index == 13){
+        
+        if ([stepArray[13] isEqualToString:@"1"]) {
+            self.prompttitle.text = @"一键启动测试";
+            [self onekeystart];
+        }else if ([stepArray[13] isEqualToString:@"0"]){
+            [self testStep:14];
+        }
+    }else if (index == 14){
+        
+        if ([stepArray[14] isEqualToString:@"1"]) {
+            self.prompttitle.text = @"坐桶测试";
+            [self seatTest];
+        }else if ([stepArray[14] isEqualToString:@"0"]){
+            [self testStep:15];
+        }
+    }else if (index == 15){
+        
+        if ([stepArray[15] isEqualToString:@"1"]) {
+            self.prompttitle.text = @"龙头锁测试";
+            [self lockTest];
+        }else if ([stepArray[15] isEqualToString:@"0"]){
+            [self testStep:16];
+        }
+    }else if (index == 16){
+        
+        if ([stepArray[16] isEqualToString:@"1"]) {
+            
+            self.prompttitle.text = @"参数校准";
+            [self calibrationTest];
+        }else if ([stepArray[16] isEqualToString:@"0"]){
+            [self testStep:18];
+        }
+    }else if (index == 18){
+        
+        if ([stepArray[18] isEqualToString:@"1"]) {
+            
+            self.prompttitle.text = @"一键通线路控制";
+            [self oneClickControlHigh];
+        }else if ([stepArray[18] isEqualToString:@"0"]){
+            [self testStep:19];
+        }
+    }else if (index == 19){
+        
+        if ([stepArray[19] isEqualToString:@"1"]) {
+            
+            self.prompttitle.text = @"一线通语音";
+            [self oneLineSpeechOpen];
+            
+        }else if ([stepArray[19] isEqualToString:@"0"]){
+            [self testStep:20];
+        }
+    }else if (index == 20){
+        
+        if ([stepArray[20] isEqualToString:@"1"]) {
+            self.prompttitle.text = @"指纹测试";
+            [self fingerPrintTest];
+            
+        }else if ([stepArray[20] isEqualToString:@"0"]){
+            [self testStep:21];
+        }
+    }else if (index == 21){
+        
+        if ([stepArray[21] isEqualToString:@"1"]) {
+            
+            [self firmwareUpdate];
+            
+        }else if ([stepArray[21] isEqualToString:@"0"]){
+            [SVProgressHUD showSimpleText:@"请先设置测试选项"];
+            [self testend];
+        }
+    }
+}
 
 
 /*

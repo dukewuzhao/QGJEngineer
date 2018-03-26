@@ -386,7 +386,7 @@
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSDictionary *verDic = [defaults objectForKey:versionDic];
     
-    NSDictionary *NewDic = [NSDictionary dictionaryWithObjectsAndKeys:verDic[@"key1"],@"key1", verDic[@"key2"],@"key2",verDic[@"key3"],@"key3",verDic[@"key4"],@"key4",NewVersion,@"firmversion",nil];
+    NSMutableDictionary *NewDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:verDic[@"settingmodel"],@"settingmodel",verDic[@"key1"],@"key1", verDic[@"key2"],@"key2",verDic[@"key3"],@"key3",verDic[@"key4"],@"key4",NewVersion,@"firmversion",nil];
     [defaults setObject:NewDic forKey:versionDic];
     [defaults synchronize];
     

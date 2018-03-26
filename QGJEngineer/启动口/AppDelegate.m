@@ -71,14 +71,13 @@
         [userDefaults setObject:userDic forKey:RSSIVALUE];
         [userDefaults synchronize];
         
-        NSArray *array = @[@"指纹配置",@"指纹配置",@"指纹配置"];
+        NSArray *array = @[@"支持指纹",@"支持语音"];
         NSMutableArray *setAry = [NSMutableArray new];
-        for (int i = 0; i<3; i++) {
+        for (int i = 0; i<2; i++) {
             
             FounctionModel *model = [FounctionModel new];
             model.selectName = array[i];
             model.select = NO;
-            //将student类型变为NSData类型
             NSData *data = [NSKeyedArchiver archivedDataWithRootObject:model];
             [setAry addObject:data];
         }

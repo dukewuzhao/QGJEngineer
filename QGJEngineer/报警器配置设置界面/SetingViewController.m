@@ -241,13 +241,6 @@
     return _brands;
 }
 
-- (NSMutableArray *)setAry {
-    if (!_setAry) {
-        _setAry = [[NSMutableArray alloc] init];
-    }
-    return _setAry;
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -282,34 +275,10 @@
     [self.view addSubview:setingTable];
     self.setingTable = setingTable;
     
-//    UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 45)];
-//    headView.backgroundColor = [UIColor whiteColor];
-//    [self.view addSubview:headView];
-//    setingTable.tableHeaderView = headView;
-//
-//    UILabel *name = [[UILabel alloc] initWithFrame:CGRectMake(20, 10, 100, 20)];
-//    name.text = @"硬件版本";
-//    name.textColor = [UIColor blackColor];
-//    name.textAlignment = NSTextAlignmentLeft;
-//    [headView addSubview:name];
-//
-//    UITextField *hardwareversionField = [self addOneTextFieldWithTitle:nil imageName:@"" imageNameWidth:10 Frame:CGRectMake(CGRectGetMaxX(name.frame), 5, ScreenWidth - 140, 35)];
-//    [headView addSubview:hardwareversionField];
-//    self.hardwareversionField = hardwareversionField;
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSDictionary *verDic = [defaults objectForKey:versionDic];
-//    hardwareversionField.text = verDic[@"version"];
-    //self.setAry = verDic[@"settingmodel"];
-    NSArray *array = @[@"指纹配置",@"指纹配置",@"指纹配置"];
-    for (int i = 0; i<3; i++) {
-        
-        FounctionModel *model = [FounctionModel new];
-        model.selectName = array[i];
-        model.select = NO;
-        //将student类型变为NSData类型
-        //NSData *data = [NSKeyedArchiver archivedDataWithRootObject:model];
-        [self.setAry addObject:model];
-    }
+    
+    self.setAry = [verDic[@"settingmodel"] mutableCopy];
     UIView *footVie = [[UIView alloc] initWithFrame:CGRectMake(0, 10, ScreenWidth, 100)];
     
     UIButton *footerButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -519,17 +488,7 @@
 
 -(void)saveBtn{
 
-    if ([QFTools isBlankString:self.hardwareversionField.text]) {
-        [SVProgressHUD showSimpleText:@"请输入硬件版本"];
-        
-        return ;
-    }else if (self.hardwareversionField.text.length !=6){
-        
-        [SVProgressHUD showSimpleText:@"请输入6位硬件版本"];
-        
-        return ;
-        
-    }else if ([_sectionArray[6] isEqualToString:@"设防撤防"] && (![_sectionArray[7] isEqualToString:@"无"] || ![_sectionArray[8] isEqualToString:@"无"] || ![_sectionArray[9] isEqualToString:@"无"])){
+    if ([_sectionArray[6] isEqualToString:@"设防撤防"] && (![_sectionArray[7] isEqualToString:@"无"] || ![_sectionArray[8] isEqualToString:@"无"] || ![_sectionArray[9] isEqualToString:@"无"])){
         
         [SVProgressHUD showSimpleText:@"定义的钥匙按键不正确"];
         
@@ -594,7 +553,7 @@
     }
     
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSDictionary *verDic = [NSDictionary dictionaryWithObjectsAndKeys:_sectionArray[6],@"key1", _sectionArray[7],@"key2",_sectionArray[8],@"key3",_sectionArray[9],@"key4",_sectionArray[21],@"firmversion",nil];
+    NSDictionary *verDic = [NSDictionary dictionaryWithObjectsAndKeys:self.setAry,@"settingmodel",_sectionArray[6],@"key1", _sectionArray[7],@"key2",_sectionArray[8],@"key3",_sectionArray[9],@"key4",_sectionArray[21],@"firmversion",nil];
     [userDefaults setObject:verDic forKey:versionDic];
     [userDefaults synchronize];
 }
@@ -616,29 +575,7 @@
 }
 
 
-#pragma mark - UIAlertViewDelegate
 
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (alertView.tag == 4000) {
-        if (buttonIndex != [alertView cancelButtonIndex]) {
-            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-            hud.labelText = @"退出账号中...";
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                
-                [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-                NSUserDefaults *userDefatluts = [NSUserDefaults standardUserDefaults];
-                [userDefatluts removeObjectForKey:logInUSERDIC];
-                [LVFmdbTool deleteFirmData:nil];
-                [SVProgressHUD showSimpleText:@"退出成功"];
-                [AppDelegate currentAppDelegate].device.scanDelete = nil;
-                [[NSNotificationCenter defaultCenter] postNotificationName:KNOTIFICATION_LOGINCHANGE object:@NO];
-            });
-        }
-    }
-    
-    
-}
 
 #pragma mark -UITableViewDataSource
 
@@ -680,15 +617,314 @@
     
         return self.brands.count;
     }else if(section == 23){
-        
-        return 3;
+        if ([_showDic objectForKey:[NSString stringWithFormat:@"%ld",(long)section]]) {
+            
+            return self.setAry.count;
+        }
+        return 0;
     }else{
     
         return 0;
     }
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    
+    return 45;
+    
+}
 
+//section底部间距
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{   if (section == 0 || section == 4 || section == 9) {
+    return 20;
+}else{
+    return 1;
+}
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    if ([_showDic objectForKey:[NSString stringWithFormat:@"%ld",(long)indexPath.section]]) {
+        
+        return 45;
+    }
+    
+    return 0;
+}
+
+
+//section头部显示的内容
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    UIView *header = [[UIView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, 45)];
+    
+    if (section%2) {
+        
+        header .backgroundColor  = [QFTools colorWithHexString:@"#f1f1f1"];
+        
+    }else{
+        header .backgroundColor  = [UIColor cyanColor];
+        
+    }
+    
+    UILabel *myLabel = [[UILabel alloc]initWithFrame:CGRectMake(40, 12, 180, 20)];
+    myLabel.text = [NSString stringWithFormat:@"%@",_sectionArray[section]];
+    myLabel.textColor = [UIColor blackColor];
+    [header addSubview:myLabel];
+    
+    // 单击的 Recognizer ,收缩分组cell
+    header.tag = section;
+    if (section == 0 || section == 3 ||section == 4 || section == 5 || section == 6 || section == 7 || section == 8 ||section == 9||section == 11||section == 22||section == 23) {
+        
+        UIImageView *image = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth - 40, 18, 14, 9)];
+        image.image = [UIImage imageNamed:@"icon_down"];
+        [header addSubview:image];
+        
+        if (section == 6 || section == 7 || section == 8 ||section == 9) {
+            
+            UIButton *share = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 120, 45)];
+            share.titleLabel.font = [UIFont systemFontOfSize:13];
+            [share setImage:[UIImage imageNamed:@"top_share"] forState:UIControlStateNormal];
+            [share addTarget:self action:@selector(shareclick:) forControlEvents:UIControlEventTouchUpInside];
+            share.backgroundColor = [UIColor clearColor];
+            share.tag = section;
+            [header addSubview:share];
+            
+        }
+        
+        
+        UITapGestureRecognizer *singleRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(SingleTap:)];
+        singleRecognizer.numberOfTapsRequired = 1; //点击的次数 =1:单击
+        [singleRecognizer setNumberOfTouchesRequired:1];//1个手指操作
+        [header addGestureRecognizer:singleRecognizer];//添加一个手势监测；
+        
+    }else if (section == 21){
+        
+        UIButton *share = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 120, 45)];
+        share.titleLabel.font = [UIFont systemFontOfSize:13];
+        [share setImage:[UIImage imageNamed:@"top_share"] forState:UIControlStateNormal];
+        [share addTarget:self action:@selector(shareclick:) forControlEvents:UIControlEventTouchUpInside];
+        share.backgroundColor = [UIColor clearColor];
+        share.tag = section;
+        [header addSubview:share];
+        
+        UIButton *selectBtn = [[UIButton alloc] initWithFrame:CGRectMake(ScreenWidth - 50, 5, 35, 35)];
+        if (setmodel.bool10) {
+            [selectBtn setImage:[UIImage imageNamed:@"iconchecked"] forState:UIControlStateNormal];
+        }else{
+            
+            [selectBtn setImage:[UIImage imageNamed:@"iconcheck"] forState:UIControlStateNormal];
+        }
+        
+        selectBtn.tag = section;
+        [selectBtn addTarget:self action:@selector(selectbtnClick:) forControlEvents:UIControlEventTouchUpInside];
+        [header addSubview:selectBtn];
+        
+    }else{
+        UIButton *selectBtn = [[UIButton alloc] initWithFrame:CGRectMake(ScreenWidth - 50, 5, 35, 35)];
+        
+        if (section == 1) {
+            if (setmodel.bool1) {
+                [selectBtn setImage:[UIImage imageNamed:@"iconchecked"] forState:UIControlStateNormal];
+            }else{
+                
+                [selectBtn setImage:[UIImage imageNamed:@"iconcheck"] forState:UIControlStateNormal];
+            }
+        }else if (section == 2) {
+            if (setmodel.bool2) {
+                [selectBtn setImage:[UIImage imageNamed:@"iconchecked"] forState:UIControlStateNormal];
+            }else{
+                
+                [selectBtn setImage:[UIImage imageNamed:@"iconcheck"] forState:UIControlStateNormal];
+            }
+        }else if (section == 10) {
+            if (setmodel.bool3) {
+                [selectBtn setImage:[UIImage imageNamed:@"iconchecked"] forState:UIControlStateNormal];
+            }else{
+                
+                [selectBtn setImage:[UIImage imageNamed:@"iconcheck"] forState:UIControlStateNormal];
+            }
+        }else if (section == 12) {
+            if (setmodel.bool4) {
+                [selectBtn setImage:[UIImage imageNamed:@"iconchecked"] forState:UIControlStateNormal];
+            }else{
+                
+                [selectBtn setImage:[UIImage imageNamed:@"iconcheck"] forState:UIControlStateNormal];
+            }
+        }else if (section == 13) {
+            if (setmodel.bool5) {
+                [selectBtn setImage:[UIImage imageNamed:@"iconchecked"] forState:UIControlStateNormal];
+            }else{
+                
+                [selectBtn setImage:[UIImage imageNamed:@"iconcheck"] forState:UIControlStateNormal];
+            }
+        }else if (section == 14) {
+            if (setmodel.bool6) {
+                [selectBtn setImage:[UIImage imageNamed:@"iconchecked"] forState:UIControlStateNormal];
+            }else{
+                
+                [selectBtn setImage:[UIImage imageNamed:@"iconcheck"] forState:UIControlStateNormal];
+            }
+        }else if (section == 15) {
+            if (setmodel.bool7) {
+                [selectBtn setImage:[UIImage imageNamed:@"iconchecked"] forState:UIControlStateNormal];
+            }else{
+                
+                [selectBtn setImage:[UIImage imageNamed:@"iconcheck"] forState:UIControlStateNormal];
+            }
+        }else if (section == 16) {
+            if (setmodel.bool8) {
+                [selectBtn setImage:[UIImage imageNamed:@"iconchecked"] forState:UIControlStateNormal];
+            }else{
+                
+                [selectBtn setImage:[UIImage imageNamed:@"iconcheck"] forState:UIControlStateNormal];
+            }
+        }else if (section == 17) {
+            if (setmodel.bool9) {
+                [selectBtn setImage:[UIImage imageNamed:@"iconchecked"] forState:UIControlStateNormal];
+            }else{
+                
+                [selectBtn setImage:[UIImage imageNamed:@"iconcheck"] forState:UIControlStateNormal];
+            }
+        }else if (section == 18) {
+            if (setmodel.oneClick) {
+                [selectBtn setImage:[UIImage imageNamed:@"iconchecked"] forState:UIControlStateNormal];
+            }else{
+                
+                [selectBtn setImage:[UIImage imageNamed:@"iconcheck"] forState:UIControlStateNormal];
+            }
+        }else if (section == 19) {
+            if (setmodel.oneLine) {
+                [selectBtn setImage:[UIImage imageNamed:@"iconchecked"] forState:UIControlStateNormal];
+            }else{
+                
+                [selectBtn setImage:[UIImage imageNamed:@"iconcheck"] forState:UIControlStateNormal];
+            }
+        }else if (section == 20) {
+            if (setmodel.fingerTest) {
+                [selectBtn setImage:[UIImage imageNamed:@"iconchecked"] forState:UIControlStateNormal];
+            }else{
+                
+                [selectBtn setImage:[UIImage imageNamed:@"iconcheck"] forState:UIControlStateNormal];
+            }
+        }
+        
+        selectBtn.tag = section;
+        [selectBtn addTarget:self action:@selector(selectbtnClick:) forControlEvents:UIControlEventTouchUpInside];
+        [header addSubview:selectBtn];
+        
+        
+        
+    }
+    
+    if (section == 0) {
+        
+        UILabel *value = [[UILabel alloc]initWithFrame:CGRectMake(ScreenWidth - 160, 12, 100, 20)];
+        value.text = setArray[0];
+        value.tag = 20;
+        value.textColor = [UIColor blackColor];
+        value.textAlignment = NSTextAlignmentRight;
+        [header addSubview:value];
+    }else if (section == 3) {
+        
+        UILabel *value = [[UILabel alloc]initWithFrame:CGRectMake(ScreenWidth - 160, 12, 100, 20)];
+        if ([setArray[3] isEqualToString:@"0"]) {
+            value.text = @"0把";
+        }else if ([setArray[3] isEqualToString:@"1"]){
+            
+            value.text = @"1把";
+            
+        }else if ([setArray[3] isEqualToString:@"2"]){
+            
+            value.text = @"2把";
+            
+        }
+        value.tag = 21;
+        value.textColor = [UIColor blackColor];
+        value.textAlignment = NSTextAlignmentRight;
+        [header addSubview:value];
+    }else if (section == 4) {
+        
+        UILabel *value = [[UILabel alloc]initWithFrame:CGRectMake(ScreenWidth - 160, 12, 100, 20)];
+        value.text = setArray[17];
+        value.tag = 28;
+        value.textColor = [UIColor blackColor];
+        value.textAlignment = NSTextAlignmentRight;
+        [header addSubview:value];
+    }else if (section == 5) {
+        
+        UILabel *value = [[UILabel alloc]initWithFrame:CGRectMake(ScreenWidth - 160, 12, 100, 20)];
+        if ([setArray[4] isEqualToString:@"1"]){
+            
+            value.text = @"1把";
+            
+        }else if ([setArray[4] isEqualToString:@"2"]){
+            
+            value.text = @"2把";
+            
+        }
+        value.tag = 22;
+        value.textColor = [UIColor blackColor];
+        value.textAlignment = NSTextAlignmentRight;
+        [header addSubview:value];
+    }else if (section == 6){
+        
+        UILabel *value = [[UILabel alloc]initWithFrame:CGRectMake(ScreenWidth - 160, 12, 100, 20)];
+        value.tag = 23;
+        value.text = setArray[5];
+        value.textColor = [UIColor blackColor];
+        value.textAlignment = NSTextAlignmentRight;
+        [header addSubview:value];
+        
+    }else if (section == 7){
+        
+        UILabel *value = [[UILabel alloc]initWithFrame:CGRectMake(ScreenWidth - 160, 12, 100, 20)];
+        value.tag = 24;
+        value.text = setArray[6];
+        value.textColor = [UIColor blackColor];
+        value.textAlignment = NSTextAlignmentRight;
+        [header addSubview:value];
+        
+    }else if (section == 8){
+        
+        UILabel *value = [[UILabel alloc]initWithFrame:CGRectMake(ScreenWidth - 160, 12, 100, 20)];
+        value.tag = 25;
+        value.text = setArray[7];
+        value.textColor = [UIColor blackColor];
+        value.textAlignment = NSTextAlignmentRight;
+        [header addSubview:value];
+        
+    }else if (section == 9){
+        
+        UILabel *value = [[UILabel alloc]initWithFrame:CGRectMake(ScreenWidth - 160, 12, 100, 20)];
+        value.tag = 26;
+        value.text = setArray[8];
+        value.textColor = [UIColor blackColor];
+        value.textAlignment = NSTextAlignmentRight;
+        [header addSubview:value];
+        
+    }else if (section == 11){
+        
+        UILabel *value = [[UILabel alloc]initWithFrame:CGRectMake(ScreenWidth - 160, 12, 100, 20)];
+        value.tag = 27;
+        value.text = setArray[10];
+        value.textColor = [UIColor blackColor];
+        value.textAlignment = NSTextAlignmentRight;
+        [header addSubview:value];
+        
+    }else if (section == 22){
+        
+        UILabel *value = [[UILabel alloc]initWithFrame:CGRectMake(ScreenWidth - 160, 12, 100, 20)];
+        value.tag = 28;
+        value.text = setArray[23];
+        value.textColor = [UIColor blackColor];
+        value.textAlignment = NSTextAlignmentRight;
+        [header addSubview:value];
+        
+    }
+    
+    return header;
+}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
@@ -882,55 +1118,36 @@
     }
     
         return cell;
-    }
-        else{
+    }else{
     
-    
-                NSString *FunctionCell = [NSString stringWithFormat:@"%ld%ld",indexPath.section,indexPath.row];
-                FunctionSettingTableViewCell *cell =[tableView dequeueReusableCellWithIdentifier:FunctionCell];
-                if (!cell) {
-                    cell = [[FunctionSettingTableViewCell alloc] initWithStyle:0 reuseIdentifier:FunctionCell];
-                }
-    
-                //FounctionModel *model = [NSKeyedUnarchiver unarchiveObjectWithData:self.setAry[indexPath.row]];
-                FounctionModel *model = self.setAry[indexPath.row];
-                if (model.select) {
-                    [cell.selectBtn setImage:[UIImage imageNamed:@"iconchecked"] forState:UIControlStateNormal];
-                }else{
-    
-                    [cell.selectBtn setImage:[UIImage imageNamed:@"iconcheck"] forState:UIControlStateNormal];
-                }
-    
-                cell.settingLab.text = model.selectName;
-                cell.selectBtn.tag = indexPath.row;
-            WS(weakSelf);
-            cell.selectBtnClickBlock = ^{
-                FounctionModel *model = weakSelf.setAry[indexPath.row];
-                model.select = !model.select;
-                model.selectName = @"12121";
-                
-                //    FounctionModel *model = [NSKeyedUnarchiver unarchiveObjectWithData:self.setAry[btn.tag]];
-                //    model.select = !model.select;
-                //    model.selectName = @"12121";
-                //    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:model];
-                //    self.setAry[btn.tag] = data;
-                //    NSLog(@"ifReadOnly value: %@" ,model.select?@"YES":@"NO");
-                [weakSelf.setingTable reloadSections:[NSIndexSet indexSetWithIndex:23] withRowAnimation:UITableViewRowAnimationFade];
-                
-            };
-    
-                //            UILabel *myLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 12, 120, 20)];
-                //            myLabel.text =  [NSString stringWithFormat:@"%@",self.brands[indexPath.row]];
-                //            myLabel.textColor = [UIColor blackColor];
-                //            myLabel.textAlignment = NSTextAlignmentLeft;
-                //            [cell addSubview:myLabel];
-                //
-                //            UIButton *selectBtn = [[UIButton alloc] initWithFrame:CGRectMake(ScreenWidth - 38, 45/2 - 10, 20, 20)];
-                //            [selectBtn setImage:[UIImage imageNamed:@"iconcheck"] forState:UIControlStateNormal];
-                //            [selectBtn addTarget:self action:@selector(isSelect:) forControlEvents:UIControlEventTouchUpInside];
-                //            [cell addSubview: selectBtn];
-    
-            return cell;
+        NSString *FunctionCell = [NSString stringWithFormat:@"%ld%ld",indexPath.section,indexPath.row];
+        FunctionSettingTableViewCell *cell =[tableView dequeueReusableCellWithIdentifier:FunctionCell];
+        if (!cell) {
+            cell = [[FunctionSettingTableViewCell alloc] initWithStyle:0 reuseIdentifier:FunctionCell];
+        }
+
+        FounctionModel *model = [NSKeyedUnarchiver unarchiveObjectWithData:self.setAry[indexPath.row]];
+        if (model.select) {
+            [cell.selectBtn setImage:[UIImage imageNamed:@"iconchecked"] forState:UIControlStateNormal];
+        }else{
+            [cell.selectBtn setImage:[UIImage imageNamed:@"iconcheck"] forState:UIControlStateNormal];
+        }
+
+        cell.settingLab.text = model.selectName;
+        cell.selectBtn.tag = indexPath.row;
+        WS(weakSelf);
+        cell.selectBtnClickBlock = ^{
+
+            FounctionModel *model = [NSKeyedUnarchiver unarchiveObjectWithData:weakSelf.setAry[indexPath.row]];
+            model.select = !model.select;
+            NSData *data2 = [NSKeyedArchiver archivedDataWithRootObject:model];
+            [weakSelf.setAry replaceObjectAtIndex:indexPath.row withObject:data2];
+            //NSLog(@"ifReadOnly value: %@" ,model.select?@"YES":@"NO");
+            //[weakSelf.setingTable reloadSections:[NSIndexSet indexSetWithIndex:23] withRowAnimation:UITableViewRowAnimationFade];
+            NSIndexPath *indexPathA = [NSIndexPath indexPathForRow:indexPath.row inSection:23]; //刷新第0段第2行
+            [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPathA,nil] withRowAnimation:UITableViewRowAnimationNone];
+        };
+        return cell;
     }
 }
 
@@ -945,302 +1162,93 @@
     
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    
-    return 45;
-
-}
-
-//section底部间距
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
-{   if (section == 0 || section == 4 || section == 9) {
-        return 20;
-    }else{
-        return 1;
-    }
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    if ([_showDic objectForKey:[NSString stringWithFormat:@"%ld",(long)indexPath.section]]) {
-        
-        return 45;
-    }
-    
-    return 0;
-}
 
 
-//section头部显示的内容
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    UIView *header = [[UIView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, 45)];
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    if (section%2) {
-        
-        header .backgroundColor  = [QFTools colorWithHexString:@"#f1f1f1"];
-        
-    }else{
-        header .backgroundColor  = [UIColor cyanColor];
-        
-    }
+    UILabel *lab1=(UILabel*)[self.view viewWithTag:20];
+    UILabel *lab2=(UILabel*)[self.view viewWithTag:21];
+    UILabel *lab3=(UILabel*)[self.view viewWithTag:22];
+    UILabel *lab4=(UILabel*)[self.view viewWithTag:23];
+    UILabel *lab5=(UILabel*)[self.view viewWithTag:24];
+    UILabel *lab6=(UILabel*)[self.view viewWithTag:25];
+    UILabel *lab7=(UILabel*)[self.view viewWithTag:26];
+    UILabel *lab8=(UILabel*)[self.view viewWithTag:27];
+    UILabel *lab9=(UILabel*)[self.view viewWithTag:28];
     
-    UILabel *myLabel = [[UILabel alloc]initWithFrame:CGRectMake(40, 12, 180, 20)];
-    myLabel.text = [NSString stringWithFormat:@"%@",_sectionArray[section]];
-    myLabel.textColor = [UIColor blackColor];
-    [header addSubview:myLabel];
-    
-    // 单击的 Recognizer ,收缩分组cell
-    header.tag = section;
-    if (section == 0 || section == 3 ||section == 4 || section == 5 || section == 6 || section == 7 || section == 8 ||section == 9||section == 11||section == 22||section == 23) {
+    if (indexPath.section == 0) {
         
-        UIImageView *image = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth - 40, 18, 14, 9)];
-        image.image = [UIImage imageNamed:@"icon_down"];
-        [header addSubview:image];
+        [[NSUserDefaults standardUserDefaults]setValue:[RssiArray objectAtIndex:indexPath.row] forKey:SETRSSI];
+        lab1.text = RssiArray[indexPath.row];
+        [setArray replaceObjectAtIndex:0 withObject:RssiArray[indexPath.row]];
+        [self.setingTable reloadData];
         
-        if (section == 6 || section == 7 || section == 8 ||section == 9) {
-            
-            UIButton *share = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 120, 45)];
-            share.titleLabel.font = [UIFont systemFontOfSize:13];
-            [share setImage:[UIImage imageNamed:@"top_share"] forState:UIControlStateNormal];
-            [share addTarget:self action:@selector(shareclick:) forControlEvents:UIControlEventTouchUpInside];
-            share.backgroundColor = [UIColor clearColor];
-            share.tag = section;
-            [header addSubview:share];
-            
-        }
+    }else if (indexPath.section == 3){
         
+        [[NSUserDefaults standardUserDefaults]setValue:[inductionkeyArray objectAtIndex:indexPath.row] forKey:SETINDUCKEY];
+        lab2.text = inductionkeyArray[indexPath.row];
+        [setArray replaceObjectAtIndex:3 withObject:[NSString stringWithFormat:@"%ld",(long)indexPath.row]];
+        [self.setingTable reloadData];
         
-    UITapGestureRecognizer *singleRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(SingleTap:)];
-    singleRecognizer.numberOfTapsRequired = 1; //点击的次数 =1:单击
-    [singleRecognizer setNumberOfTouchesRequired:1];//1个手指操作
-    [header addGestureRecognizer:singleRecognizer];//添加一个手势监测；
-    
-    }else if (section == 21){
-    
-        UIButton *share = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 120, 45)];
-        share.titleLabel.font = [UIFont systemFontOfSize:13];
-        [share setImage:[UIImage imageNamed:@"top_share"] forState:UIControlStateNormal];
-        [share addTarget:self action:@selector(shareclick:) forControlEvents:UIControlEventTouchUpInside];
-        share.backgroundColor = [UIColor clearColor];
-        share.tag = section;
-        [header addSubview:share];
+    }else if (indexPath.section == 4){
         
-        UIButton *selectBtn = [[UIButton alloc] initWithFrame:CGRectMake(ScreenWidth - 50, 5, 35, 35)];
-        if (setmodel.bool10) {
-            [selectBtn setImage:[UIImage imageNamed:@"iconchecked"] forState:UIControlStateNormal];
-        }else{
-            
-            [selectBtn setImage:[UIImage imageNamed:@"iconcheck"] forState:UIControlStateNormal];
-        }
+        [[NSUserDefaults standardUserDefaults]setValue:[InducRssiArray objectAtIndex:indexPath.row] forKey:SETINDUCRSSI];
+        lab9.text = InducRssiArray[indexPath.row];
+        [setArray replaceObjectAtIndex:17 withObject:InducRssiArray[indexPath.row]];
+        [self.setingTable reloadData];
         
-        selectBtn.tag = section;
-        [selectBtn addTarget:self action:@selector(selectbtnClick:) forControlEvents:UIControlEventTouchUpInside];
-        [header addSubview:selectBtn];
-    
-    }else{
-        UIButton *selectBtn = [[UIButton alloc] initWithFrame:CGRectMake(ScreenWidth - 50, 5, 35, 35)];
+    }else if (indexPath.section == 5){
         
-        if (section == 1) {
-            if (setmodel.bool1) {
-                [selectBtn setImage:[UIImage imageNamed:@"iconchecked"] forState:UIControlStateNormal];
-            }else{
-            
-                [selectBtn setImage:[UIImage imageNamed:@"iconcheck"] forState:UIControlStateNormal];
-            }
-        }else if (section == 2) {
-            if (setmodel.bool2) {
-                [selectBtn setImage:[UIImage imageNamed:@"iconchecked"] forState:UIControlStateNormal];
-            }else{
-                
-                [selectBtn setImage:[UIImage imageNamed:@"iconcheck"] forState:UIControlStateNormal];
-            }
-        }else if (section == 10) {
-            if (setmodel.bool3) {
-                [selectBtn setImage:[UIImage imageNamed:@"iconchecked"] forState:UIControlStateNormal];
-            }else{
-                
-                [selectBtn setImage:[UIImage imageNamed:@"iconcheck"] forState:UIControlStateNormal];
-            }
-        }else if (section == 12) {
-            if (setmodel.bool4) {
-                [selectBtn setImage:[UIImage imageNamed:@"iconchecked"] forState:UIControlStateNormal];
-            }else{
-                
-                [selectBtn setImage:[UIImage imageNamed:@"iconcheck"] forState:UIControlStateNormal];
-            }
-        }else if (section == 13) {
-            if (setmodel.bool5) {
-                [selectBtn setImage:[UIImage imageNamed:@"iconchecked"] forState:UIControlStateNormal];
-            }else{
-                
-                [selectBtn setImage:[UIImage imageNamed:@"iconcheck"] forState:UIControlStateNormal];
-            }
-        }else if (section == 14) {
-            if (setmodel.bool6) {
-                [selectBtn setImage:[UIImage imageNamed:@"iconchecked"] forState:UIControlStateNormal];
-            }else{
-                
-                [selectBtn setImage:[UIImage imageNamed:@"iconcheck"] forState:UIControlStateNormal];
-            }
-        }else if (section == 15) {
-            if (setmodel.bool7) {
-                [selectBtn setImage:[UIImage imageNamed:@"iconchecked"] forState:UIControlStateNormal];
-            }else{
-                
-                [selectBtn setImage:[UIImage imageNamed:@"iconcheck"] forState:UIControlStateNormal];
-            }
-        }else if (section == 16) {
-            if (setmodel.bool8) {
-                [selectBtn setImage:[UIImage imageNamed:@"iconchecked"] forState:UIControlStateNormal];
-            }else{
-                
-                [selectBtn setImage:[UIImage imageNamed:@"iconcheck"] forState:UIControlStateNormal];
-            }
-        }else if (section == 17) {
-            if (setmodel.bool9) {
-                [selectBtn setImage:[UIImage imageNamed:@"iconchecked"] forState:UIControlStateNormal];
-            }else{
-                
-                [selectBtn setImage:[UIImage imageNamed:@"iconcheck"] forState:UIControlStateNormal];
-            }
-        }else if (section == 18) {
-            if (setmodel.oneClick) {
-                [selectBtn setImage:[UIImage imageNamed:@"iconchecked"] forState:UIControlStateNormal];
-            }else{
-                
-                [selectBtn setImage:[UIImage imageNamed:@"iconcheck"] forState:UIControlStateNormal];
-            }
-        }else if (section == 19) {
-            if (setmodel.oneLine) {
-                [selectBtn setImage:[UIImage imageNamed:@"iconchecked"] forState:UIControlStateNormal];
-            }else{
-                
-                [selectBtn setImage:[UIImage imageNamed:@"iconcheck"] forState:UIControlStateNormal];
-            }
-        }else if (section == 20) {
-            if (setmodel.fingerTest) {
-                [selectBtn setImage:[UIImage imageNamed:@"iconchecked"] forState:UIControlStateNormal];
-            }else{
-                
-                [selectBtn setImage:[UIImage imageNamed:@"iconcheck"] forState:UIControlStateNormal];
-            }
-        }
+        [[NSUserDefaults standardUserDefaults]setValue:[keyArray objectAtIndex:indexPath.row] forKey:SETKEY];
+        lab3.text = keyArray[indexPath.row];
+        [setArray replaceObjectAtIndex:4 withObject:[NSString stringWithFormat:@"%ld",(long)indexPath.row + 1]];
+        [self.setingTable reloadData];
         
-        selectBtn.tag = section;
-        [selectBtn addTarget:self action:@selector(selectbtnClick:) forControlEvents:UIControlEventTouchUpInside];
-        [header addSubview:selectBtn];
-    
-    
+    }else if (indexPath.section == 6){
+        
+        [[NSUserDefaults standardUserDefaults]setValue:[functionArray objectAtIndex:indexPath.row] forKey:SETBUT1];
+        lab4.text = functionArray[indexPath.row];
+        [setArray replaceObjectAtIndex:5 withObject:functionArray[indexPath.row]];
+        [self.setingTable reloadData];
+        
+    }else if (indexPath.section == 7){
+        
+        [[NSUserDefaults standardUserDefaults]setValue:[functionArray objectAtIndex:indexPath.row] forKey:SETBUT2];
+        lab5.text = functionArray[indexPath.row];
+        [setArray replaceObjectAtIndex:6 withObject:functionArray[indexPath.row]];
+        [self.setingTable reloadData];
+        
+    }else if (indexPath.section == 8){
+        
+        [[NSUserDefaults standardUserDefaults]setValue:[functionArray objectAtIndex:indexPath.row] forKey:SETBUT3];
+        lab6.text = functionArray[indexPath.row];
+        [setArray replaceObjectAtIndex:7 withObject:functionArray[indexPath.row]];
+        [self.setingTable reloadData];
+        
+    }else if (indexPath.section == 9){
+        
+        [[NSUserDefaults standardUserDefaults]setValue:[functionArray objectAtIndex:indexPath.row] forKey:SETBUT4];
+        lab7.text = functionArray[indexPath.row];
+        [setArray replaceObjectAtIndex:8 withObject:functionArray[indexPath.row]];
+        [self.setingTable reloadData];
+        
+    }else if (indexPath.section == 11){
+        
+        [[NSUserDefaults standardUserDefaults]setValue:[lineArray objectAtIndex:indexPath.row] forKey:SETTEST];
+        lab8.text = lineArray[indexPath.row];
+        [setArray replaceObjectAtIndex:10 withObject:lineArray[indexPath.row]];
+        [self.setingTable reloadData];
+        
+    }else if (indexPath.section == 22){
+        
+        [[NSUserDefaults standardUserDefaults]setValue:[self.brands objectAtIndex:indexPath.row] forKey:SETBRAND];
+        lab8.text = self.brands[indexPath.row];
+        [setArray replaceObjectAtIndex:23 withObject:self.brands[indexPath.row]];
+        [self.setingTable reloadData];
         
     }
     
-    if (section == 0) {
-        
-        UILabel *value = [[UILabel alloc]initWithFrame:CGRectMake(ScreenWidth - 160, 12, 100, 20)];
-        value.text = setArray[0];
-        value.tag = 20;
-        value.textColor = [UIColor blackColor];
-        value.textAlignment = NSTextAlignmentRight;
-        [header addSubview:value];
-    }else if (section == 3) {
-        
-        UILabel *value = [[UILabel alloc]initWithFrame:CGRectMake(ScreenWidth - 160, 12, 100, 20)];
-        if ([setArray[3] isEqualToString:@"0"]) {
-            value.text = @"0把";
-        }else if ([setArray[3] isEqualToString:@"1"]){
-            
-            value.text = @"1把";
-        
-        }else if ([setArray[3] isEqualToString:@"2"]){
-            
-            value.text = @"2把";
-            
-        }
-        value.tag = 21;
-        value.textColor = [UIColor blackColor];
-        value.textAlignment = NSTextAlignmentRight;
-        [header addSubview:value];
-    }else if (section == 4) {
-        
-        UILabel *value = [[UILabel alloc]initWithFrame:CGRectMake(ScreenWidth - 160, 12, 100, 20)];
-        value.text = setArray[17];
-        value.tag = 28;
-        value.textColor = [UIColor blackColor];
-        value.textAlignment = NSTextAlignmentRight;
-        [header addSubview:value];
-    }else if (section == 5) {
-        
-        UILabel *value = [[UILabel alloc]initWithFrame:CGRectMake(ScreenWidth - 160, 12, 100, 20)];
-        if ([setArray[4] isEqualToString:@"1"]){
-            
-            value.text = @"1把";
-            
-        }else if ([setArray[4] isEqualToString:@"2"]){
-            
-            value.text = @"2把";
-            
-        }
-        value.tag = 22;
-        value.textColor = [UIColor blackColor];
-        value.textAlignment = NSTextAlignmentRight;
-        [header addSubview:value];
-    }else if (section == 6){
-    
-        UILabel *value = [[UILabel alloc]initWithFrame:CGRectMake(ScreenWidth - 160, 12, 100, 20)];
-        value.tag = 23;
-        value.text = setArray[5];
-        value.textColor = [UIColor blackColor];
-        value.textAlignment = NSTextAlignmentRight;
-        [header addSubview:value];
-
-    }else if (section == 7){
-        
-        UILabel *value = [[UILabel alloc]initWithFrame:CGRectMake(ScreenWidth - 160, 12, 100, 20)];
-        value.tag = 24;
-        value.text = setArray[6];
-        value.textColor = [UIColor blackColor];
-        value.textAlignment = NSTextAlignmentRight;
-        [header addSubview:value];
-        
-    }else if (section == 8){
-        
-        UILabel *value = [[UILabel alloc]initWithFrame:CGRectMake(ScreenWidth - 160, 12, 100, 20)];
-        value.tag = 25;
-        value.text = setArray[7];
-        value.textColor = [UIColor blackColor];
-        value.textAlignment = NSTextAlignmentRight;
-        [header addSubview:value];
-        
-    }else if (section == 9){
-        
-        UILabel *value = [[UILabel alloc]initWithFrame:CGRectMake(ScreenWidth - 160, 12, 100, 20)];
-        value.tag = 26;
-        value.text = setArray[8];
-        value.textColor = [UIColor blackColor];
-        value.textAlignment = NSTextAlignmentRight;
-        [header addSubview:value];
-        
-    }else if (section == 11){
-        
-        UILabel *value = [[UILabel alloc]initWithFrame:CGRectMake(ScreenWidth - 160, 12, 100, 20)];
-        value.tag = 27;
-        value.text = setArray[10];
-        value.textColor = [UIColor blackColor];
-        value.textAlignment = NSTextAlignmentRight;
-        [header addSubview:value];
-        
-    }else if (section == 22){
-        
-        UILabel *value = [[UILabel alloc]initWithFrame:CGRectMake(ScreenWidth - 160, 12, 100, 20)];
-        value.tag = 28;
-        value.text = setArray[23];
-        value.textColor = [UIColor blackColor];
-        value.textAlignment = NSTextAlignmentRight;
-        [header addSubview:value];
-        
-    }
-    
-    return header;
 }
 
 #pragma mark =====选择按键功能=====-
@@ -1472,92 +1480,7 @@
     [self.setingTable reloadSections:[NSIndexSet indexSetWithIndex:didSection] withRowAnimation:UITableViewRowAnimationFade];
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
-    UILabel *lab1=(UILabel*)[self.view viewWithTag:20];
-    UILabel *lab2=(UILabel*)[self.view viewWithTag:21];
-    UILabel *lab3=(UILabel*)[self.view viewWithTag:22];
-    UILabel *lab4=(UILabel*)[self.view viewWithTag:23];
-    UILabel *lab5=(UILabel*)[self.view viewWithTag:24];
-    UILabel *lab6=(UILabel*)[self.view viewWithTag:25];
-    UILabel *lab7=(UILabel*)[self.view viewWithTag:26];
-    UILabel *lab8=(UILabel*)[self.view viewWithTag:27];
-    UILabel *lab9=(UILabel*)[self.view viewWithTag:28];
-    
-    if (indexPath.section == 0) {
-        
-        [[NSUserDefaults standardUserDefaults]setValue:[RssiArray objectAtIndex:indexPath.row] forKey:SETRSSI];
-        lab1.text = RssiArray[indexPath.row];
-        [setArray replaceObjectAtIndex:0 withObject:RssiArray[indexPath.row]];
-        [self.setingTable reloadData];
-        
-    }else if (indexPath.section == 3){
-        
-        [[NSUserDefaults standardUserDefaults]setValue:[inductionkeyArray objectAtIndex:indexPath.row] forKey:SETINDUCKEY];
-        lab2.text = inductionkeyArray[indexPath.row];
-        [setArray replaceObjectAtIndex:3 withObject:[NSString stringWithFormat:@"%ld",(long)indexPath.row]];
-        [self.setingTable reloadData];
-        
-    }else if (indexPath.section == 4){
-        
-        [[NSUserDefaults standardUserDefaults]setValue:[InducRssiArray objectAtIndex:indexPath.row] forKey:SETINDUCRSSI];
-        lab9.text = InducRssiArray[indexPath.row];
-        [setArray replaceObjectAtIndex:17 withObject:InducRssiArray[indexPath.row]];
-        [self.setingTable reloadData];
-        
-    }else if (indexPath.section == 5){
-        
-        [[NSUserDefaults standardUserDefaults]setValue:[keyArray objectAtIndex:indexPath.row] forKey:SETKEY];
-        lab3.text = keyArray[indexPath.row];
-        [setArray replaceObjectAtIndex:4 withObject:[NSString stringWithFormat:@"%ld",(long)indexPath.row + 1]];
-        [self.setingTable reloadData];
-        
-    }else if (indexPath.section == 6){
-        
-        [[NSUserDefaults standardUserDefaults]setValue:[functionArray objectAtIndex:indexPath.row] forKey:SETBUT1];
-        lab4.text = functionArray[indexPath.row];
-        [setArray replaceObjectAtIndex:5 withObject:functionArray[indexPath.row]];
-        [self.setingTable reloadData];
-        
-    }else if (indexPath.section == 7){
-        
-        [[NSUserDefaults standardUserDefaults]setValue:[functionArray objectAtIndex:indexPath.row] forKey:SETBUT2];
-        lab5.text = functionArray[indexPath.row];
-        [setArray replaceObjectAtIndex:6 withObject:functionArray[indexPath.row]];
-        [self.setingTable reloadData];
-        
-    }else if (indexPath.section == 8){
-        
-        [[NSUserDefaults standardUserDefaults]setValue:[functionArray objectAtIndex:indexPath.row] forKey:SETBUT3];
-        lab6.text = functionArray[indexPath.row];
-        [setArray replaceObjectAtIndex:7 withObject:functionArray[indexPath.row]];
-        [self.setingTable reloadData];
-        
-    }else if (indexPath.section == 9){
-        
-        [[NSUserDefaults standardUserDefaults]setValue:[functionArray objectAtIndex:indexPath.row] forKey:SETBUT4];
-        lab7.text = functionArray[indexPath.row];
-        [setArray replaceObjectAtIndex:8 withObject:functionArray[indexPath.row]];
-        [self.setingTable reloadData];
-        
-    }else if (indexPath.section == 11){
-        
-        [[NSUserDefaults standardUserDefaults]setValue:[lineArray objectAtIndex:indexPath.row] forKey:SETTEST];
-        lab8.text = lineArray[indexPath.row];
-        [setArray replaceObjectAtIndex:10 withObject:lineArray[indexPath.row]];
-        [self.setingTable reloadData];
-        
-    }else if (indexPath.section == 22){
-        
-        [[NSUserDefaults standardUserDefaults]setValue:[self.brands objectAtIndex:indexPath.row] forKey:SETBRAND];
-        lab8.text = self.brands[indexPath.row];
-        [setArray replaceObjectAtIndex:23 withObject:self.brands[indexPath.row]];
-        [self.setingTable reloadData];
-        
-    }
-    
-}
+
 
 -(void)DownloadOver{
     [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
@@ -1570,7 +1493,7 @@
     });
     
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSDictionary *verDic = [NSDictionary dictionaryWithObjectsAndKeys:_sectionArray[6],@"key1", _sectionArray[7],@"key2",_sectionArray[8],@"key3",_sectionArray[9],@"key4",_sectionArray[20],@"firmversion",nil];
+    NSDictionary *verDic = [NSDictionary dictionaryWithObjectsAndKeys:self.setAry,@"settingmodel",_sectionArray[6],@"key1", _sectionArray[7],@"key2",_sectionArray[8],@"key3",_sectionArray[9],@"key4",_sectionArray[20],@"firmversion",nil];
     [userDefaults setObject:verDic forKey:versionDic];
     [userDefaults synchronize];
     
@@ -1603,6 +1526,30 @@
 
 -(void)dealloc{
     NSLog(@"%s dealloc",object_getClassName(self));
+}
+
+#pragma mark - UIAlertViewDelegate
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (alertView.tag == 4000) {
+        if (buttonIndex != [alertView cancelButtonIndex]) {
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            hud.labelText = @"退出账号中...";
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                
+                [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+                NSUserDefaults *userDefatluts = [NSUserDefaults standardUserDefaults];
+                [userDefatluts removeObjectForKey:logInUSERDIC];
+                [LVFmdbTool deleteFirmData:nil];
+                [SVProgressHUD showSimpleText:@"退出成功"];
+                [AppDelegate currentAppDelegate].device.scanDelete = nil;
+                [[NSNotificationCenter defaultCenter] postNotificationName:KNOTIFICATION_LOGINCHANGE object:@NO];
+            });
+        }
+    }
+    
+    
 }
 
 /*

@@ -66,7 +66,6 @@
     //设置tabbar的title的位置
     UITabBarItem* it = [[self.tabBarController.tabBar items] objectAtIndex:0];
     it.titlePositionAdjustment = UIOffsetMake(0.0, 2.0);
-    
     self.view.backgroundColor = [UIColor cyanColor];
     
 }
@@ -125,17 +124,17 @@
 {
     if(item.tag == 1){
         
-        NSLog(@"TestOneController");
+        //NSLog(@"TestOneController");
         //  [self.tabBarController.tabBarsetSelectedImageTintColor:[UIColor greenColor]];
         [AppDelegate currentAppDelegate].IsCodeScan = NO;
         
     }else if(item.tag == 2){
         
-        NSLog(@"TestTwoController");
+        //NSLog(@"TestTwoController");
         [AppDelegate currentAppDelegate].IsCodeScan = YES;
     }else if(item.tag == 3){
         
-        NSLog(@"TestThirdController");
+        //NSLog(@"TestThirdController");
         
     }
     
